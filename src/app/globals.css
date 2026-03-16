@@ -1,26 +1,28 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  html {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  body {
+    background:
+      radial-gradient(1200px circle at 10% 10%, rgba(99, 102, 241, 0.12), transparent 55%),
+      radial-gradient(900px circle at 90% 20%, rgba(6, 182, 212, 0.12), transparent 55%),
+      radial-gradient(900px circle at 70% 90%, rgba(34, 197, 94, 0.10), transparent 55%),
+      linear-gradient(180deg, #F8FAFC 0%, #F8FAFC 55%, #F8FAFC 100%);
+    color: #0F172A;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  ::selection {
+    background: rgba(99, 102, 241, 0.18);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .ad-container {
+    @apply bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden;
+  }
 }

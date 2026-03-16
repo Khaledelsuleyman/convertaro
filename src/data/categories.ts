@@ -1,0 +1,74 @@
+import { Category } from "@/types/converter";
+
+export const categories: Category[] = [
+  {
+    id: "length",
+    name: "Length",
+    slug: "length",
+    description: "Convert between various length units like meters, feet, inches, and more.",
+    icon: "Ruler",
+  },
+  {
+    id: "weight",
+    name: "Weight",
+    slug: "weight",
+    description: "Convert between mass and weight units like kilograms, pounds, and ounces.",
+    icon: "Weight",
+  },
+  {
+    id: "temperature",
+    name: "Temperature",
+    slug: "temperature",
+    description: "Convert between Celsius, Fahrenheit, Kelvin, and other temperature scales.",
+    icon: "Thermometer",
+  },
+  {
+    id: "volume",
+    name: "Volume",
+    slug: "volume",
+    description: "Convert between liquid and dry volume units like liters, gallons, and cups.",
+    icon: "Droplets",
+  },
+  {
+    id: "area",
+    name: "Area",
+    slug: "area",
+    description: "Convert between area units like square meters, acres, and square feet.",
+    icon: "Square",
+  },
+  {
+    id: "speed",
+    name: "Speed",
+    slug: "speed",
+    description: "Convert between speed units like km/h, mph, and knots.",
+    icon: "Gauge",
+  },
+  {
+    id: "time",
+    name: "Time",
+    slug: "time",
+    description: "Convert between time units like seconds, minutes, hours, and days.",
+    icon: "Clock",
+  },
+  {
+    id: "data",
+    name: "Data",
+    slug: "data",
+    description: "Convert between digital storage units like bytes, MB, GB, and TB.",
+    icon: "Database",
+  },
+  {
+    id: "energy",
+    name: "Energy",
+    slug: "energy",
+    description: "Convert between energy units like Joules, Calories, and kWh.",
+    icon: "Zap",
+  },
+  {
+    id: "pressure",
+    name: "Pressure",
+    slug: "pressure",
+    description: "Convert between pressure units like Pascals, Bar, and PSI.",
+    icon: "Wind",
+  },
+];

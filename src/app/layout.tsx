@@ -11,13 +11,18 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Convertaro - Global Unit Converter Platform",
-  description: "Free online unit converter for length, weight, temperature, data, and more. Fast, accurate, and easy to use.",
+  description: "Free online unit converter for length, weight, temperature, data, and more.",
+
+  icons: {
+    icon: "/favicon.ico",
+  },
+
   openGraph: {
     siteName: "Convertaro",
     type: "website",
     title: "Convertaro - Global Unit Converter Platform",
-    description: "Free online unit converter for length, weight, temperature, data, and more. Fast, accurate, and easy to use.",
-  }
+    description: "Free online unit converter for length, weight, temperature, data, and more.",
+  },
 };
 
 export default function RootLayout({

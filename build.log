@@ -1,0 +1,41 @@
+
+> convertaro@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.7 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 4.0s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/520) ...
+  Generating static pages using 15 workers (130/520) 
+  Generating static pages using 15 workers (260/520) 
+  Generating static pages using 15 workers (390/520) 
+Γ£ô Generating static pages using 15 workers (520/520) in 5.9s
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ΓùÅ /[category]
+Γöé Γö£ /length
+Γöé Γö£ /weight
+Γöé Γö£ /temperature
+Γöé Γöö [+7 more paths]
+Γö£ ΓùÅ /[category]/[converter]
+Γöé Γö£ /length/cm-to-inches
+Γöé Γö£ /length/cm-to-m
+Γöé Γö£ /length/cm-to-feet
+Γöé Γöö [+497 more paths]
+Γö£ Γùï /about
+Γö£ Γùï /contact
+Γö£ Γùï /privacy
+Γö£ Γùï /robots.txt
+Γö£ Γùï /sitemap.xml
+Γöö Γùï /terms
+
+
+Γùï  (Static)  prerendered as static content
+ΓùÅ  (SSG)     prerendered as static HTML (uses generateStaticParams)
+

@@ -5,24 +5,61 @@
 @layer base {
   html {
     font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+    scroll-behavior: smooth;
   }
 
   body {
     background:
-      radial-gradient(1200px circle at 10% 10%, rgba(99, 102, 241, 0.12), transparent 55%),
-      radial-gradient(900px circle at 90% 20%, rgba(6, 182, 212, 0.12), transparent 55%),
-      radial-gradient(900px circle at 70% 90%, rgba(34, 197, 94, 0.10), transparent 55%),
-      linear-gradient(180deg, #F8FAFC 0%, #F8FAFC 55%, #F8FAFC 100%);
+      radial-gradient(1400px circle at 5% 0%, rgba(99, 102, 241, 0.10), transparent 50%),
+      radial-gradient(1000px circle at 95% 10%, rgba(6, 182, 212, 0.09), transparent 50%),
+      radial-gradient(800px circle at 60% 95%, rgba(34, 197, 94, 0.07), transparent 50%),
+      #F8FAFC;
     color: #0F172A;
   }
 
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+  }
+
   ::selection {
-    background: rgba(99, 102, 241, 0.18);
+    background: rgba(99, 102, 241, 0.20);
+    color: #1E1B4B;
   }
 }
 
 @layer components {
   .ad-container {
     @apply bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden;
+  }
+
+  .section-label {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-semibold text-primary tracking-wide uppercase;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+  }
+}
+
+@layer utilities {
+  .bg-primary\/8 {
+    background-color: rgba(99, 102, 241, 0.08);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #6366F1 0%, #7C3AED 50%, #06B6D4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

@@ -22,11 +22,11 @@ export function Header() {
           <div className="flex h-[3.75rem] items-center justify-between gap-4">
 
             {/* ── Logo ── */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              <div className="h-8 w-8 rounded-[10px] bg-gradient-to-br from-primary to-[#7C3AED] flex items-center justify-center shadow-sm shadow-primary/25 group-hover:shadow-md group-hover:shadow-primary/35 transition-shadow">
-                <span className="text-white font-black text-sm tracking-tight">C</span>
+            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+              <div className="h-10 w-10 rounded-[12px] bg-gradient-to-br from-primary to-[#7C3AED] flex items-center justify-center shadow-sm shadow-primary/25 group-hover:shadow-md group-hover:shadow-primary/35 transition-shadow">
+                <span className="text-white font-black text-lg tracking-tight">C</span>
               </div>
-              <span className="text-[1.05rem] font-black tracking-tight">
+              <span className="text-[1.25rem] font-black tracking-tight">
                 <span className="text-gradient">Conver</span>
                 <span className="text-text-primary">taro</span>
               </span>

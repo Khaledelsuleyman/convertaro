@@ -34,11 +34,11 @@ export function Footer() {
 
           {/* Brand */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-[#7C3AED] flex items-center justify-center shadow-sm">
-                <span className="text-white font-bold text-sm">C</span>
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-[#7C3AED] flex items-center justify-center shadow-sm">
+                <span className="text-white font-bold text-lg">C</span>
               </div>
-              <div className="text-base font-bold text-white">Convertaro</div>
+              <div className="text-xl font-bold text-white">Convertaro</div>
             </div>
             <p className="mt-4 text-sm text-slate-400 max-w-xs leading-relaxed">
               The world&apos;s fastest free unit conversion platform. Trusted by engineers, students, and professionals worldwide.

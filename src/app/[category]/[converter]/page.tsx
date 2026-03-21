@@ -153,138 +153,139 @@ export default async function ConverterPage({ params }: PageProps) {
   };
 
   return (
-    <div className="bg-background min-h-screen py-12">
+    <div className="min-h-screen bg-background">
       {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
 
-      <div className="container mx-auto px-6">
-        {/* Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-text-secondary mb-10">
-          <Link href="/" className="hover:text-primary flex items-center transition-colors">
-            <Home className="h-4 w-4 mr-1.5" />
-            <span>Home</span>
-          </Link>
-          <ChevronRight className="h-4 w-4 opacity-40" />
-          <Link href={`/${categorySlug}`} className="hover:text-primary capitalize transition-colors">
-            {category.name}
-          </Link>
-          <ChevronRight className="h-4 w-4 opacity-40" />
-          <span className="text-text-primary font-semibold truncate">{converter.title}</span>
-        </nav>
+      {/* ── Page hero strip ── */}
+      <div className="border-b border-border/60 bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-12">
+          {/* Breadcrumbs */}
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-text-secondary mb-6">
+            <Link href="/" className="hover:text-primary flex items-center gap-1 transition-colors">
+              <Home className="h-3.5 w-3.5" /><span>Home</span>
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5 opacity-35" />
+            <Link href={`/${categorySlug}`} className="hover:text-primary capitalize transition-colors">{category.name}</Link>
+            <ChevronRight className="h-3.5 w-3.5 opacity-35" />
+            <span className="text-text-primary font-semibold truncate max-w-[200px]">{converter.title}</span>
+          </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-16">
-          <div className="space-y-12">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-bold text-primary capitalize mb-4">
+            {category.name} Converter
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-text-primary tracking-tight leading-[1.1] mb-4">
+            {converter.title}
+          </h1>
+          <p className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed">
+            {converter.description}{" "}
+            <span className="font-semibold text-text-primary">Fast, free, and always accurate.</span>
+          </p>
+        </div>
+      </div>
 
-            {/* Header */}
-            <div className="space-y-4">
-              {/* Category pill */}
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-semibold text-primary capitalize">
-                {category.name} Converter
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 xl:gap-14">
+          <div className="space-y-10 min-w-0">
+
+            {/* ── Converter Tool ── */}
+            <div className="rounded-2xl border border-border bg-white shadow-card overflow-hidden">
+              <div className="border-b border-border/60 px-6 py-3.5 flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-rose-400" />
+                <div className="h-3 w-3 rounded-full bg-amber-400" />
+                <div className="h-3 w-3 rounded-full bg-emerald-400" />
+                <span className="ml-2 text-xs font-medium text-text-secondary">{converter.title}</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-text-primary tracking-tight leading-[1.1]">
-                {converter.title}
-              </h1>
-              <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
-                {converter.description}{" "}
-                <span className="text-text-primary font-medium">Fast, accurate, and completely free.</span>
-              </p>
-            </div>
-
-            {/* Converter Tool */}
-            <div className="bg-white p-2 rounded-[2.5rem] shadow-2xl shadow-primary/5 border border-border">
-              <ConverterTool converter={converter} />
+              <div className="p-2 sm:p-3">
+                <ConverterTool converter={converter} />
+              </div>
             </div>
 
             <AdUnit variant="banner" />
 
-            {/* Formula & Guide */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <section className="bg-white p-8 rounded-[2rem] shadow-sm border border-border hover:border-primary/40 transition-all duration-300">
-                <div className="h-11 w-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
-                  <Calculator className="h-5 w-5" />
+            {/* ── Formula & How-to ── */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Formula */}
+              <section className="rounded-2xl bg-white border border-border shadow-card p-6 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="h-9 w-9 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                    <Calculator className="h-4 w-4" />
+                  </div>
+                  <h2 className="text-base font-black text-text-primary">Conversion Formula</h2>
                 </div>
-                <h2 className="text-xl font-bold text-text-primary mb-4">Conversion Formula</h2>
-                <div className="bg-background p-5 rounded-xl border border-border font-mono text-primary font-bold text-lg mb-5 text-center shadow-inner">
+                <div className="bg-slate-900 text-emerald-400 p-4 rounded-xl font-mono text-sm font-bold mb-4 text-center tracking-wide shadow-inner">
                   {converter.formula}
                 </div>
-                <p className="text-text-secondary text-sm leading-relaxed">
-                  To convert <strong>{converter.fromUnit}</strong> to <strong>{converter.toUnit}</strong>, use the formula above or enter any value in our tool for an instant result.
+                <p className="text-text-secondary text-xs leading-relaxed">
+                  Multiply your <strong className="text-text-primary">{converter.fromUnit}</strong> value by the conversion factor to get <strong className="text-text-primary">{converter.toUnit}</strong>.
                 </p>
                 {converter.inverseFormula && (
                   <div className="mt-4 pt-4 border-t border-border">
-                    <p className="text-xs text-text-secondary font-medium mb-2">Reverse formula:</p>
-                    <div className="bg-background p-3 rounded-lg border border-border font-mono text-secondary text-sm text-center">
+                    <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest mb-2">Reverse</p>
+                    <div className="bg-slate-50 p-3 rounded-lg border border-border font-mono text-secondary text-xs text-center">
                       {converter.inverseFormula}
                     </div>
                   </div>
                 )}
               </section>
 
-              <section className="bg-white p-8 rounded-[2rem] shadow-sm border border-border hover:border-secondary/40 transition-all duration-300">
-                <div className="h-11 w-11 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center mb-6">
-                  <Lightbulb className="h-5 w-5" />
+              {/* How-to */}
+              <section className="rounded-2xl bg-white border border-border shadow-card p-6 hover:border-secondary/30 transition-colors">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="h-9 w-9 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center shrink-0">
+                    <Lightbulb className="h-4 w-4" />
+                  </div>
+                  <h2 className="text-base font-black text-text-primary">How to Convert</h2>
                 </div>
-                <h2 className="text-xl font-bold text-text-primary mb-4">How to Convert</h2>
-                <ol className="space-y-3 text-sm text-text-secondary">
-                  <li className="flex gap-3">
-                    <span className="h-5 w-5 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                    <span>Enter the value in <strong>{converter.fromUnit}</strong> in the input field above.</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="h-5 w-5 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
-                    <span>The result in <strong>{converter.toUnit}</strong> will appear instantly.</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="h-5 w-5 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
-                    <span>Use the swap button to reverse the conversion direction.</span>
-                  </li>
+                <ol className="space-y-3.5">
+                  {[
+                    `Enter a value in <strong>${converter.fromUnit}</strong> in the input field.`,
+                    `The result in <strong>${converter.toUnit}</strong> appears instantly.`,
+                    `Use the ⇄ swap button to reverse the direction.`,
+                  ].map((text, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-text-secondary">
+                      <span className="h-5 w-5 rounded-full bg-primary/10 text-primary text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                      <span dangerouslySetInnerHTML={{ __html: text }} />
+                    </li>
+                  ))}
                 </ol>
-                <Link
-                  href={`/${categorySlug}`}
-                  className="mt-6 inline-flex items-center gap-1 text-sm text-primary font-semibold hover:underline"
-                >
-                  See all {category.name} tools <ChevronRight className="h-4 w-4" />
+                <Link href={`/${categorySlug}`} className="mt-5 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+                  All {category.name} tools <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
               </section>
             </div>
 
-            {/* Conversion Table */}
-            <section className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-border">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                  {converter.fromUnit} to {converter.toUnit} Reference Table
-                </h2>
-                <Table className="h-7 w-7 text-text-secondary opacity-20" />
+            {/* ── Reference Table ── */}
+            <section className="rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-lg font-black text-text-primary tracking-tight">
+                    {converter.fromUnit} → {converter.toUnit} Table
+                  </h2>
+                  <p className="text-xs text-text-secondary mt-1">Common reference values</p>
+                </div>
+                <Table className="h-6 w-6 text-border" />
               </div>
               <ConversionTable converter={converter} />
             </section>
 
-            {/* FAQ Section */}
-            <section className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-border">
-              <h2 className="text-2xl font-bold text-text-primary mb-10 tracking-tight">
+            {/* ── FAQ ── */}
+            <section className="rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
+              <h2 className="text-lg font-black text-text-primary mb-8 tracking-tight">
                 Frequently Asked Questions
               </h2>
               <FAQSection faq={converter.faq} />
             </section>
 
-            {/* Related Converters */}
+            {/* ── Related Converters ── */}
             {converter.relatedConverters.length > 0 && (
               <section>
-                <h2 className="text-xl font-bold text-text-primary mb-6 tracking-tight">
+                <h2 className="text-base font-black text-text-primary mb-4">
                   More {category.name} Converters
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {converter.relatedConverters.map((relId) => {
                     const related = converters.find(c => c.id === relId);
                     if (!related) return null;
@@ -292,7 +293,7 @@ export default async function ConverterPage({ params }: PageProps) {
                       <Link
                         key={relId}
                         href={`/${categorySlug}/${related.metadata.slug}`}
-                        className="bg-white p-5 rounded-2xl border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-200 group"
+                        className="bg-white p-4 rounded-xl border border-border hover:border-primary/40 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 group"
                       >
                         <span className="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors">
                           {related.title}
@@ -305,36 +306,39 @@ export default async function ConverterPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Sidebar */}
-          <aside className="space-y-8">
+          {/* ── Sidebar ── */}
+          <aside className="space-y-6">
             <AdUnit variant="sidebar" />
 
-            <div className="bg-white p-8 rounded-[2rem] border border-border shadow-sm sticky top-24">
-              <h3 className="text-base font-bold text-text-primary mb-6 tracking-tight">All Categories</h3>
-              <div className="space-y-1.5">
+            {/* Categories nav */}
+            <div className="rounded-2xl bg-white border border-border shadow-card p-5 sticky top-[4.5rem]">
+              <h3 className="text-xs font-black uppercase tracking-widest text-text-secondary mb-4">All Categories</h3>
+              <div className="space-y-1">
                 {categories.map(cat => (
                   <Link
                     key={cat.id}
                     href={`/${cat.slug}`}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all border ${
+                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                       cat.slug === categorySlug
-                        ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
-                        : "text-text-secondary hover:bg-background border-transparent hover:border-border"
+                        ? "bg-primary text-white shadow-sm shadow-primary/25"
+                        : "text-text-secondary hover:bg-slate-50 hover:text-text-primary"
                     }`}
                   >
                     <span>{cat.name}</span>
-                    <ChevronRight className={`h-4 w-4 ${cat.slug === categorySlug ? "opacity-100" : "opacity-30"}`} />
+                    {cat.slug === categorySlug && <ChevronRight className="h-3.5 w-3.5" />}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary to-[#7C3AED] p-8 rounded-[2rem] text-white shadow-xl shadow-primary/15 relative overflow-hidden">
-              <div className="pointer-events-none absolute -top-8 -right-8 h-32 w-32 rounded-full bg-white/8 blur-2xl" />
-              <Zap className="h-8 w-8 mb-5 relative" />
-              <h3 className="text-lg font-bold mb-2 relative">Sub-Millisecond Speed</h3>
-              <p className="text-white/75 text-sm leading-relaxed relative">
-                Every conversion is computed instantly on your device — no server round-trips.
+            {/* Promo card */}
+            <div className="relative overflow-hidden rounded-2xl bg-slate-900 p-6 text-white">
+              <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-primary/25 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-secondary/20 blur-3xl" />
+              <Zap className="h-7 w-7 mb-4 text-primary relative" />
+              <h3 className="text-base font-black mb-2 relative">Lightning Fast</h3>
+              <p className="text-white/60 text-xs leading-relaxed relative">
+                All calculations run on your device. Sub-millisecond results, zero server latency.
               </p>
             </div>
           </aside>

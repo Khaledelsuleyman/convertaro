@@ -112,21 +112,8 @@ export default function RootLayout({
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-65KZJ6FDGT";
 
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="en" dir="ltr">
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(() => {
-              try {
-                const key = 'convertaro-theme';
-                const saved = localStorage.getItem(key);
-                const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                if (theme === 'dark') document.documentElement.classList.add('dark');
-                document.documentElement.style.colorScheme = theme;
-              } catch {}
-            })();`,
-          }}
-        />
         {/* Google Analytics */}
         {GA_ID && (
           <>
@@ -171,7 +158,7 @@ export default function RootLayout({
         {/* Meta tags for better indexing */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#153a5f" />
-        <meta name="color-scheme" content="light dark" />
+        <meta name="color-scheme" content="light" />
       </head>
       <body className={`${manrope.variable} ${sora.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <Header />

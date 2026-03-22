@@ -39,6 +39,7 @@ import {
   TrendingUp,
   LayoutGrid,
   Shield,
+  CircleDot,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -116,8 +117,35 @@ const FEATURES = [
   { icon: TrendingUp, title: "Always Free", desc: "No hidden fees. No premium plans. Just free tools." },
 ];
 
+const POPULAR_TOOL_EXAMPLES: Record<string, { example: string; note: string }> = {
+  "centimeters-to-inches": {
+    example: "10 cm = 3.94 in",
+    note: "Useful for sizing, product specs, and height checks.",
+  },
+  "kilograms-to-pounds": {
+    example: "70 kg = 154.32 lb",
+    note: "Common for fitness, travel, and shipping.",
+  },
+  "celsius-to-fahrenheit": {
+    example: "25 C = 77 F",
+    note: "Helpful for weather, cooking, and travel.",
+  },
+  "km-h-to-mph": {
+    example: "100 km/h = 62.14 mph",
+    note: "Good for driving, road trips, and speed checks.",
+  },
+  "kilometers-to-miles": {
+    example: "5 km = 3.11 mi",
+    note: "Often used for running, maps, and route planning.",
+  },
+  "meters-to-feet": {
+    example: "2 m = 6.56 ft",
+    note: "Useful for room dimensions and project work.",
+  },
+};
+
 export default function Home() {
-  const popularConverters = ["cm-to-inches", "kg-to-lbs", "m-to-feet", "km-to-miles"]
+  const popularConverters = ["cm-to-inches", "kg-to-lbs", "celsius-to-fahrenheit", "kmh-to-mph"]
     .map((id) => getCanonicalConverterById(id))
     .filter(Boolean) as Converter[];
 
@@ -157,30 +185,30 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
       <section className="relative overflow-hidden px-4 pt-16 pb-20 md:pt-24 md:pb-24">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(125,211,252,0.28),transparent_34%),radial-gradient(circle_at_86%_0%,rgba(196,181,253,0.24),transparent_30%),linear-gradient(180deg,#f8fcff_0%,#eef7fb_46%,#f7fbfd_100%)]" />
-        <div className="absolute inset-0 -z-10 opacity-[0.35] bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:36px_36px]" />
-        <div className="absolute -right-20 top-12 -z-10 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl" />
-        <div className="absolute -left-24 bottom-0 -z-10 h-72 w-72 rounded-full bg-violet-200/20 blur-3xl" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_8%,rgba(251,191,36,0.22),transparent_28%),radial-gradient(circle_at_86%_0%,rgba(125,211,252,0.24),transparent_30%),radial-gradient(circle_at_72%_22%,rgba(251,146,60,0.16),transparent_26%),linear-gradient(180deg,#fffaf6_0%,#fff6ef_38%,#f4faff_100%)]" />
+        <div className="absolute inset-0 -z-10 opacity-[0.28] bg-[linear-gradient(to_right,rgba(148,163,184,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.07)_1px,transparent_1px)] bg-[size:38px_38px]" />
+        <div className="absolute -right-20 top-12 -z-10 h-80 w-80 rounded-full bg-sky-200/35 blur-3xl" />
+        <div className="absolute -left-24 bottom-0 -z-10 h-72 w-72 rounded-full bg-orange-200/25 blur-3xl" />
 
         <div className="container-pro relative z-10 text-center text-slate-900">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-200/70 bg-white/80 px-4 py-1.5 text-sm font-semibold text-sky-800 backdrop-blur">
-            <Star className="h-4 w-4 text-sky-600" />
-            Enterprise-grade converter experience
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/65 px-4 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_18px_35px_-26px_rgba(15,23,42,0.18)] backdrop-blur-xl">
+            <Star className="h-4 w-4 text-orange-500" />
+            Modern unit conversion platform
           </div>
 
           <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl md:leading-[1.1]">
             Convert with confidence.
-            <span className="block bg-gradient-to-r from-sky-700 via-cyan-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-orange-500 via-amber-500 to-sky-600 bg-clip-text text-transparent">
               Fast, precise, and effortless.
             </span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-base text-slate-600 md:text-lg leading-relaxed">
-            A premium conversion platform trusted by students, engineers, and teams. Use 500+ tools for length, weight, temperature, speed, data, and more in one unified workspace.
+            Convertaro helps people move between units without friction. Search instantly, browse clean categories, and open converter pages with formulas, examples, and reference values when you need more confidence.
           </p>
 
-          <div className="mx-auto mt-10 max-w-2xl animate-fade-in">
-            <SearchTool />
+          <div className="mx-auto mt-10 max-w-2xl rounded-[28px] border border-white/80 bg-white/45 p-3 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.22)] backdrop-blur-xl animate-fade-in sm:p-4">
+            <SearchTool placeholder="Search conversions..." />
             <div className="mt-6 flex flex-wrap justify-center gap-2 text-sm text-slate-600">
               <span className="text-slate-500">Popular searches:</span>
               {CANONICAL_QUICK_LINKS.slice(0, 4).map((link) => (
@@ -191,9 +219,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-3 rounded-2xl border border-white/70 bg-white/70 p-3 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.18)] backdrop-blur md:grid-cols-4 md:gap-4 md:p-5">
+          <div className="mt-10 grid grid-cols-2 gap-3 rounded-[28px] border border-white/80 bg-white/65 p-3 shadow-[0_22px_50px_-34px_rgba(15,23,42,0.16)] backdrop-blur-xl md:grid-cols-4 md:gap-4 md:p-5">
             {TRUST_METRICS.map((metric) => (
-              <div key={metric.label} className="rounded-xl border border-slate-200/80 bg-white/80 p-3 text-left md:text-center">
+              <div key={metric.label} className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 text-left md:text-center">
                 <p className="text-xl font-display font-semibold text-slate-900 md:text-2xl tabular-nums">{metric.value}</p>
                 <p className="mt-0.5 text-xs text-slate-500 md:text-sm">{metric.label}</p>
               </div>
@@ -207,7 +235,7 @@ export default function Home() {
           <div className="mb-12 flex items-end justify-between gap-4">
             <div>
               <h2 className="font-display text-3xl font-semibold text-slate-900 mb-2">Browse by Category</h2>
-              <p className="text-slate-500">10 curated categories with 500+ precision tools.</p>
+              <p className="text-slate-500">10 rounded category cards with soft icons and clean scanning.</p>
             </div>
             <Link href="/search" className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-slate-900">
               Explore all
@@ -222,9 +250,9 @@ export default function Home() {
                 <Link
                   key={category.id}
                   href={`/${category.slug}`}
-                  className="card-pro p-6 group flex flex-col items-center text-center"
+                  className="card-pro rounded-[20px] p-6 group flex flex-col items-center text-center"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 text-slate-700 transition-all duration-300 group-hover:from-slate-900 group-hover:to-slate-700 group-hover:text-white">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-50 via-amber-50 to-sky-50 text-sky-700 transition-all duration-300 group-hover:from-sky-600 group-hover:to-cyan-600 group-hover:text-white">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mb-1 font-display font-semibold text-slate-900">{category.name}</h3>
@@ -238,7 +266,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(125,211,252,0.14),transparent_25%),linear-gradient(180deg,#f7fbfd_0%,#edf6fa_100%)] py-16 md:py-20">
+      <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(125,211,252,0.14),transparent_25%),radial-gradient(circle_at_0%_16%,rgba(251,191,36,0.1),transparent_22%),linear-gradient(180deg,#f9fcfd_0%,#eff7fa_100%)] py-16 md:py-20">
         <div className="container-pro">
           <div className="flex items-center justify-between mb-10">
             <h2 className="font-display text-2xl font-semibold text-slate-900">Most Used Tools</h2>
@@ -252,23 +280,46 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {popularConverters.map((converter) => (
               converter && (
+                (() => {
+                  const details = POPULAR_TOOL_EXAMPLES[converter.metadata.slug] ?? {
+                    example: `1 ${converter.fromUnit} = ${converter.toUnit}`,
+                    note: converter.description,
+                  };
+
+                  return (
                 <Link
                   key={converter.id}
                   href={`/${converter.category}/${converter.metadata.slug}`}
-                  className="surface-glass rounded-2xl p-5 transition-all group hover:-translate-y-1"
+                  className="surface-glass rounded-[22px] p-5 transition-all group hover:-translate-y-1"
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="h-8 w-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition-colors">
-                      <Calculator className="h-4 w-4" />
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex gap-4">
+                      <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-50 to-sky-50 text-sky-700 group-hover:from-sky-50 group-hover:to-cyan-50 transition-colors">
+                        <Calculator className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Popular tool</p>
+                        <h3 className="mt-2 font-display font-semibold text-slate-900 text-base">{converter.title}</h3>
+                        <p className="mt-2 text-sm text-slate-600 leading-relaxed">{details.note}</p>
+                      </div>
                     </div>
                     <ArrowUpRight className="h-4 w-4 text-slate-300 group-hover:text-slate-900 transition-colors" />
                   </div>
-                  <h3 className="font-display font-semibold text-slate-900 text-sm mb-1">{converter.title}</h3>
-                  <p className="text-xs text-slate-500 line-clamp-2">{converter.description}</p>
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700">
+                      <CircleDot className="h-3.5 w-3.5 text-orange-500" />
+                      {details.example}
+                    </span>
+                    <span className="rounded-full bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-700">
+                      Formula and examples included
+                    </span>
+                  </div>
                 </Link>
+                  );
+                })()
               )
             ))}
           </div>
@@ -300,39 +351,39 @@ export default function Home() {
 
       <section className="bg-[linear-gradient(180deg,#eef6fb_0%,#e7f1f8_100%)] py-16 md:py-20">
         <div className="container-pro">
-          <div className="relative overflow-hidden rounded-[32px] border border-sky-100 bg-[radial-gradient(circle_at_8%_0%,rgba(125,211,252,0.22),transparent_28%),radial-gradient(circle_at_100%_100%,rgba(196,181,253,0.18),transparent_24%),linear-gradient(130deg,#ffffff_0%,#f4f9fc_42%,#eef6fb_100%)] p-8 text-center shadow-[0_28px_55px_-35px_rgba(15,23,42,0.18)] md:p-14">
+          <div className="relative overflow-hidden rounded-[32px] border border-sky-100 bg-[radial-gradient(circle_at_8%_0%,rgba(125,211,252,0.18),transparent_28%),radial-gradient(circle_at_100%_100%,rgba(196,181,253,0.22),transparent_24%),linear-gradient(130deg,#7dd3fc_0%,#93c5fd_36%,#a78bfa_100%)] p-8 text-center shadow-[0_28px_55px_-35px_rgba(15,23,42,0.18)] md:p-14">
             <div className="absolute -top-24 -right-20 h-64 w-64 rounded-full bg-sky-200/25 blur-3xl" />
             <div className="absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-violet-200/20 blur-3xl" />
 
-            <h2 className="relative z-10 font-display text-3xl md:text-5xl font-semibold text-slate-900 mb-6">
+            <h2 className="relative z-10 font-display text-3xl md:text-5xl font-semibold text-white mb-6">
               Ready to Convert Smarter?
             </h2>
 
-            <p className="relative z-10 mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-600">
+            <p className="relative z-10 mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/90">
               Join millions of users who rely on Convertaro for fast, accurate unit conversions every single day. Always free, forever.
             </p>
 
             <div className="relative z-10 mb-9 flex flex-wrap justify-center gap-3">
-              <Link href={canonicalizeConverterHref("/length/cm-to-inches")} className="inline-flex items-center gap-2 rounded-xl bg-sky-700 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-900/20 hover:bg-sky-800 transition-colors">
+              <Link href={canonicalizeConverterHref("/length/cm-to-inches")} className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-sky-900/20 hover:bg-slate-50 transition-colors">
                 Start Converting
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/calculators" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-white transition-colors">
+              <Link href="/calculators" className="inline-flex items-center gap-2 rounded-xl border border-white/40 bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/20 transition-colors">
                 Open Calculators
               </Link>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 text-slate-600 text-sm relative z-10">
+            <div className="flex flex-wrap justify-center gap-6 text-white/85 text-sm relative z-10">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-sky-600" />
+                <CheckCircle2 className="h-5 w-5 text-white" />
                 No signup required
               </div>
               <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-sky-600" />
+                <Shield className="h-5 w-5 text-white" />
                 Verified formulas
               </div>
               <div className="flex items-center gap-2">
-                <Lock className="h-5 w-5 text-sky-600" />
+                <Lock className="h-5 w-5 text-white" />
                 Works offline
               </div>
             </div>

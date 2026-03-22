@@ -24,7 +24,7 @@ export function Footer() {
   const featuredCalculators = calculators.slice(0, 4);
 
   return (
-    <footer className="mt-auto border-t border-slate-200/80 bg-[radial-gradient(circle_at_5%_0%,rgba(6,182,212,0.09),transparent_24%),linear-gradient(to_bottom,#f8fbff,#ffffff)]">
+    <footer className="mt-auto border-t border-slate-200/80 bg-[radial-gradient(circle_at_5%_0%,rgba(251,191,36,0.1),transparent_22%),radial-gradient(circle_at_100%_0%,rgba(125,211,252,0.12),transparent_26%),linear-gradient(to_bottom,#fffaf6,#ffffff)]">
       <div className="container-pro py-14">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
 
@@ -64,13 +64,18 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Popular Converters */}
+          {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Popular Converters</h3>
+            <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/popular-conversion-tools" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 transition-colors">
                   Popular Conversion Tools Hub
+                </Link>
+              </li>
+              <li>
+                <Link href="/search" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  Search Tools
                 </Link>
               </li>
               {POPULAR_CONVERTERS.slice(0, 4).map(({ href, label }) => (
@@ -111,9 +116,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Calculators */}
+          {/* Popular Calculators */}
           <div>
-            <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Calculators</h3>
+            <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Popular Calculators</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/calculators" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">

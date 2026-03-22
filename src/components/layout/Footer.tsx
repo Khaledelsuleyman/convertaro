@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { categories } from "@/data/categories";
 import { calculators } from "@/data/calculators";
-import { Zap, Twitter, Github, Mail, Shield, Clock, Globe } from "lucide-react";
+import { Ruler, Twitter, Github, Mail } from "lucide-react";
 
 const POPULAR_CONVERTERS = [
-  { href: "/length/cm-to-inches", label: "cm to inches" },
-  { href: "/weight/kg-to-lbs", label: "kg to lbs" },
-  { href: "/temperature/celsius-to-fahrenheit", label: "°C to °F" },
-  { href: "/speed/mph-to-kmh", label: "mph to km/h" },
-  { href: "/length/meters-to-feet", label: "meters to feet" },
-  { href: "/length/km-to-miles", label: "km to miles" },
+  { href: "/length/cm-to-inches", label: "CM to Inches" },
+  { href: "/weight/kg-to-lbs", label: "KG to LBS" },
+  { href: "/temperature/celsius-to-fahrenheit", label: "Celsius to Fahrenheit" },
+  { href: "/speed/mph-to-kmh", label: "MPH to KM/H" },
+  { href: "/length/meters-to-feet", label: "Meters to Feet" },
+  { href: "/length/km-to-miles", label: "KM to Miles" },
+  { href: "/data/mb-to-gb", label: "MB to GB" },
+  { href: "/volume/liters-to-gallons", label: "Liters to Gallons" },
 ];
 
 export function Footer() {
@@ -18,65 +20,54 @@ export function Footer() {
   const featuredCalculators = calculators.slice(0, 4);
 
   return (
-    <footer className="mt-16 border-t border-slate-800 bg-slate-900 text-slate-400">
-      {/* Top trust bar */}
-      <div className="border-b border-slate-800">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-4">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-slate-500">
-            <span className="flex items-center gap-1.5"><Zap className="h-3 w-3 text-primary" /> Sub-millisecond response</span>
-            <span className="flex items-center gap-1.5"><Shield className="h-3 w-3 text-accent" /> No data stored</span>
-            <span className="flex items-center gap-1.5"><Globe className="h-3 w-3 text-secondary" /> Works worldwide</span>
-            <span className="flex items-center gap-1.5"><Clock className="h-3 w-3 text-yellow-500" /> Always free, forever</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-14">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-10">
+    <footer className="bg-slate-50 border-t border-slate-200 mt-auto">
+      {/* Main Footer */}
+      <div className="container-pro py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
 
           {/* Brand */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-[#7C3AED] flex items-center justify-center shadow-sm">
-                <span className="text-white font-bold text-lg">C</span>
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-8 w-8 bg-slate-900 rounded-md flex items-center justify-center">
+                <Ruler className="h-4 w-4 text-white" />
               </div>
-              <div className="text-xl font-bold text-white">Convertaro</div>
+              <span className="text-lg font-semibold">Convertaro</span>
             </div>
-            <p className="mt-4 text-sm text-slate-400 max-w-xs leading-relaxed">
-              The world&apos;s fastest free unit conversion platform. Trusted by engineers, students, and professionals worldwide.
+            <p className="text-sm text-slate-500 max-w-xs leading-relaxed mb-4">
+              Free, accurate unit converters for professionals. 500+ tools, zero ads, instant results. Built for engineers, students, and everyday use.
             </p>
-            <div className="mt-5 flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <a
                 href="https://twitter.com/convertaro"
-                aria-label="Convertaro on Twitter"
-                className="h-8 w-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+                aria-label="Twitter"
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
               >
-                <Twitter className="h-3.5 w-3.5" />
-              </a>
-              <a
-                href="mailto:hello@convertaro.com"
-                aria-label="Email Convertaro"
-                className="h-8 w-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
-              >
-                <Mail className="h-3.5 w-3.5" />
+                <Twitter className="h-4 w-4" />
               </a>
               <a
                 href="https://github.com/convertaro"
-                aria-label="Convertaro on GitHub"
-                className="h-8 w-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+                aria-label="GitHub"
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
               >
-                <Github className="h-3.5 w-3.5" />
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href="mailto:hello@convertaro.com"
+                aria-label="Email"
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+              >
+                <Mail className="h-4 w-4" />
               </a>
             </div>
           </div>
 
           {/* Popular Converters */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Popular</div>
-            <ul className="space-y-2.5">
-              {POPULAR_CONVERTERS.map(({ href, label }) => (
+            <h3 className="text-sm font-semibold mb-3">Popular Converters</h3>
+            <ul className="space-y-2">
+              {POPULAR_CONVERTERS.slice(0, 4).map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="text-sm text-slate-400 hover:text-white transition-colors">
+                  <Link href={href} className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
                     {label}
                   </Link>
                 </li>
@@ -86,11 +77,11 @@ export function Footer() {
 
           {/* Categories */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Categories</div>
-            <ul className="space-y-2.5">
+            <h3 className="text-sm font-semibold mb-3">Categories</h3>
+            <ul className="space-y-2">
               {converterCats.map((cat) => (
                 <li key={cat.id}>
-                  <Link href={`/${cat.slug}`} className="text-sm text-slate-400 hover:text-white transition-colors">
+                  <Link href={`/${cat.slug}`} className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
                     {cat.name}
                   </Link>
                 </li>
@@ -98,18 +89,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* More Categories */}
+          {/* More Tools */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">More Tools</div>
-            <ul className="space-y-2.5">
-              <li>
-                <Link href="/calculators" className="text-sm text-slate-300 hover:text-white transition-colors font-semibold">
-                  Calculators Hub
-                </Link>
-              </li>
+            <h3 className="text-sm font-semibold mb-3">More Tools</h3>
+            <ul className="space-y-2">
               {moreCats.map((cat) => (
                 <li key={cat.id}>
-                  <Link href={`/${cat.slug}`} className="text-sm text-slate-400 hover:text-white transition-colors">
+                  <Link href={`/${cat.slug}`} className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
                     {cat.name}
                   </Link>
                 </li>
@@ -117,13 +103,19 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Calculators */}
           <div>
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Calculators</div>
-            <ul className="space-y-2.5">
+            <h3 className="text-sm font-semibold mb-3">Calculators</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/calculators" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  All Calculators
+                </Link>
+              </li>
               {featuredCalculators.map((calculator) => (
                 <li key={calculator.slug}>
-                  <Link href={`/${calculator.slug}`} className="text-sm text-slate-400 hover:text-white transition-colors">
-                    {calculator.title}
+                  <Link href={`/${calculator.slug}`} className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                    {calculator.navLabel}
                   </Link>
                 </li>
               ))}
@@ -131,34 +123,42 @@ export function Footer() {
           </div>
 
           {/* Company */}
-          <div className="lg:col-span-1">
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Company</div>
-            <ul className="space-y-2.5">
-              {[
-                { href: "/about", label: "About Us" },
-                { href: "/privacy", label: "Privacy Policy" },
-                { href: "/terms", label: "Terms of Use" },
-                { href: "/contact", label: "Contact Us" },
-              ].map(({ href, label }) => (
-                <li key={href}>
-                  <Link href={href} className="text-sm text-slate-400 hover:text-white transition-colors">
-                    {label}
-                  </Link>
-                </li>
-              ))}
+          <div>
+            <h3 className="text-sm font-semibold mb-3">Company</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/about" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-sm text-slate-500 hover:text-slate-900 transition-colors">
+                  Terms of Use
+                </Link>
+              </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-500">
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-sm text-slate-500">
             © {new Date().getFullYear()} Convertaro. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-xs text-slate-600">
-            <Link href="/privacy" className="hover:text-slate-400 transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-slate-400 transition-colors">Terms</Link>
+          <div className="flex items-center gap-4 text-sm text-slate-400">
+            <Link href="/privacy" className="hover:text-slate-600 transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-slate-600 transition-colors">Terms</Link>
             <span>convertaro.com</span>
           </div>
         </div>

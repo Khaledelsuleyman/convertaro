@@ -6,95 +6,98 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // Safelist dynamic category colors so Tailwind doesn't purge them
-  safelist: [
-    { pattern: /^(bg|text|border|from|to|shadow|ring)-(blue|violet|orange|cyan|emerald|amber|sky|indigo|rose|teal)-(50|100|200|400|500|600|700)/ },
-    { pattern: /^hover:(border|shadow|bg)-(blue|violet|orange|cyan|emerald|amber|sky|indigo|rose|teal)-(100|200|500)/ },
-    "shadow-blue-100/60",
-    "shadow-violet-100/60",
-    "shadow-orange-100/60",
-    "shadow-cyan-100/60",
-    "shadow-emerald-100/60",
-    "shadow-amber-100/60",
-    "shadow-sky-100/60",
-    "shadow-indigo-100/60",
-    "shadow-rose-100/60",
-    "shadow-teal-100/60",
-  ],
   theme: {
     extend: {
       fontFamily: {
         sans: [
           "var(--font-inter)",
-          "ui-sans-serif",
-          "system-ui",
           "-apple-system",
+          "BlinkMacSystemFont",
           "Segoe UI",
           "Roboto",
+          "Helvetica Neue",
           "Arial",
-          "Noto Sans",
           "sans-serif",
         ],
       },
       colors: {
+        // Professional color palette
+        background: "hsl(0 0% 100%)",
+        foreground: "hsl(222 47% 11%)",
+        card: {
+          DEFAULT: "hsl(0 0% 100%)",
+          foreground: "hsl(222 47% 11%)",
+        },
         primary: {
-          DEFAULT: "#6366F1",
-          dark: "#4F46E5",
-          light: "#EEF2FF",
+          DEFAULT: "hsl(222 47% 11%)",
+          foreground: "hsl(0 0% 100%)",
+          50: "hsl(210 40% 98%)",
+          100: "hsl(210 40% 96%)",
+          200: "hsl(214 32% 91%)",
+          300: "hsl(213 27% 84%)",
+          400: "hsl(215 20% 65%)",
+          500: "hsl(215 16% 47%)",
+          600: "hsl(215 19% 35%)",
+          700: "hsl(215 25% 27%)",
+          800: "hsl(217 33% 17%)",
+          900: "hsl(222 47% 11%)",
         },
-        secondary: "#06B6D4",
-        accent: "#22C55E",
-        background: "#F8FAFC",
-        card: "#FFFFFF",
-        text: {
-          primary: "#0F172A",
-          secondary: "#475569",
+        secondary: {
+          DEFAULT: "hsl(210 40% 96%)",
+          foreground: "hsl(222 47% 11%)",
         },
-        border: "#E5E7EB",
-        slate: {
-          400: "#94A3B8",
-          500: "#64748B",
-          800: "#1E293B",
-          900: "#0F172A",
+        muted: {
+          DEFAULT: "hsl(210 40% 96%)",
+          foreground: "hsl(215 16% 47%)",
         },
+        accent: {
+          DEFAULT: "hsl(210 40% 96%)",
+          foreground: "hsl(222 47% 11%)",
+        },
+        destructive: {
+          DEFAULT: "hsl(0 84% 60%)",
+          foreground: "hsl(0 0% 100%)",
+        },
+        border: {
+          DEFAULT: "hsl(214 32% 91%)",
+          hover: "hsl(214 32% 85%)",
+        },
+        input: "hsl(214 32% 91%)",
+        ring: "hsl(222 47% 11%)",
+        // Keep old colors for compatibility during migration
+        "text-primary": "hsl(222 47% 11%)",
+        "text-secondary": "hsl(215 16% 47%)",
       },
-      animation: {
-        float: "float 6s ease-in-out infinite",
-        "float-slow": "float 9s ease-in-out infinite",
-        shimmer: "shimmer 3.5s linear infinite",
-        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "fade-up": "fadeUp 0.5s ease-out forwards",
-        "spin-slow": "spin 12s linear infinite",
-        blob: "blob 10s ease-in-out infinite",
-      },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "0% center" },
-          "100%": { backgroundPosition: "-200% center" },
-        },
-        fadeUp: {
-          from: { opacity: "0", transform: "translateY(16px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
-        },
-        blob: {
-          "0%, 100%": { transform: "translate(0px, 0px) scale(1)" },
-          "33%": { transform: "translate(20px, -20px) scale(1.05)" },
-          "66%": { transform: "translate(-10px, 10px) scale(0.96)" },
-        },
+      borderRadius: {
+        lg: "0.5rem",
+        md: "0.375rem",
+        sm: "0.25rem",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(99, 102, 241, 0.18)",
-        "glow-lg": "0 0 80px rgba(99, 102, 241, 0.22)",
-        card: "0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.04)",
-        "card-hover": "0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)",
-        "inner-glow": "inset 0 1px 2px rgba(255,255,255,0.7)",
+        sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        DEFAULT: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        card: "0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.08)",
+        "card-hover": "0 10px 25px -5px rgba(0,0,0,0.1), 0 4px 10px -4px rgba(0,0,0,0.05)",
+      },
+      animation: {
+        "fade-in": "fadeIn 0.3s ease-out forwards",
+        "slide-in": "slideIn 0.2s ease-out forwards",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        slideIn: {
+          "0%": { opacity: "0", transform: "translateX(-8px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
       },
     },
   },
   plugins: [],
 };
+
 export default config;

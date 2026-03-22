@@ -4,28 +4,36 @@ import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SITE_URL } from "@/lib/seo";
+import {
+  SITE_URL,
+  HOMEPAGE_LONGTAIL_KEYWORDS,
+  ORGANIZATION_SCHEMA,
+  WEBSITE_SCHEMA,
+} from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
 });
 
+// Enhanced metadata with long-tail keywords
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Convertaro – Free Online Unit Converter | 500+ Tools",
+    default: "Convertaro - Free Online Unit Converter | 500+ Accurate Tools",
     template: "%s | Convertaro",
   },
   description:
-    "Convertaro is the fastest free online unit converter with 500+ tools. Instantly convert length, weight, temperature, volume, speed, data, energy & pressure. Accurate, mobile-friendly, no signup required.",
+    "Free online unit converter with 500+ accurate tools. Convert length, weight, temperature, volume, speed, data, energy & pressure instantly. No signup required.",
   keywords: [
     "unit converter",
     "online converter",
     "free unit converter",
     "measurement converter",
-    "unit conversion calculator",
+    "metric to imperial",
+    "imperial to metric",
     "length converter",
     "weight converter",
     "temperature converter",
@@ -38,31 +46,52 @@ export const metadata: Metadata = {
     "kg to lbs",
     "miles to km",
     "celsius to fahrenheit",
-    "metric to imperial",
-    "imperial to metric",
-    "online measurement tool",
+    "mb to gb",
+    ...HOMEPAGE_LONGTAIL_KEYWORDS.slice(0, 30), // Include top long-tail keywords
   ],
-  twitter: {
-    card: "summary_large_image",
-    title: "Convertaro – Free Online Unit Converter | 500+ Tools",
-    description:
-      "500+ free unit converters for length, weight, temperature, volume, speed, and more. Instant, accurate, and mobile-friendly.",
-    site: "@convertaro",
+  authors: [{ name: "Convertaro" }],
+  creator: "Convertaro",
+  publisher: "Convertaro",
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   openGraph: {
-    siteName: "Convertaro",
     type: "website",
     locale: "en_US",
-    title: "Convertaro – Free Online Unit Converter | 500+ Tools",
+    siteName: "Convertaro",
+    title: "Convertaro - Free Online Unit Converter | 500+ Accurate Tools",
     description:
-      "Convertaro offers 500+ free online unit converters for length, weight, temperature, volume, speed, data, energy, and pressure.",
-    url: "https://convertaro.com",
+      "Free online unit converter with 500+ accurate tools. Convert any unit instantly - length, weight, temperature, volume, speed & more.",
+    url: SITE_URL,
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+  twitter: {
+    card: "summary_large_image",
+    title: "Convertaro - Free Online Unit Converter | 500+ Accurate Tools",
+    description:
+      "500+ free unit converters for length, weight, temperature, volume, speed, and more. Instant, accurate, and private.",
+    site: "@convertaro",
+    creator: "@convertaro",
   },
+  verification: {
+    google: "your-google-verification-code", // Add your verification code
+  },
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      "en-US": SITE_URL,
+      "en-GB": `${SITE_URL}/en-gb`,
+    },
+  },
+  category: "Technology",
+  classification: "Unit Conversion Tools",
 };
 
 export default function RootLayout({
@@ -70,88 +99,60 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Convertaro",
-    url: "https://convertaro.com",
-    description:
-      "Free online unit converter with 500+ tools for length, weight, temperature, volume, speed, and more.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://convertaro.com/search?q={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Convertaro",
-    url: "https://convertaro.com",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://convertaro.com/logo.png",
-    },
-    description:
-      "The world's most accurate and high-performance unit conversion platform. Built for professionals and anyone who values speed and precision.",
-    sameAs: ["https://twitter.com/convertaro"],
-  };
-
-  const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Convertaro Unit Converter",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    url: "https://convertaro.com",
-    description:
-      "Free online unit conversion tool with 500+ converters across 10 categories including length, weight, temperature, volume, speed, data, energy, and pressure.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
-
-  const GA_ID = "G-65KZJ6FDGT";
+  const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-65KZJ6FDGT";
 
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <head>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
+        {/* Google Analytics */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', {
+                  page_title: document.title,
+                  page_location: window.location.href,
+                  send_page_view: true
+                });
+              `}
+            </Script>
+          </>
+        )}
+
+        {/* Structured Data - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ORGANIZATION_SCHEMA),
+          }}
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_ID}');
-          `}
-        </Script>
+
+        {/* Structured Data - Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(WEBSITE_SCHEMA),
+          }}
+        />
+
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+        {/* Meta tags for better indexing */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="color-scheme" content="light" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-        />
+      <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col bg-white`}>
         <Header />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

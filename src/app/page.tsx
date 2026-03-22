@@ -9,6 +9,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
+  Calculator,
   ChevronRight,
   Database,
   Droplets,

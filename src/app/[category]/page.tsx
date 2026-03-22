@@ -145,10 +145,8 @@ export default async function CategoryPage({ params }: PageProps) {
 
       <div className="container-pro py-8">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-slate-500 mb-6"
-        >
-          <Link href="/" className="flex items-center hover:text-slate-900"
-          >
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-slate-500 mb-6">
+          <Link href="/" className="flex items-center hover:text-slate-900">
             <Home className="h-4 w-4 mr-1" />
             Home
           </Link>
@@ -157,8 +155,7 @@ export default async function CategoryPage({ params }: PageProps) {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
-          <div className="space-y-8"
-003e
+          <div className="space-y-8">
             {/* Hero */}
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 md:p-8">
               <div className="flex items-center gap-2 mb-4">
@@ -187,8 +184,7 @@ export default async function CategoryPage({ params }: PageProps) {
                     className="card-pro p-5 group"
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <div className="h-10 w-10 bg-slate-100 rounded-md flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors"
-                      >
+                      <div className="h-10 w-10 bg-slate-100 rounded-md flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors">
                         <Calculator className="h-5 w-5 text-slate-600 group-hover:text-white" />
                       </div>
                       <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-slate-900 transition-colors" />
@@ -240,8 +236,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   "Works offline",
                   "100% free, no signup",
                 ].map((feature) => (
-                  <div key={feature} className="flex items-center gap-2"
-003e
+                  <div key={feature} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
                     <span className="text-sm text-slate-600">{feature}</span>
                   </div>

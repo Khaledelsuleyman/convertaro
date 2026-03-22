@@ -39,7 +39,7 @@ export const INDEXABLE_ROBOTS: NonNullable<Metadata["robots"]> = {
   },
 };
 
-export const NOINDEX_ROBOTS: RobotsConfig = {
+export const NOINDEX_ROBOTS: NonNullable<Metadata["robots"]> = {
   index: false,
   follow: true,
 };

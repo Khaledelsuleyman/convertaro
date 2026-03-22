@@ -173,7 +173,9 @@ export default function Home() {
                     <Icon className="h-6 w-6 text-slate-600 group-hover:text-white" />
                   </div>
                   <h3 className="font-semibold text-slate-900 mb-1">{category.name}</h3>
-                  <p className="text-xs text-slate-500">{category.count} Tools</p>
+                  <p className="text-xs text-slate-500">
+                    {converters.filter((c) => c.category === category.id).length} Tools
+                  </p>
                 </Link>
               );
             })}

@@ -11,7 +11,7 @@ const POPULAR_CONVERTERS = [
   { href: "/speed/mph-to-kmh", label: "MPH to KM/H" },
   { href: "/length/meters-to-feet", label: "Meters to Feet" },
   { href: "/length/km-to-miles", label: "KM to Miles" },
-  { href: "/data/mb-to-gb", label: "MB to GB" },
+  { href: "/data/megabytes-to-gigabytes", label: "MB to GB" },
   { href: "/volume/liters-to-gallons", label: "Liters to Gallons" },
 ].map((converter) => ({
   ...converter,
@@ -68,6 +68,11 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Popular Converters</h3>
             <ul className="space-y-2">
+              <li>
+                <Link href="/popular-conversion-tools" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 transition-colors">
+                  Popular Conversion Tools Hub
+                </Link>
+              </li>
               {POPULAR_CONVERTERS.slice(0, 4).map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm text-slate-500 hover:text-slate-900 transition-colors">

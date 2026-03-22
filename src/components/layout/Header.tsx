@@ -6,15 +6,12 @@ import { MobileNav } from "./MobileNav";
 import { ChevronDown, Calculator, Ruler } from "lucide-react";
 import { canonicalizeConverterHref } from "@/lib/converter-routing";
 
-export function Header() {
-  const primaryNav = categories.filter((c) =>
-    ["length", "weight", "temperature", "volume", "area", "speed"].includes(c.slug)
-  );
-  const moreNav = categories.filter((c) =>
-    !["length", "weight", "temperature", "volume", "area", "speed"].includes(c.slug)
-  );
-  const featuredCalculators = calculators.slice(0, 4);
+const PRIMARY_CATEGORY_SLUGS = new Set(["length", "weight", "temperature", "volume", "area", "speed"]);
+const primaryNav = categories.filter((category) => PRIMARY_CATEGORY_SLUGS.has(category.slug));
+const moreNav = categories.filter((category) => !PRIMARY_CATEGORY_SLUGS.has(category.slug));
+const featuredCalculators = calculators.slice(0, 4);
 
+export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/65">
       <div className="container-pro">

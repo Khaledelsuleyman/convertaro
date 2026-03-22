@@ -9,8 +9,10 @@ import {
   buildOpenGraph,
   buildTwitter,
   buildWebPageSchema,
+  generateBreadcrumbSchemaFromPaths,
 } from "@/lib/seo";
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -33,7 +35,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 
   return {
-    title: `${categoryDef.name} | Convertaro`,
+    title: categoryDef.name,
     description: categoryDef.description,
     robots: INDEXABLE_ROBOTS,
     alternates: buildAlternates(`/calculators/${category}`),
@@ -66,19 +68,28 @@ export default async function CalculatorCategoryPage({ params }: CategoryPagePro
     description: categoryDef.description,
     path: `/calculators/${category}`,
   });
+  const breadcrumbSchema = generateBreadcrumbSchemaFromPaths([
+    { name: "Home", path: "/" },
+    { name: "Calculators", path: "/calculators" },
+    { name: categoryDef.name, path: `/calculators/${category}` },
+  ]);
 
   return (
     <div className="min-h-screen bg-background py-12 sm:py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="rounded-3xl border border-border bg-white shadow-card p-6 sm:p-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-            <Link href="/calculators" className="text-primary hover:underline">Calculators</Link>
-            <span className="text-text-secondary">/</span>
-            <span className="text-text-secondary">{categoryDef.shortLabel}</span>
-          </div>
+          <Breadcrumbs
+            className="mb-3 flex flex-wrap items-center gap-2 text-sm text-text-secondary"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Calculators", href: "/calculators" },
+              { label: categoryDef.name },
+            ]}
+          />
 
-          <h1 className="mt-3 text-3xl sm:text-4xl font-black tracking-tight text-text-primary">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-text-primary">
             {categoryDef.name}
           </h1>
           <p className="mt-3 text-sm sm:text-base text-text-secondary leading-relaxed">{categoryDef.description}</p>

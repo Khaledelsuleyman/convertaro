@@ -7,10 +7,10 @@ import { ConversionTable } from "@/components/converter/ConversionTable";
 import { FAQSection } from "@/components/converter/FAQSection";
 import { ConverterContentSections } from "@/components/converter/ConverterContentSections";
 import Link from "next/link";
-import { ChevronRight, Home, Calculator, Lightbulb, Table, ArrowLeftRight } from "lucide-react";
+import { ChevronRight, Calculator, Lightbulb, Table, ArrowLeftRight } from "lucide-react";
 import {
   buildWebPageSchema,
-  generateBreadcrumbSchema,
+  generateBreadcrumbSchemaFromPaths,
   generateFAQSchema,
   generateHowToSchema,
 } from "@/lib/seo";
@@ -20,7 +20,6 @@ import {
   getConversionSteps,
   getFormulaContent,
   getIntroContent,
-  getRelatedConverterRecommendations,
   getReverseConverter,
 } from "@/lib/converter-content";
 import { PopularToolsSidebar, RelatedCalculators, CategoryNavigation, CrawlableLinkHub } from "@/components/layout/InternalLinks";
@@ -28,6 +27,8 @@ import { canonicalConverters, dedupeCanonicalConverters, getCanonicalConverterBy
 import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
 import { getConverterTrustMetadata } from "@/lib/trust";
 import { buildConverterPageMetadata } from "@/lib/page-metadata";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { getRelatedConverterCards } from "@/lib/internal-linking";
 
 const converters = canonicalConverters as Converter[];
 
@@ -84,10 +85,10 @@ export default async function ConverterPage({ params }: PageProps) {
     answer: item.answer,
   })));
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://convertaro.com" },
-    { name: category.name, url: `https://convertaro.com/${categorySlug}` },
-    { name: converter.title, url: `https://convertaro.com/${categorySlug}/${converter.metadata.slug}` },
+  const breadcrumbSchema = generateBreadcrumbSchemaFromPaths([
+    { name: "Home", path: "/" },
+    { name: category.name, path: `/${categorySlug}` },
+    { name: converter.title, path: `/${categorySlug}/${converter.metadata.slug}` },
   ]);
 
   const howToSchema = generateHowToSchema(
@@ -121,10 +122,9 @@ export default async function ConverterPage({ params }: PageProps) {
     .filter((item): item is Converter => Boolean(item));
 
   const uniqueRelatedConverters = dedupeCanonicalConverters(relatedConverters).slice(0, 6) as Converter[];
-  const relatedRecommendations = getRelatedConverterRecommendations(
+  const relatedRecommendations = getRelatedConverterCards(
     converter,
-    dedupeCanonicalConverters([...contextualLinks, ...uniqueRelatedConverters]),
-    reverseConverter
+    dedupeCanonicalConverters([...(reverseConverter ? [reverseConverter] : []), ...contextualLinks, ...uniqueRelatedConverters])
   );
 
   return (
@@ -137,18 +137,14 @@ export default async function ConverterPage({ params }: PageProps) {
       <div className="border-b border-slate-200 bg-slate-50">
         <div className="container-pro py-8">
           {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-            <Link href="/" className="flex items-center hover:text-slate-900">
-              <Home className="h-3.5 w-3.5 mr-1" />
-              Home
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <Link href={`/${categorySlug}`} className="hover:text-slate-900 capitalize">
-              {category.name}
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <span className="text-slate-900 font-medium truncate max-w-[200px]">{converter.title}</span>
-          </nav>
+          <Breadcrumbs
+            className="mb-4 flex items-center gap-2 text-sm text-slate-500"
+            items={[
+              { label: "Home", href: "/" },
+              { label: category.name, href: `/${categorySlug}` },
+              { label: converter.title },
+            ]}
+          />
 
           <div className="flex items-center gap-2 mb-2">
             <span className="badge-pro uppercase">{category.name} Converter</span>
@@ -311,7 +307,7 @@ export default async function ConverterPage({ params }: PageProps) {
           <aside className="space-y-6">
             <CategoryNavigation activeCategory={categorySlug} />
             <PopularToolsSidebar excludeSlug={slug} />
-            <RelatedCalculators />
+            <RelatedCalculators categoryContext={categorySlug} />
 
             {/* Contextual promo */}
             <div className="bg-slate-900 rounded-lg p-5 text-white">

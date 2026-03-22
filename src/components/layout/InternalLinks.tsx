@@ -1,11 +1,27 @@
 import Link from "next/link";
 import { categories } from "@/data/categories";
 import { calculators } from "@/data/calculators";
-import { Converter } from "@/types/converter";
 import { ChevronRight, Home } from "lucide-react";
-import { canonicalConverters, canonicalizeConverterHref } from "@/lib/converter-routing";
+import { canonicalConvertersByCategory, canonicalizeConverterHref } from "@/lib/converter-routing";
+import { getCategoryCalculatorLinks, getRelevantCalculatorLinks } from "@/lib/internal-linking";
+const POPULAR_TOOLS = [
+  { href: "/length/cm-to-inches", label: "cm to inches", category: "Length" },
+  { href: "/weight/kg-to-lbs", label: "kg to lbs", category: "Weight" },
+  { href: "/temperature/celsius-to-fahrenheit", label: "°C to °F", category: "Temperature" },
+  { href: "/speed/mph-to-kmh", label: "mph to km/h", category: "Speed" },
+  { href: "/data/megabytes-to-gigabytes", label: "MB to GB", category: "Data" },
+  { href: "/volume/liters-to-gallons", label: "liters to gallons", category: "Volume" },
+].map((tool) => ({ ...tool, href: canonicalizeConverterHref(tool.href) }));
 
-const converters = canonicalConverters as Converter[];
+const STATIC_PAGE_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/popular-conversion-tools", label: "Popular Conversion Tools" },
+  { href: "/calculators", label: "All Calculators" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
 
 interface BreadcrumbItem {
   name: string;
@@ -96,15 +112,7 @@ export function CrossCategoryLinks({ currentCategory }: { currentCategory: strin
 
 // Popular Tools Sidebar
 export function PopularToolsSidebar({ excludeSlug }: { excludeSlug?: string }) {
-  const popular = [
-    { href: "/length/cm-to-inches", label: "cm to inches", category: "Length" },
-    { href: "/weight/kg-to-lbs", label: "kg to lbs", category: "Weight" },
-    { href: "/temperature/celsius-to-fahrenheit", label: "°C to °F", category: "Temperature" },
-    { href: "/speed/mph-to-kmh", label: "mph to km/h", category: "Speed" },
-    { href: "/data/mb-to-gb", label: "MB to GB", category: "Data" },
-    { href: "/volume/liters-to-gallons", label: "liters to gallons", category: "Volume" },
-  ].map((tool) => ({ ...tool, href: canonicalizeConverterHref(tool.href) }))
-    .filter(t => !excludeSlug || !t.href.includes(excludeSlug));
+  const popular = POPULAR_TOOLS.filter((tool) => !excludeSlug || !tool.href.includes(excludeSlug));
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-5">
@@ -128,13 +136,15 @@ export function PopularToolsSidebar({ excludeSlug }: { excludeSlug?: string }) {
 }
 
 // Related Calculators
-export function RelatedCalculators({ currentSlug }: { currentSlug?: string }) {
-  const related = calculators.filter(c => c.slug !== currentSlug).slice(0, 4);
+export function RelatedCalculators({ currentSlug, categoryContext }: { currentSlug?: string; categoryContext?: string }) {
+  const categorySpecific = categoryContext ? getCategoryCalculatorLinks(categoryContext) : [];
+  const fallback = getRelevantCalculatorLinks(currentSlug);
+  const related = (categorySpecific.length > 0 ? categorySpecific : fallback).filter(c => c.slug !== currentSlug).slice(0, 4);
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-5">
       <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-4">
-        Calculators
+        Related Calculators
       </h3>
       <div className="space-y-2">
         {related.map((calc) => (
@@ -143,7 +153,7 @@ export function RelatedCalculators({ currentSlug }: { currentSlug?: string }) {
             href={`/${calc.slug}`}
             className="block p-2 rounded-md hover:bg-slate-50 transition-colors"
           >
-            <span className="text-sm font-medium text-slate-900">{calc.navLabel}</span>
+            <span className="text-sm font-medium text-slate-900">{calc.title}</span>
           </Link>
         ))}
       </div>
@@ -229,14 +239,6 @@ export function CrawlableLinkHub({
   limitPerCategory?: number;
 }) {
   const topCalculatorLinks = calculators.slice(0, 5);
-  const staticPageLinks = [
-    { href: "/", label: "Home" },
-    { href: "/calculators", label: "All Calculators" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
-    { href: "/privacy", label: "Privacy" },
-    { href: "/terms", label: "Terms" },
-  ];
 
   return (
     <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6">
@@ -246,7 +248,7 @@ export function CrawlableLinkHub({
         <div>
           <h3 className="text-sm font-semibold text-slate-900 mb-2">Key Pages</h3>
           <ul className="space-y-1.5">
-            {staticPageLinks.map((link) => (
+            {STATIC_PAGE_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-sm text-slate-600 hover:text-slate-900">
                   {link.label}
@@ -285,9 +287,7 @@ export function CrawlableLinkHub({
 
       <div className="mt-6 border-t border-slate-100 pt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {categories.map((category) => {
-          const categoryConverters = converters
-            .filter((converter) => converter.category === category.slug)
-            .slice(0, limitPerCategory);
+          const categoryConverters = (canonicalConvertersByCategory.get(category.slug) ?? []).slice(0, limitPerCategory);
 
           if (categoryConverters.length === 0) {
             return null;

@@ -18,7 +18,7 @@ import { canonicalizeConverterHref } from "@/lib/converter-routing";
 const FEATURED_CALCULATORS = ["mortgage-calculator", "loan-calculator", "bmi-calculator", "percentage-calculator"];
 
 export const metadata: Metadata = {
-  title: "Online Calculators Hub | Convertaro",
+  title: "Online Calculators Hub",
   description:
     "Browse Convertaro calculators by category. Use finance, health, math, and time calculators with clear formulas, examples, and practical guidance.",
   robots: INDEXABLE_ROBOTS,
@@ -172,7 +172,7 @@ export default function CalculatorsHubPage() {
             {[
               { href: "/weight/kg-to-lbs", label: "kg to lbs" },
               { href: "/time/day-to-hr", label: "days to hours" },
-              { href: "/data/mb-to-gb", label: "MB to GB" },
+              { href: "/data/megabytes-to-gigabytes", label: "MB to GB" },
               { href: "/length/cm-to-inches", label: "cm to inches" },
               { href: "/temperature/celsius-to-fahrenheit", label: "Celsius to Fahrenheit" },
             ].map((tool) => ({ ...tool, href: canonicalizeConverterHref(tool.href) })).map((tool) => (

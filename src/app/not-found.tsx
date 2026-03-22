@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, Compass, Home, SearchX } from "lucide-react";
 import { SearchTool } from "@/components/ui/SearchTool";
 import { canonicalizeConverterHref } from "@/lib/converter-routing";
+import { categories } from "@/data/categories";
+import { calculators } from "@/data/calculators";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -26,11 +28,21 @@ const POPULAR_CONVERTERS = [
   { href: "/weight/kg-to-lbs", label: "kg to lbs" },
   { href: "/temperature/celsius-to-fahrenheit", label: "Celsius to Fahrenheit" },
   { href: "/speed/mph-to-kmh", label: "mph to km/h" },
-  { href: "/data/mb-to-gb", label: "MB to GB" },
+  { href: "/data/megabytes-to-gigabytes", label: "MB to GB" },
   { href: "/length/km-to-miles", label: "km to miles" },
 ].map((converter) => ({
   ...converter,
   href: canonicalizeConverterHref(converter.href),
+}));
+
+const MAIN_CATEGORIES = categories.slice(0, 6).map((category) => ({
+  href: `/${category.slug}`,
+  label: `${category.name} converters`,
+}));
+
+const FEATURED_CALCULATORS = calculators.slice(0, 4).map((calculator) => ({
+  href: `/${calculator.slug}`,
+  label: calculator.title,
 }));
 
 export default function NotFound() {
@@ -53,7 +65,7 @@ export default function NotFound() {
               Page not found
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-text-secondary sm:text-base">
-              The page you requested is missing or may have been moved. Search for a converter below or jump to one of our most used tools.
+              The page you requested does not exist or may have moved. Search for the tool you need, return home, or jump into a popular converter, category, or calculator.
             </p>
 
             <div className="mt-8 sm:mt-10">
@@ -81,19 +93,60 @@ export default function NotFound() {
           <div className="mt-10 border-t border-border/70 pt-8 sm:mt-12">
             <div className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
               <ArrowLeft className="h-3.5 w-3.5" />
-              Popular converters
+              Quick ways to recover
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {POPULAR_CONVERTERS.map((converter) => (
-                <Link
-                  key={converter.href}
-                  href={converter.href}
-                  className="group rounded-xl border border-border bg-background/70 px-4 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-white hover:text-primary hover:shadow-sm"
-                >
-                  {converter.label}
-                </Link>
-              ))}
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+              <div className="rounded-2xl border border-border bg-background/60 p-4">
+                <h2 className="text-sm font-bold text-text-primary">Popular converters</h2>
+                <div className="mt-3 grid grid-cols-1 gap-2">
+                  {POPULAR_CONVERTERS.map((converter) => (
+                    <Link
+                      key={converter.href}
+                      href={converter.href}
+                      className="group rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:text-primary hover:shadow-sm"
+                    >
+                      {converter.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-background/60 p-4">
+                <h2 className="text-sm font-bold text-text-primary">Main categories</h2>
+                <div className="mt-3 grid grid-cols-1 gap-2">
+                  {MAIN_CATEGORIES.map((category) => (
+                    <Link
+                      key={category.href}
+                      href={category.href}
+                      className="rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:text-primary hover:shadow-sm"
+                    >
+                      {category.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-background/60 p-4">
+                <h2 className="text-sm font-bold text-text-primary">Calculators</h2>
+                <div className="mt-3 grid grid-cols-1 gap-2">
+                  {FEATURED_CALCULATORS.map((calculator) => (
+                    <Link
+                      key={calculator.href}
+                      href={calculator.href}
+                      className="rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:text-primary hover:shadow-sm"
+                    >
+                      {calculator.label}
+                    </Link>
+                  ))}
+                  <Link
+                    href="/calculators"
+                    className="rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm"
+                  >
+                    Browse all calculators
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

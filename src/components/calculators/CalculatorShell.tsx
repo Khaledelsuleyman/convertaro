@@ -2,11 +2,13 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { CalculatorDefinition } from "@/data/calculators";
 import { calculatorCategoryBySlug } from "@/data/calculator-categories";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, generateBreadcrumbSchemaFromPaths, generateFAQSchema } from "@/lib/seo";
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { canonicalizeConverterHref } from "@/lib/converter-routing";
 import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
 import { getCalculatorTrustMetadata } from "@/lib/trust";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { getCalculatorContextSentence, getCalculatorStrategicLinks } from "@/lib/internal-linking";
 
 interface CalculatorShellProps {
   calculator: CalculatorDefinition;
@@ -17,44 +19,20 @@ export function CalculatorShell({ calculator, children }: CalculatorShellProps) 
   const category = calculatorCategoryBySlug.get(calculator.category);
   const canonical = `${SITE_URL}/${calculator.slug}`;
   const trustMetadata = getCalculatorTrustMetadata(calculator);
+  const strategicLinks = getCalculatorStrategicLinks(calculator);
+  const contextSentence = getCalculatorContextSentence(calculator);
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: calculator.faq.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
+  const faqSchema = generateFAQSchema(calculator.faq.map((item) => ({
+    question: item.question,
+    answer: item.answer,
+  })));
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_URL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Calculators",
-        item: `${SITE_URL}/calculators`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: calculator.title,
-        item: canonical,
-      },
-    ],
-  };
+  const breadcrumbSchema = generateBreadcrumbSchemaFromPaths([
+    { name: "Home", path: "/" },
+    { name: "Calculators", path: "/calculators" },
+    ...(category ? [{ name: category.shortLabel, path: `/calculators/${category.slug}` }] : []),
+    { name: calculator.title, path: `/${calculator.slug}` },
+  ]);
 
   const webPageSchema = {
     "@context": "https://schema.org",
@@ -98,14 +76,16 @@ export function CalculatorShell({ calculator, children }: CalculatorShellProps) 
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
         <header className="text-center">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold text-text-secondary rounded-full border border-border bg-white px-3 py-1">
-            <Link href="/calculators" className="text-primary hover:underline">Calculators</Link>
-            <span>/</span>
-            {category ? (
-              <Link href={`/calculators/${category.slug}`} className="text-primary hover:underline">{category.shortLabel}</Link>
-            ) : (
-              <span>Category</span>
-            )}
+          <div className="mb-4 flex justify-center">
+            <Breadcrumbs
+              className="flex flex-wrap items-center justify-center gap-2 text-sm text-text-secondary"
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Calculators", href: "/calculators" },
+                ...(category ? [{ label: category.shortLabel, href: `/calculators/${category.slug}` }] : []),
+                { label: calculator.title },
+              ]}
+            />
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-text-primary">{calculator.title}</h1>
           <p className="mt-4 text-base sm:text-lg text-text-secondary max-w-3xl mx-auto">{calculator.description}</p>
@@ -118,6 +98,19 @@ export function CalculatorShell({ calculator, children }: CalculatorShellProps) 
         <section className="mt-8 rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
           <h2 className="text-xl font-black text-text-primary">What it does</h2>
           <p className="mt-3 text-sm leading-relaxed text-text-secondary">{calculator.whatItDoes}</p>
+          {contextSentence ? (
+            <p className="mt-3 text-sm leading-relaxed text-text-secondary">
+              {contextSentence.replace(/\.$/, "")}{" "}
+              {strategicLinks.slice(0, 2).map((tool, index, items) => (
+                <span key={tool.href}>
+                  <Link href={canonicalizeConverterHref(tool.href)} className="font-semibold text-primary hover:underline">
+                    {tool.label}
+                  </Link>
+                  {index < items.length - 2 ? ", " : index === items.length - 2 ? " and " : "."}
+                </span>
+              ))}
+            </p>
+          ) : null}
         </section>
 
         <section className="mt-6 rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
@@ -193,7 +186,7 @@ export function CalculatorShell({ calculator, children }: CalculatorShellProps) 
                 {category.shortLabel} calculators
               </Link>
             ) : null}
-            {calculator.relatedTools.map((tool) => (
+            {strategicLinks.map((tool) => (
               <Link
                 key={tool.href}
                 href={canonicalizeConverterHref(tool.href)}

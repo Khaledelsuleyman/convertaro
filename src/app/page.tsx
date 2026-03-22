@@ -12,7 +12,11 @@ import {
 } from "@/lib/seo";
 import Link from "next/link";
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
-import { canonicalConverters, canonicalizeConverterHref, getCanonicalConverterById } from "@/lib/converter-routing";
+import {
+  canonicalConverterCountByCategory,
+  canonicalizeConverterHref,
+  getCanonicalConverterById,
+} from "@/lib/converter-routing";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -39,7 +43,7 @@ import {
 
 // Enhanced SEO with long-tail keywords
 export const metadata: Metadata = {
-  title: "Free Online Unit Converter - 500+ Accurate Tools | Convertaro",
+  title: "Free Online Unit Converter - 500+ Accurate Tools",
   description:
     "Convert any unit instantly with Convertaro. 500+ free converters for length (cm to inches), weight (kg to lbs), temperature (°C to °F), volume, speed, data & more. Fast, accurate, no signup.",
   robots: INDEXABLE_ROBOTS,
@@ -68,8 +72,6 @@ export const metadata: Metadata = {
   ),
 };
 
-const converters = canonicalConverters as Converter[];
-
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   Ruler, Weight, Thermometer, Droplets, Square, Gauge, Clock, Database, Zap, Wind,
 };
@@ -80,7 +82,7 @@ const QUICK_LINKS = [
   { href: "/speed/mph-to-kmh", label: "mph → km/h" },
   { href: "/temperature/celsius-to-fahrenheit", label: "°C → °F" },
   { href: "/length/km-to-miles", label: "km → miles" },
-  { href: "/data/mb-to-gb", label: "MB → GB" },
+  { href: "/data/megabytes-to-gigabytes", label: "MB → GB" },
   { href: "/volume/liters-to-gallons", label: "L → gallons" },
   { href: "/weight/lbs-to-kg", label: "lbs → kg" },
 ];
@@ -219,7 +221,7 @@ export default function Home() {
                   </div>
                   <h3 className="mb-1 font-display font-semibold text-slate-900">{category.name}</h3>
                   <p className="text-xs text-slate-500">
-                    {converters.filter((c) => c.category === category.id).length} Tools
+                    {canonicalConverterCountByCategory.get(category.id) ?? 0} Tools
                   </p>
                 </Link>
               );
@@ -232,9 +234,14 @@ export default function Home() {
         <div className="container-pro">
           <div className="flex items-center justify-between mb-10">
             <h2 className="font-display text-2xl font-semibold text-slate-900">Most Used Tools</h2>
-            <Link href="/calculators" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 flex items-center gap-1">
-              View All <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="/popular-conversion-tools" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 flex items-center gap-1">
+                Popular conversions <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/calculators" className="text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1">
+                Calculators <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

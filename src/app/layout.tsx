@@ -69,13 +69,6 @@ export const metadata: Metadata = {
   authors: [{ name: "Convertaro" }],
   creator: "Convertaro",
   publisher: "Convertaro",
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "en-US": SITE_URL,
-      "x-default": SITE_URL,
-    },
-  },
   robots: {
     index: true,
     follow: true,

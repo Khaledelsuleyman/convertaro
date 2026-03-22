@@ -200,7 +200,7 @@ export const calculators: CalculatorDefinition[] = [
     relatedTools: [
       { href: "/loan-calculator", label: "Loan Calculator" },
       { href: "/mortgage-calculator", label: "Mortgage Calculator" },
-      { href: "/data/mb-to-gb", label: "MB to GB converter" },
+      { href: "/data/megabytes-to-gigabytes", label: "MB to GB converter" },
     ],
   },
   {
@@ -316,7 +316,7 @@ export const calculators: CalculatorDefinition[] = [
     relatedTools: [
       { href: "/loan-calculator", label: "Loan Calculator" },
       { href: "/percentage-calculator", label: "Percentage Calculator" },
-      { href: "/data/gb-to-mb", label: "GB to MB converter" },
+      { href: "/data/gigabytes-to-megabytes", label: "GB to MB converter" },
     ],
   },
 ];

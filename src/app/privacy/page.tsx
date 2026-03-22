@@ -10,7 +10,7 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Convertaro",
+  title: "Privacy Policy",
   description: "Read Convertaro’s privacy policy covering analytics, cookies, ads, and user data.",
   robots: INDEXABLE_ROBOTS,
   alternates: buildAlternates("/privacy"),

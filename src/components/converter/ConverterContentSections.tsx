@@ -47,24 +47,51 @@ export function ConverterContentSections({
           </Link>
           &nbsp;for the closest match instead of doing extra manual steps.
         </p>
+        {contextualLinks[0] ? (
+          <p className="mt-3 text-sm text-text-secondary leading-relaxed">
+            A common next step is to compare this result with&nbsp;
+            <Link
+              href={`/${contextualLinks[0].category}/${contextualLinks[0].metadata.slug}`}
+              className="font-semibold text-primary hover:underline"
+            >
+              {contextualLinks[0].title.replace(/ Converter$/i, "")}
+            </Link>
+            {reverseConverter ? (
+              <>
+                &nbsp;or switch direction with&nbsp;
+                <Link
+                  href={`/${reverseConverter.category}/${reverseConverter.metadata.slug}`}
+                  className="font-semibold text-primary hover:underline"
+                >
+                  {reverseConverter.title.replace(/ Converter$/i, "")}
+                </Link>
+              </>
+            ) : null}
+            .
+          </p>
+        ) : null}
       </section>
 
       <section className="rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
         <h2 className="text-lg font-black text-text-primary tracking-tight">Real-world examples</h2>
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {converter.examples.slice(0, 3).map((example, index) => (
-            <article key={index} className="rounded-xl border border-border bg-background/60 px-4 py-4">
-              <p className="text-xs uppercase tracking-widest text-text-secondary font-semibold">
-                {getExampleContext(converter, category, index).title}
-              </p>
-              <p className="mt-2 text-sm font-bold text-text-primary">
-                {example.input} {converter.fromUnit} {"->"} {example.output.toString()} {converter.toUnit}
-              </p>
-              <p className="mt-2 text-sm text-text-secondary leading-relaxed">
-                {getExampleContext(converter, category, index).description}
-              </p>
-            </article>
-          ))}
+          {converter.examples.slice(0, 3).map((example, index) => {
+            const exampleContext = getExampleContext(converter, category, index);
+
+            return (
+              <article key={index} className="rounded-xl border border-border bg-background/60 px-4 py-4">
+                <p className="text-xs uppercase tracking-widest text-text-secondary font-semibold">
+                  {exampleContext.title}
+                </p>
+                <p className="mt-2 text-sm font-bold text-text-primary">
+                  {example.input} {converter.fromUnit} {"->"} {example.output.toString()} {converter.toUnit}
+                </p>
+                <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                  {exampleContext.description}
+                </p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -104,7 +131,7 @@ export function ConverterContentSections({
         </p>
         {contextualLinks.length > 0 ? (
           <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-            People often follow this with {" "}
+            If you are staying in the same workflow, continue with {" "}
             {contextualLinks.map((item, index) => (
               <span key={item.id}>
                 <Link

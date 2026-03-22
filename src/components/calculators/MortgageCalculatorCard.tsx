@@ -3,12 +3,14 @@
 import { useMemo, useState } from "react";
 import { calculateLoanPayment } from "@/lib/calculators";
 
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 2,
+});
+
 function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  }).format(value);
+  return CURRENCY_FORMATTER.format(value);
 }
 
 export function MortgageCalculatorCard() {

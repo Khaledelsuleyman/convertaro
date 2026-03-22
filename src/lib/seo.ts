@@ -593,6 +593,15 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
   };
 }
 
+export function generateBreadcrumbSchemaFromPaths(items: { name: string; path: string }[]) {
+  return generateBreadcrumbSchema(
+    items.map((item) => ({
+      name: item.name,
+      url: canonicalFromPath(item.path),
+    }))
+  );
+}
+
 // Organization Schema for credibility
 export const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",

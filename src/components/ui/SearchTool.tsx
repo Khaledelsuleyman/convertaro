@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Search, X, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,6 @@ interface SearchToolProps {
 export function SearchTool({ variant = "hero", placeholder }: SearchToolProps) {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,14 +31,15 @@ export function SearchTool({ variant = "hero", placeholder }: SearchToolProps) {
     };
   }, [query]);
 
-  useEffect(() => {
+  const results = useMemo<SearchResult[]>(() => {
     if (debouncedQuery.trim().length < 1) {
-      setResults([]);
-      setActiveIndex(-1);
-      return;
+      return [];
     }
 
-    setResults(searchConverters(debouncedQuery, 8));
+    return searchConverters(debouncedQuery, 8);
+  }, [debouncedQuery]);
+
+  useEffect(() => {
     setActiveIndex(-1);
   }, [debouncedQuery]);
 
@@ -155,7 +155,6 @@ export function SearchTool({ variant = "hero", placeholder }: SearchToolProps) {
             type="button"
             onClick={() => {
               setQuery("");
-              setResults([]);
               setActiveIndex(-1);
               setIsOpen(false);
             }}

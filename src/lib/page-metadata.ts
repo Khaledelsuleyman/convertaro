@@ -28,6 +28,14 @@ function buildConverterTitle(converter: Converter): string {
 }
 
 function buildConverterDescription(converter: Converter, category: Category): string {
+  if (converter.id === "cups-to-grams") {
+    return "Cups to Grams Converter. Convert US cups to grams for water with the formula, examples, and a quick cooking reference table.";
+  }
+
+  if (converter.id === "grams-to-cups") {
+    return "Grams to Cups Converter. Convert grams to US cups for water with the formula, examples, and a quick cooking reference table.";
+  }
+
   const useCase = CONVERTER_USE_CASES[category.slug] ?? "Includes the exact formula, examples, and a quick reference table.";
   return `${converter.title}. Convert ${converter.fromUnit} to ${converter.toUnit} with the exact formula, examples, and a quick reference table. ${useCase}`;
 }

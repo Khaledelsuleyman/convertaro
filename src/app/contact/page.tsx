@@ -10,7 +10,7 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Contact | Convertaro",
+  title: "Contact",
   description: "Contact Convertaro support for questions, feedback, or partnership inquiries.",
   robots: INDEXABLE_ROBOTS,
   alternates: buildAlternates("/contact"),
@@ -35,7 +35,7 @@ export default function ContactPage() {
   return (
     <PageShell
       title="Contact"
-      subtitle="Have a question, feedback, or a request? Send us a message and we’ll get back to you."
+      subtitle="Use this page for questions, feedback, corrections, or partnership inquiries. We keep the process simple and review messages regularly."
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <ContactForm />

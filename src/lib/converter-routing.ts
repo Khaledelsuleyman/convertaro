@@ -14,14 +14,23 @@ function groupKey(converter: Converter): string {
 }
 
 function chooseCanonicalConverter(group: Converter[]): Converter {
-  return [...group].sort((left, right) => {
-    const lengthDifference = right.metadata.slug.length - left.metadata.slug.length;
-    if (lengthDifference !== 0) {
-      return lengthDifference;
+  let best = group[0];
+
+  for (let index = 1; index < group.length; index += 1) {
+    const candidate = group[index];
+    const lengthDifference = candidate.metadata.slug.length - best.metadata.slug.length;
+
+    if (lengthDifference > 0) {
+      best = candidate;
+      continue;
     }
 
-    return left.metadata.slug.localeCompare(right.metadata.slug);
-  })[0];
+    if (lengthDifference === 0 && candidate.metadata.slug.localeCompare(best.metadata.slug) < 0) {
+      best = candidate;
+    }
+  }
+
+  return best;
 }
 
 const convertersByRoute = new Map<string, Converter>();
@@ -58,6 +67,24 @@ for (const [key, group] of groupedConverters) {
 export const canonicalConverters: Converter[] = allConverters.filter(
   (converter) => canonicalByKey.get(groupKey(converter))?.id === converter.id
 );
+
+export const canonicalConvertersByCategory = new Map<string, Converter[]>();
+export const canonicalConverterCountByCategory = new Map<string, number>();
+
+for (const converter of canonicalConverters) {
+  const existing = canonicalConvertersByCategory.get(converter.category);
+
+  if (existing) {
+    existing.push(converter);
+  } else {
+    canonicalConvertersByCategory.set(converter.category, [converter]);
+  }
+
+  canonicalConverterCountByCategory.set(
+    converter.category,
+    (canonicalConverterCountByCategory.get(converter.category) ?? 0) + 1
+  );
+}
 
 export function getCanonicalConverter(converter: Converter): Converter {
   return canonicalByKey.get(groupKey(converter)) ?? converter;

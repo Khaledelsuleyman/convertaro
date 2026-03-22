@@ -15,7 +15,14 @@ import {
   generateFAQSchema,
 } from "@/lib/seo";
 import { PopularToolsSidebar, RelatedCalculators, SEOLinksSection, CrawlableLinkHub } from "@/components/layout/InternalLinks";
-import { canonicalConverters } from "@/lib/converter-routing";
+import { canonicalConverters, canonicalConvertersByCategory } from "@/lib/converter-routing";
+import {
+  getCategoryCalculatorLinks,
+  getCategoryFeaturedConverterCards,
+  getCategoryHubIntro,
+  getCategoryHubSections,
+  getCategorySupportLinks,
+} from "@/lib/internal-linking";
 
 const converters = canonicalConverters as Converter[];
 
@@ -43,7 +50,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const longTailKeywords = getCategoryLongTailKeywords(category.name, category.slug);
 
   return {
-    title: `${category.name} Converters - ${count} Free Online Tools | Convertaro`,
+    title: `${category.name} Converters - ${count} Free Online Tools`,
     description: `${category.description} Browse all ${count} free ${category.name.toLowerCase()} converters. Instant results, accurate formulas, and reference tables for every ${category.name.toLowerCase()} unit conversion.`,
     robots: INDEXABLE_ROBOTS,
     keywords: [
@@ -111,7 +118,12 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const categoryConverters = converters.filter((c) => c.category === slug);
+  const categoryConverters = canonicalConvertersByCategory.get(slug) ?? [];
+  const hubIntro = getCategoryHubIntro(category);
+  const featuredConverters = getCategoryFeaturedConverterCards(category, converters);
+  const hubSections = getCategoryHubSections(category, converters);
+  const supportLinks = getCategorySupportLinks(category, converters);
+  const relevantCalculators = getCategoryCalculatorLinks(slug);
   const faqs = CATEGORY_FAQS[slug] || [];
 
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -171,18 +183,112 @@ export default async function CategoryPage({ params }: PageProps) {
               <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-3">
                 {category.name} Converters
               </h1>
-              <p className="text-slate-500 text-lg max-w-2xl">
-                {category.description} Precise and instant {category.name.toLowerCase()} conversion tools for
-                engineering, science, and everyday use.
-              </p>
+              <p className="text-slate-500 text-lg max-w-3xl">{hubIntro.summary}</p>
+
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+                {hubIntro.actions.map((action) => (
+                  <div key={action} className="rounded-2xl border border-slate-200 bg-white/80 p-4">
+                    <p className="text-sm leading-6 text-slate-600">{action}</p>
+                  </div>
+                ))}
+              </div>
+
+              {supportLinks.length > 0 && (
+                <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Quick starts</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {supportLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+                      >
+                        {item.label}
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Converters Grid */}
+            {/* Featured Converters */}
+            {featuredConverters.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-slate-900">Popular {category.name} Converters</h2>
+                  <span className="text-sm text-slate-500">Top starting points</span>
+                </div>
+                <p className="text-sm text-slate-500 mb-4">
+                  {hubIntro.featuredDescription}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {featuredConverters.map(({ converter, reason }) => (
+                    <Link
+                      key={converter.id}
+                      href={`/${category.slug}/${converter.metadata.slug}`}
+                      className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 hover:border-slate-300 hover:bg-white transition-colors"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">Featured</p>
+                          <p className="text-sm font-semibold text-slate-900">{converter.title}</p>
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{reason}</p>
+                          <p className="mt-2 text-xs leading-5 text-slate-500">
+                            Formula, worked examples, and a reference table on the child page.
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-slate-400 shrink-0" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {hubSections.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-slate-900">Browse by Common Task</h2>
+                  <span className="text-sm text-slate-500">Structured links</span>
+                </div>
+                <p className="text-sm text-slate-500 mb-4">
+                  Use these grouped sections to move from broad category intent to the exact converter page you need.
+                </p>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                  {hubSections.map((section) => (
+                    <div key={section.title} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5">
+                      <h3 className="text-base font-semibold text-slate-900">{section.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-500">{section.description}</p>
+                      <div className="mt-4 space-y-3">
+                        {section.converters.map((converter) => (
+                          <Link
+                            key={converter.id}
+                            href={`/${category.slug}/${converter.metadata.slug}`}
+                            className="flex items-start justify-between gap-3 rounded-xl bg-white p-3 transition-colors hover:bg-slate-100"
+                          >
+                            <div>
+                              <p className="text-sm font-medium text-slate-900">{converter.title}</p>
+                              <p className="mt-1 text-xs leading-5 text-slate-500 line-clamp-2">{converter.description}</p>
+                            </div>
+                            <ChevronRight className="h-4 w-4 text-slate-400 shrink-0" />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-slate-900">All {category.name} Converters</h2>
                 <span className="text-sm text-slate-500">{categoryConverters.length} tools</span>
               </div>
+              <p className="text-sm text-slate-500 mb-4 max-w-3xl">
+                Browse the full {category.name.toLowerCase()} category when you need a less common unit pair or want to compare multiple child pages in the same silo.
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {categoryConverters.map((converter) => (
                   <Link
@@ -222,26 +328,55 @@ export default async function CategoryPage({ params }: PageProps) {
 
             {/* About Section */}
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-4">About {category.name} Conversions</h2>
-              <div className="prose prose-slate max-w-none">
-                <p className="text-slate-500 mb-4">
-                  {category.name} units are fundamental to our understanding of the physical world. From
-                  high-precision engineering projects to daily measurements, accurate conversion is essential
-                  for professionals and students alike.
-                </p>
-                <p className="text-slate-500">
-                  Our {category.name.toLowerCase()} converters use high-precision algorithms to ensure that
-                  every result is accurate and matches international standards (SI, NIST).
-                </p>
+              <h2 className="text-xl font-semibold text-slate-900 mb-4">{hubIntro.supportTitle}</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6">
+                <div>
+                  <p className="text-slate-600 leading-7">{hubIntro.supportDescription}</p>
+                  {supportLinks.length > 0 && (
+                    <p className="text-slate-600 leading-7 mt-4">
+                      Strong entry points in this category include {supportLinks.map((item, index) => (
+                        <span key={item.href}>
+                          <Link href={item.href} className="font-medium text-slate-700 hover:text-slate-900 hover:underline">
+                            {item.label}
+                          </Link>
+                          {index < supportLinks.length - 1 ? ", " : "."}
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                  <p className="text-slate-600 leading-7 mt-4">
+                    For a broader starting point across categories, browse the{" "}
+                    <Link href="/popular-conversion-tools" className="font-medium text-slate-700 hover:text-slate-900 hover:underline">
+                      Popular Conversion Tools hub
+                    </Link>
+                    .
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500 mb-3">
+                    What you get on each page
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                    {[
+                      "Instant result updates",
+                      "Reliable conversion formulas",
+                      "Reference tables for quick scanning",
+                      "Mobile-friendly layouts",
+                    ].map((feature) => (
+                      <div key={feature} className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                        <span className="text-sm text-slate-600">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
               <div className="mt-6 grid grid-cols-2 gap-3">
                 {[
-                  "Real-time instant results",
-                  "Scientific-grade formulas",
-                  "Reference conversion tables",
-                  "Mobile-friendly interface",
-                  "Works offline",
-                  "100% free, no signup",
+                  "Useful intros tied to real search intent",
+                  "Featured converters with clearer emphasis",
+                  "Grouped child links by task or use case",
+                  "Full category coverage without clutter",
                 ].map((feature) => (
                   <div key={feature} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
@@ -253,6 +388,27 @@ export default async function CategoryPage({ params }: PageProps) {
 
             {/* SEO Links Section */}
             <SEOLinksSection />
+
+            {relevantCalculators.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-slate-900 mb-3">Related Calculators</h2>
+                <p className="text-sm text-slate-500 mb-4">
+                  {hubIntro.calculatorDescription ?? `These calculators connect naturally with ${category.name.toLowerCase()} conversions and help you continue the same task without leaving the topic.`}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {relevantCalculators.map((calculator) => (
+                    <Link
+                      key={calculator.slug}
+                      href={`/${calculator.slug}`}
+                      className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 hover:border-slate-300 hover:bg-white transition-colors"
+                    >
+                      <p className="text-sm font-semibold text-slate-900">{calculator.title}</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">{calculator.description}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <CrawlableLinkHub title="More Internal Links" limitPerCategory={2} />
           </div>
@@ -282,7 +438,7 @@ export default async function CategoryPage({ params }: PageProps) {
             </div>
 
             <PopularToolsSidebar />
-            <RelatedCalculators />
+            <RelatedCalculators categoryContext={slug} />
           </aside>
         </div>
       </div>

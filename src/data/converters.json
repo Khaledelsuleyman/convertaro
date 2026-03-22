@@ -35269,5 +35269,141 @@
       ],
       "lastUpdated": "2026-03-16"
     }
+  },
+  {
+    "id": "cups-to-grams",
+    "category": "volume",
+    "fromUnit": "cups",
+    "toUnit": "g",
+    "title": "Cups to Grams Converter",
+    "description": "Convert US cups to grams for water with a quick kitchen-ready reference.",
+    "formula": "g = cups × 236.588",
+    "inverseFormula": "cups = g × 0.004227",
+    "examples": [
+      {
+        "input": 0.25,
+        "output": 59.147,
+        "description": "1/4 cup to grams"
+      },
+      {
+        "input": 0.5,
+        "output": 118.294,
+        "description": "1/2 cup to grams"
+      },
+      {
+        "input": 1,
+        "output": 236.588,
+        "description": "1 cup to grams"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How many grams are in a cup?",
+        "answer": "For water, 1 US cup is about 236.588 grams. Other ingredients vary because density changes the weight.",
+        "keywords": [
+          "cups-to-grams",
+          "how many grams in a cup"
+        ]
+      },
+      {
+        "question": "How do I convert cups to grams?",
+        "answer": "Multiply cups by 236.588 for water. Use ingredient-specific conversion charts when the ingredient is not water.",
+        "keywords": [
+          "convert cups to grams"
+        ]
+      },
+      {
+        "question": "Why do cups to grams values change by ingredient?",
+        "answer": "A cup measures volume, while grams measure weight. Different ingredients pack differently, so the same cup can weigh more or less.",
+        "keywords": [
+          "cups to grams ingredient difference"
+        ]
+      }
+    ],
+    "relatedConverters": [
+      "grams-to-cups",
+      "cups-to-ml",
+      "ml-to-cups",
+      "floz-to-ml",
+      "g-to-oz",
+      "ml-to-floz"
+    ],
+    "metadata": {
+      "slug": "cups-to-grams",
+      "keywords": [
+        "cups to grams",
+        "cups to grams converter",
+        "convert cups to grams"
+      ],
+      "lastUpdated": "2026-03-22"
+    }
+  },
+  {
+    "id": "grams-to-cups",
+    "category": "volume",
+    "fromUnit": "g",
+    "toUnit": "cups",
+    "title": "Grams to Cups Converter",
+    "description": "Convert grams to US cups for water with a quick kitchen-ready reference.",
+    "formula": "cups = g × 0.004227",
+    "inverseFormula": "g = cups × 236.588",
+    "examples": [
+      {
+        "input": 50,
+        "output": 0.21135,
+        "description": "50 grams to cups"
+      },
+      {
+        "input": 100,
+        "output": 0.4227,
+        "description": "100 grams to cups"
+      },
+      {
+        "input": 250,
+        "output": 1.05675,
+        "description": "250 grams to cups"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How many cups are in 100 grams?",
+        "answer": "For water, 100 grams is about 0.4227 US cups. Other ingredients vary because the density is different.",
+        "keywords": [
+          "grams-to-cups",
+          "100 grams to cups"
+        ]
+      },
+      {
+        "question": "How do I convert grams to cups?",
+        "answer": "Multiply grams by 0.004227 for water. For dry ingredients or fats, use ingredient-specific weight charts for better accuracy.",
+        "keywords": [
+          "convert grams to cups"
+        ]
+      },
+      {
+        "question": "Why is grams to cups not the same for every recipe?",
+        "answer": "Because grams measure weight and cups measure volume. A dense ingredient uses fewer cups than a light ingredient at the same gram weight.",
+        "keywords": [
+          "grams to cups recipe difference"
+        ]
+      }
+    ],
+    "relatedConverters": [
+      "cups-to-grams",
+      "ml-to-cups",
+      "cups-to-ml",
+      "g-to-oz",
+      "oz-to-g",
+      "floz-to-cups"
+    ],
+    "metadata": {
+      "slug": "grams-to-cups",
+      "keywords": [
+        "grams to cups",
+        "grams to cups converter",
+        "convert grams to cups"
+      ],
+      "lastUpdated": "2026-03-22"
+    }
   }
 ]

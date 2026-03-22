@@ -10,7 +10,7 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Terms of Use | Convertaro",
+  title: "Terms of Use",
   description: "Read the Convertaro terms of use and disclaimer.",
   robots: INDEXABLE_ROBOTS,
   alternates: buildAlternates("/terms"),

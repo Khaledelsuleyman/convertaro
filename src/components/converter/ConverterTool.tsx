@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Converter } from "@/types/converter";
 import { convertValue, formatValue } from "@/lib/converter";
 import { Input } from "@/components/ui/Input";
@@ -13,20 +13,18 @@ interface ConverterToolProps {
 
 export function ConverterTool({ converter }: ConverterToolProps) {
   const [inputValue, setInputValue] = useState<string>("1");
-  const [result, setResult] = useState<string>("");
   const [isReversed, setIsReversed] = useState(false);
 
   const fromUnit = isReversed ? converter.toUnit : converter.fromUnit;
   const toUnit = isReversed ? converter.fromUnit : converter.toUnit;
 
-  useEffect(() => {
+  const result = useMemo(() => {
     const val = parseFloat(inputValue);
     if (!isNaN(val)) {
       const converted = convertValue(val, fromUnit, toUnit, converter.category);
-      setResult(formatValue(converted));
-    } else {
-      setResult("");
+      return formatValue(converted);
     }
+    return "";
   }, [inputValue, fromUnit, toUnit, converter.category]);
 
   const handleReverse = () => {

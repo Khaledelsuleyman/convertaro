@@ -1,5 +1,6 @@
 import { Category, Converter, FAQItem } from "@/types/converter";
 import { dedupeCanonicalConverters, getCanonicalConverter, getCanonicalConverterById } from "@/lib/converter-routing";
+import { getStrategicRelatedConverters } from "@/lib/internal-linking";
 
 type LinkRecommendation = {
   converter: Converter;
@@ -32,6 +33,16 @@ type StepContent = {
 type ExampleContent = {
   title: string;
   description: string;
+};
+
+const SPECIAL_CONVERTER_SUMMARIES: Record<string, string> = {
+  "cups-to-grams": "Convert US cups to grams for water with the formula, practical examples, and a quick kitchen reference table.",
+  "grams-to-cups": "Convert grams to US cups for water with the formula, practical examples, and a quick kitchen reference table.",
+};
+
+const SPECIAL_CONVERTER_NOTES: Record<string, string> = {
+  "cups-to-grams": "This page uses US cups and a water-equivalent assumption. Ingredient weights vary, so flour, sugar, butter, and other ingredients will not match the same gram value.",
+  "grams-to-cups": "This page uses US cups and a water-equivalent assumption. Ingredient weights vary, so the same gram value can fill a different number of cups depending on the ingredient.",
 };
 
 const UNIT_NAMES: Record<string, string> = {
@@ -266,12 +277,14 @@ export function getReverseConverter(converter: Converter, converters: Converter[
 
 export function getContextualRelatedConverters(converter: Converter, converters: Converter[]): Converter[] {
   const lookup = new Map(converters.map((item) => [item.id, item]));
-
-  return dedupeCanonicalConverters(
+  const directRelated = dedupeCanonicalConverters(
     converter.relatedConverters
-    .map((id) => lookup.get(id) ?? getCanonicalConverterById(id))
-    .filter((item): item is Converter => Boolean(item))
-  ).slice(0, 3);
+      .map((id) => lookup.get(id) ?? getCanonicalConverterById(id))
+      .filter((item): item is Converter => Boolean(item))
+  );
+
+  const strategic = getStrategicRelatedConverters(converter, converters);
+  return dedupeCanonicalConverters([...directRelated, ...strategic]).slice(0, 3);
 }
 
 export function getIntroContent(
@@ -300,7 +313,7 @@ export function getIntroContent(
 
   return {
     eyebrow: `${from} to ${to} converter`,
-    summary: `Convert ${from} to ${to} instantly with the formula, clear examples, and a quick reference table for common values.`,
+    summary: SPECIAL_CONVERTER_SUMMARIES[converter.id] ?? `Convert ${from} to ${to} instantly with the formula, clear examples, and a quick reference table for common values.`,
     intent: selectContextualSentence(category),
     links,
   };
@@ -316,6 +329,14 @@ export function getFormulaContent(converter: Converter): FormulaContent {
       explanation: `${from} to ${to} is not a simple one-number conversion. The formula changes both the scale and the starting point, so the offset matters as much as the multiplier.`,
       note: `Use the full formula exactly as written to avoid errors, especially around freezing, boiling, or negative temperatures.`,
       reverseNote: `For the reverse direction, apply the matching reverse formula instead of trying to divide the original equation.`,
+    };
+  }
+
+  if (SPECIAL_CONVERTER_NOTES[converter.id]) {
+    return {
+      explanation: `Use the formula exactly as shown to convert between ${from} and ${to} on a water-equivalent basis.`,
+      note: SPECIAL_CONVERTER_NOTES[converter.id],
+      reverseNote: `If you need the reverse direction, use the paired converter and keep the same water-based assumption.`,
     };
   }
 
@@ -337,6 +358,23 @@ export function getFormulaContent(converter: Converter): FormulaContent {
 export function getConversionSteps(converter: Converter): StepContent[] {
   const from = unitName(converter.fromUnit);
   const to = unitName(converter.toUnit);
+
+  if (SPECIAL_CONVERTER_NOTES[converter.id]) {
+    return [
+      {
+        title: `Start with the ${from} amount`,
+        body: `Enter the value you have, then confirm that a water-based conversion is appropriate for what you are measuring.`,
+      },
+      {
+        title: `Apply the converter formula`,
+        body: `Use ${converter.formula} to estimate the matching ${to} value for water or water-like liquids.`,
+      },
+      {
+        title: `Adjust if the ingredient is different`,
+        body: `For flour, sugar, butter, and similar ingredients, use the ingredient-specific weight if precision matters because density changes the result.`,
+      },
+    ];
+  }
 
   return [
     {
@@ -410,6 +448,36 @@ export function buildConverterFaq(
   const reverseHint = reverseConverter
     ? `For the reverse direction, use the ${reverseConverter.title} page.`
     : `Use the swap direction for the reverse conversion from ${to} to ${from}.`;
+
+  if (SPECIAL_CONVERTER_NOTES[converter.id]) {
+    return [
+      {
+        question: `Is ${from} to ${to} exact for every ingredient?`,
+        answer: `No. This page uses a water-equivalent assumption. Different ingredients have different densities, so the same cup value can weigh more or less in grams.`,
+        keywords: [`${converter.fromUnit} to ${converter.toUnit} ingredient difference`],
+      },
+      {
+        question: `When is this ${from} to ${to} conversion useful?`,
+        answer: `It is useful for water, water-like liquids, and rough kitchen estimates when you need a quick volume-to-weight comparison.`,
+        keywords: [`${converter.fromUnit} to ${converter.toUnit} cooking`],
+      },
+      {
+        question: `What formula should I use for ${converter.fromUnit} to ${converter.toUnit}?`,
+        answer: `Use ${converter.formula}. For the reverse direction, use ${converter.inverseFormula}.`,
+        keywords: [`${converter.fromUnit} to ${converter.toUnit} formula`],
+      },
+      {
+        question: `Why do recipe charts show different values?`,
+        answer: `Recipe charts often use ingredient-specific densities. A cup of flour, sugar, and water will each convert to different gram values.`,
+        keywords: [`${converter.fromUnit} to ${converter.toUnit} recipe chart`],
+      },
+      {
+        question: `How do I convert back from ${to} to ${from}?`,
+        answer: `${reverseHint}`,
+        keywords: [`${converter.toUnit} to ${converter.fromUnit}`],
+      },
+    ];
+  }
 
   return [
     {

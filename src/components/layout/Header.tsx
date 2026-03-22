@@ -2,6 +2,7 @@ import Link from "next/link";
 import { categories } from "@/data/categories";
 import { calculators } from "@/data/calculators";
 import { SearchTool } from "@/components/ui/SearchTool";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { MobileNav } from "./MobileNav";
 import { ChevronDown, Calculator, Ruler } from "lucide-react";
 
@@ -15,7 +16,7 @@ export function Header() {
   const featuredCalculators = calculators.slice(0, 4);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/65">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/65 dark:border-slate-800/80 dark:bg-slate-950/75 dark:supports-[backdrop-filter]:bg-slate-950/65">
       <div className="container-pro">
         <div className="flex h-16 items-center justify-between gap-4">
 
@@ -24,7 +25,7 @@ export function Header() {
             <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-900 flex items-center justify-center shadow-lg shadow-cyan-900/25">
               <Ruler className="h-4 w-4 text-white" />
             </div>
-            <span className="text-lg font-display font-semibold tracking-tight text-slate-900">
+            <span className="text-lg font-display font-semibold tracking-tight text-slate-900 dark:text-slate-50">
               Convertaro
             </span>
           </Link>
@@ -97,6 +98,7 @@ export function Header() {
             <div className="hidden md:block">
               <SearchTool variant="navbar" placeholder="Search..." />
             </div>
+            <ThemeToggle />
             <Link href="/length/cm-to-inches" className="btn-pro hidden sm:inline-flex">
               Start Converting
             </Link>

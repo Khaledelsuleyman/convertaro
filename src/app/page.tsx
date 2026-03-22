@@ -232,12 +232,12 @@ export default function Home() {
 
       <section className="bg-[linear-gradient(180deg,#ffffff_0%,#fbfcfd_100%)] py-16 md:py-20">
         <div className="container-pro">
-          <div className="mb-12 flex items-end justify-between gap-4">
+          <div className="mb-12 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="font-display text-3xl font-semibold text-slate-900 mb-2">Browse by Category</h2>
               <p className="text-slate-500">Clear categories designed to feel familiar, light, and easy to browse.</p>
             </div>
-            <Link href="/search" className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-slate-900">
+            <Link href="/search" className="inline-flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-slate-900">
               Explore all
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -268,9 +268,9 @@ export default function Home() {
 
       <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(226,232,240,0.18),transparent_24%),radial-gradient(circle_at_0%_16%,rgba(229,231,235,0.18),transparent_22%),linear-gradient(180deg,#fbfbfc_0%,#f5f6f7_100%)] py-16 md:py-20">
         <div className="container-pro">
-          <div className="flex items-center justify-between mb-10">
+          <div className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="font-display text-2xl font-semibold text-slate-900">Most Used Tools</h2>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <Link href="/popular-conversion-tools" className="text-sm font-semibold text-slate-700 hover:text-slate-950 flex items-center gap-1">
                 Popular conversions <ArrowRight className="h-4 w-4" />
               </Link>
@@ -335,7 +335,7 @@ export default function Home() {
         </div>
 
         <div className="container-pro">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {FEATURES.map((feature) => (
               <div key={feature.title} className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/70 p-6 text-left hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-lg transition-all">
                 <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-900">
@@ -363,12 +363,12 @@ export default function Home() {
               Join millions of users who rely on Convertaro for fast, accurate unit conversions every single day. Always free, forever.
             </p>
 
-            <div className="relative z-10 mb-9 flex flex-wrap justify-center gap-3">
-              <Link href={canonicalizeConverterHref("/length/cm-to-inches")} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-colors">
+            <div className="relative z-10 mb-9 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+              <Link href={canonicalizeConverterHref("/length/cm-to-inches")} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-colors sm:w-auto">
                 Start Converting
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/calculators" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-white transition-colors">
+              <Link href="/calculators" className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-white transition-colors sm:w-auto">
                 Open Calculators
               </Link>
             </div>

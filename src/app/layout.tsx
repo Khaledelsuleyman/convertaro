@@ -157,7 +157,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#153a5f" />
         <meta name="color-scheme" content="light" />
       </head>
-      <body className={`${manrope.variable} ${sora.variable} font-sans antialiased min-h-screen flex flex-col bg-white`}>
+      <body className={`${manrope.variable} ${sora.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

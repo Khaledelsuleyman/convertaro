@@ -20,14 +20,14 @@ export function Footer() {
   const featuredCalculators = calculators.slice(0, 4);
 
   return (
-    <footer className="mt-auto border-t border-slate-200/80 bg-gradient-to-b from-slate-50 to-white">
+    <footer className="mt-auto border-t border-slate-200/80 bg-[radial-gradient(circle_at_5%_0%,rgba(6,182,212,0.09),transparent_24%),linear-gradient(to_bottom,#f8fbff,#ffffff)]">
       <div className="container-pro py-14">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
 
           {/* Brand */}
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center shadow-lg shadow-slate-900/20">
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-cyan-700 via-sky-700 to-slate-900 flex items-center justify-center shadow-lg shadow-cyan-900/25">
                 <Ruler className="h-4 w-4 text-white" />
               </div>
               <span className="text-lg font-display font-semibold">Convertaro</span>
@@ -39,21 +39,21 @@ export function Footer() {
               <a
                 href="https://twitter.com/convertaro"
                 aria-label="Twitter"
-                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-white transition-colors"
+                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-cyan-800 hover:bg-white transition-colors"
               >
                 <Twitter className="h-4 w-4" />
               </a>
               <a
                 href="https://github.com/convertaro"
                 aria-label="GitHub"
-                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-white transition-colors"
+                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-cyan-800 hover:bg-white transition-colors"
               >
                 <Github className="h-4 w-4" />
               </a>
               <a
                 href="mailto:hello@convertaro.com"
                 aria-label="Email"
-                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-white transition-colors"
+                className="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:text-cyan-800 hover:bg-white transition-colors"
               >
                 <Mail className="h-4 w-4" />
               </a>

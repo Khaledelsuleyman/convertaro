@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 210 33% 98%;
-    --foreground: 216 45% 14%;
+    --background: 210 42% 98%;
+    --foreground: 218 42% 14%;
     --card: 0 0% 100%;
-    --card-foreground: 216 45% 14%;
+    --card-foreground: 218 42% 14%;
     --popover: 0 0% 100%;
-    --popover-foreground: 216 45% 14%;
-    --primary: 213 61% 23%;
+    --popover-foreground: 218 42% 14%;
+    --primary: 208 71% 25%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 36% 95%;
-    --secondary-foreground: 216 45% 14%;
-    --muted: 210 28% 93%;
-    --muted-foreground: 216 16% 40%;
-    --accent: 194 82% 92%;
-    --accent-foreground: 200 88% 24%;
+    --secondary: 210 36% 94%;
+    --secondary-foreground: 218 42% 14%;
+    --muted: 210 30% 93%;
+    --muted-foreground: 217 15% 39%;
+    --accent: 189 62% 90%;
+    --accent-foreground: 199 88% 22%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 213 28% 85%;
-    --input: 213 28% 85%;
-    --ring: 199 89% 42%;
+    --border: 212 30% 84%;
+    --input: 212 30% 84%;
+    --ring: 197 82% 44%;
     --radius: 0.75rem;
   }
 
@@ -37,10 +37,12 @@
   body {
     @apply text-foreground;
     background:
-      radial-gradient(circle at 15% -10%, rgba(56, 189, 248, 0.14), transparent 42%),
-      radial-gradient(circle at 100% 0%, rgba(14, 116, 144, 0.1), transparent 36%),
+      radial-gradient(circle at 12% -12%, rgba(14, 165, 233, 0.2), transparent 44%),
+      radial-gradient(circle at 100% -20%, rgba(8, 47, 73, 0.14), transparent 38%),
+      radial-gradient(circle at 20% 120%, rgba(6, 182, 212, 0.08), transparent 30%),
       hsl(var(--background));
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    min-height: 100vh;
   }
 
   h1,
@@ -78,40 +80,42 @@
 
 @layer components {
   .card-pro {
-    @apply bg-white/95 border border-slate-200/90 rounded-2xl shadow-sm;
+    @apply rounded-2xl border border-slate-200/80 bg-white/90 shadow-[0_12px_36px_-26px_rgba(15,23,42,0.45)];
     @apply transition-all duration-300 ease-out;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
   }
 
   .card-pro:hover {
-    @apply border-sky-200 shadow-lg;
-    transform: translateY(-2px);
+    @apply border-cyan-200 shadow-[0_28px_54px_-30px_rgba(3,105,161,0.4)];
+    transform: translateY(-3px);
   }
 
   .btn-pro {
     @apply inline-flex items-center justify-center;
     @apply px-4 py-2 text-sm font-semibold;
-    @apply bg-primary text-primary-foreground rounded-xl;
+    @apply rounded-xl text-primary-foreground;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, #0f766e 100%);
+    box-shadow: 0 16px 34px -20px rgba(15, 23, 42, 0.72);
     @apply transition-all duration-200 ease-out;
-    @apply hover:bg-primary-800 hover:shadow-lg hover:shadow-primary-900/30;
+    @apply hover:shadow-lg hover:shadow-cyan-900/25;
     @apply active:scale-[0.98];
   }
 
   .btn-pro-secondary {
     @apply inline-flex items-center justify-center;
     @apply px-4 py-2 text-sm font-semibold;
-    @apply bg-white text-primary border border-slate-200 rounded-xl;
+    @apply bg-white/90 text-primary border border-slate-200 rounded-xl;
     @apply transition-all duration-200 ease-out;
-    @apply hover:bg-accent hover:border-sky-200 hover:shadow-md;
+    @apply hover:bg-accent/80 hover:border-cyan-200 hover:shadow-md;
     @apply active:scale-[0.98];
   }
 
   .input-pro {
     @apply px-3 py-2 text-sm font-medium;
-    @apply bg-white/90 border border-slate-200 rounded-xl;
+    @apply bg-white/95 border border-slate-200/90 rounded-xl;
     @apply placeholder:text-slate-400;
     @apply transition-colors duration-150;
-    @apply focus:outline-none focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500;
+    @apply focus:outline-none focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500;
     @apply hover:border-slate-300;
   }
 
@@ -128,7 +132,7 @@
   .nav-item {
     @apply px-3 py-2 text-sm font-semibold text-slate-600 rounded-lg;
     @apply transition-all duration-150;
-    @apply hover:text-primary hover:bg-accent;
+    @apply hover:text-primary hover:bg-cyan-50;
   }
 
   .nav-item-active {
@@ -184,7 +188,7 @@
   }
 
   .tool-wrapper {
-    @apply bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden;
+    @apply bg-white/95 border border-slate-200 rounded-2xl shadow-[0_16px_45px_-32px_rgba(15,23,42,0.65)] overflow-hidden;
   }
 
   .formula-box {
@@ -220,10 +224,10 @@
   }
 
   .surface-glass {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72));
-    border: 1px solid rgba(96, 165, 250, 0.2);
-    box-shadow: 0 16px 40px -28px rgba(2, 6, 23, 0.55);
-    backdrop-filter: blur(8px);
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.94), rgba(239, 246, 255, 0.8));
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    box-shadow: 0 20px 42px -28px rgba(2, 6, 23, 0.55);
+    backdrop-filter: blur(10px);
   }
 
   /* Animation - fade in */
@@ -233,7 +237,7 @@
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-out forwards;
+    animation: fadeIn 0.45s ease-out forwards;
   }
 
   /* Animation - slide in */
@@ -243,7 +247,7 @@
   }
 
   .animate-slide-in {
-    animation: slideIn 0.2s ease-out forwards;
+    animation: slideIn 0.3s ease-out forwards;
   }
 
   /* Stagger children */

@@ -231,6 +231,68 @@
     backdrop-filter: blur(10px);
   }
 
+  .home-shell {
+    --home-bg: #fffdfb;
+    --home-text: #2f241f;
+    --home-muted: #71594f;
+    --home-border: rgba(164, 120, 100, 0.18);
+    --home-panel: rgba(255, 255, 255, 0.82);
+    --home-panel-strong: #ffffff;
+    --home-accent: #a47864;
+    --home-accent-strong: #8f6652;
+    --home-lavender: #a78bfa;
+    --home-green: #4caf50;
+  }
+
+  html[data-home-theme="dark"] .home-shell {
+    --home-bg: #211814;
+    --home-text: #f8efe9;
+    --home-muted: #d6c3ba;
+    --home-border: rgba(255, 255, 255, 0.1);
+    --home-panel: rgba(49, 37, 32, 0.84);
+    --home-panel-strong: rgba(58, 43, 37, 0.98);
+    --home-accent: #d9b6a1;
+    --home-accent-strong: #ecc5b0;
+    --home-lavender: #c4b5fd;
+    --home-green: #7ad37e;
+  }
+
+  .home-card {
+    background: var(--home-panel);
+    border: 1px solid var(--home-border);
+    box-shadow: 0 28px 54px -36px rgba(96, 66, 49, 0.35);
+    backdrop-filter: blur(12px);
+  }
+
+  .home-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 34px 60px -34px rgba(96, 66, 49, 0.28);
+  }
+
+  .home-soft-button {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .home-soft-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 38px -28px rgba(164, 120, 100, 0.42);
+  }
+
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeIn 0.7s ease-out forwards;
+      animation-timeline: view();
+      animation-range: entry 12% cover 30%;
+    }
+  }
+
   /* Animation - fade in */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }

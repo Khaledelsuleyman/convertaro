@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { categories } from "@/data/categories";
 import { Converter } from "@/types/converter";
 import { SearchTool } from "@/components/ui/SearchTool";
+import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
+import { HomeThemeToggle } from "@/components/home/HomeThemeToggle";
+import {
+  canonicalConverterCountByCategory,
+  canonicalizeConverterHref,
+  getCanonicalConverterById,
+} from "@/lib/converter-routing";
 import {
   INDEXABLE_ROBOTS,
   HOMEPAGE_LONGTAIL_KEYWORDS,
@@ -10,42 +18,34 @@ import {
   buildTwitter,
   buildWebPageSchema,
 } from "@/lib/seo";
-import Link from "next/link";
-import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
-import {
-  canonicalConverterCountByCategory,
-  canonicalizeConverterHref,
-  getCanonicalConverterById,
-} from "@/lib/converter-routing";
 import {
   ArrowRight,
   ArrowUpRight,
-  Calculator,
+  CheckCircle2,
+  Clock,
   Database,
   Droplets,
   Gauge,
+  Globe,
+  LayoutGrid,
+  Lock,
   Ruler,
+  Shield,
+  Smartphone,
+  Sparkles,
   Square,
+  Star,
   Thermometer,
+  TrendingUp,
   Weight,
   Wind,
-  Clock,
   Zap,
-  Smartphone,
-  CheckCircle2,
-  Lock,
-  Globe,
-  Star,
-  TrendingUp,
-  LayoutGrid,
-  Shield,
 } from "lucide-react";
 
-// Enhanced SEO with long-tail keywords
 export const metadata: Metadata = {
   title: "Free Online Unit Converter - 500+ Accurate Tools",
   description:
-    "Convert any unit instantly with Convertaro. 500+ free converters for length (cm to inches), weight (kg to lbs), temperature (°C to °F), volume, speed, data & more. Fast, accurate, no signup.",
+    "Convert any unit instantly with Convertaro. 500+ free converters for length, weight, temperature, volume, speed, data & more. Fast, accurate, no signup.",
   robots: INDEXABLE_ROBOTS,
   keywords: [
     "free unit converter",
@@ -73,39 +73,48 @@ export const metadata: Metadata = {
 };
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  Ruler, Weight, Thermometer, Droplets, Square, Gauge, Clock, Database, Zap, Wind,
+  Ruler,
+  Weight,
+  Thermometer,
+  Droplets,
+  Square,
+  Gauge,
+  Clock,
+  Database,
+  Zap,
+  Wind,
 };
 
 const QUICK_LINKS = [
-  { href: "/length/cm-to-inches", label: "cm → inches" },
-  { href: "/weight/kg-to-lbs", label: "kg → lbs" },
-  { href: "/speed/mph-to-kmh", label: "mph → km/h" },
-  { href: "/temperature/celsius-to-fahrenheit", label: "°C → °F" },
-  { href: "/length/km-to-miles", label: "km → miles" },
-  { href: "/data/megabytes-to-gigabytes", label: "MB → GB" },
-  { href: "/volume/liters-to-gallons", label: "L → gallons" },
-  { href: "/weight/lbs-to-kg", label: "lbs → kg" },
-];
-
-const CANONICAL_QUICK_LINKS = QUICK_LINKS.map((link) => ({
+  { href: "/length/cm-to-inches", label: "cm to inches", meta: "Sizing" },
+  { href: "/weight/kg-to-lbs", label: "kg to lbs", meta: "Fitness" },
+  { href: "/temperature/celsius-to-fahrenheit", label: "C to F", meta: "Weather" },
+  { href: "/volume/liters-to-gallons", label: "L to gallons", meta: "Capacity" },
+  { href: "/data/megabytes-to-gigabytes", label: "MB to GB", meta: "Storage" },
+  { href: "/length/km-to-miles", label: "km to miles", meta: "Travel" },
+].map((link) => ({
   ...link,
   href: canonicalizeConverterHref(link.href),
 }));
 
 const TRUST_METRICS = [
-  { value: "500+", label: "Conversion tools" },
-  { value: "4.9/5", label: "Average rating" },
-  { value: "150+", label: "Countries served" },
-  { value: "0", label: "Signup required" },
+  { value: "500+", label: "Converters", note: "Across major unit categories" },
+  { value: "Instant", label: "Results", note: "Fast enough for quick checks" },
+  { value: "Formula-led", label: "Trust", note: "Clear method on each tool page" },
+  { value: "Mobile-ready", label: "UX", note: "Readable on every screen" },
 ];
 
 const FEATURES = [
-  { icon: Zap, title: "Instant Results", desc: "Sub-millisecond calculations. No waiting, no loading." },
-  { icon: CheckCircle2, title: "Verified Accuracy", desc: "All formulas verified against SI, NIST, and ISO standards." },
-  { icon: Lock, title: "100% Private", desc: "Your data never leaves your browser. No account required." },
-  { icon: Smartphone, title: "Works Everywhere", desc: "Fully responsive. Desktop, tablet, and mobile." },
-  { icon: Globe, title: "Used Worldwide", desc: "Trusted by professionals in 150+ countries." },
-  { icon: TrendingUp, title: "Always Free", desc: "No hidden fees. No premium plans. Just free tools." },
+  { icon: Zap, title: "Clarity-first search", desc: "A centered search experience that gets you to the right tool fast." },
+  { icon: CheckCircle2, title: "Formula-backed pages", desc: "Converters pair instant answers with formulas, examples, and tables." },
+  { icon: Shield, title: "Warm and trustworthy", desc: "Editorial trust signals and clean layouts keep the experience credible." },
+  { icon: Smartphone, title: "Thoughtful on mobile", desc: "Whitespace, soft cards, and clear actions stay readable on smaller screens." },
+];
+
+const HIGHLIGHTS = [
+  { icon: Sparkles, title: "Soft pastel gradients", desc: "Warm mocha, lavender, and green accents keep the interface calm and modern." },
+  { icon: Globe, title: "Everyday to technical", desc: "From cooking and travel to engineering and labs, the same system stays easy to scan." },
+  { icon: TrendingUp, title: "Built for growth", desc: "Homepage, category hubs, calculators, and converter pages connect cleanly into one structure." },
 ];
 
 export default function Home() {
@@ -139,90 +148,152 @@ export default function Home() {
   });
 
   return (
-    <div className="relative flex flex-col min-h-screen">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-      />
-      <section className="relative overflow-hidden px-4 pt-16 pb-20 md:pt-24 md:pb-24">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_14%_0%,rgba(34,211,238,0.34),transparent_36%),radial-gradient(circle_at_84%_-6%,rgba(251,191,36,0.16),transparent_32%),linear-gradient(180deg,#062033_0%,#0b2c40_42%,#0a1f31_100%)]" />
-        <div className="absolute inset-0 -z-10 opacity-[0.1] bg-[linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] bg-[size:36px_36px]" />
-        <div className="absolute -right-20 top-12 -z-10 h-80 w-80 rounded-full bg-cyan-300/20 blur-3xl" />
-        <div className="absolute -left-24 bottom-0 -z-10 h-72 w-72 rounded-full bg-amber-300/10 blur-3xl" />
+    <div
+      className="home-shell min-h-screen"
+      style={{
+        background:
+          "radial-gradient(circle at 10% 0%, rgba(167,139,250,0.16), transparent 28%), radial-gradient(circle at 88% 4%, rgba(164,120,100,0.2), transparent 28%), linear-gradient(180deg, var(--home-bg) 0%, #ffffff 44%, #faf6f3 100%)",
+      }}
+    >
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
 
-        <div className="container-pro relative z-10 text-center text-white">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200/30 bg-white/10 px-4 py-1.5 text-sm font-semibold text-cyan-50 backdrop-blur">
-            <Star className="h-4 w-4 text-cyan-200" />
-            Enterprise-grade converter experience
+      <section className="relative overflow-hidden px-4 pb-16 pt-16 sm:pb-20 sm:pt-20">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_16%,rgba(167,139,250,0.15),transparent_22%),radial-gradient(circle_at_82%_0%,rgba(164,120,100,0.22),transparent_30%),radial-gradient(circle_at_50%_100%,rgba(76,175,80,0.1),transparent_28%)]" />
+        <div className="container-pro relative">
+          <div className="mb-8 flex justify-end">
+            <HomeThemeToggle />
           </div>
 
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl md:leading-[1.1]">
-            Convert with confidence.
-            <span className="block bg-gradient-to-r from-cyan-300 via-white to-amber-200 bg-clip-text text-transparent">
-              Fast, precise, and effortless.
-            </span>
-          </h1>
+          <div className="mx-auto max-w-5xl text-center reveal-on-scroll">
+            <div className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold shadow-[0_16px_32px_-26px_rgba(164,120,100,0.75)] backdrop-blur"
+              style={{
+                color: "var(--home-accent-strong)",
+                borderColor: "var(--home-border)",
+                background: "rgba(255,255,255,0.74)",
+              }}
+            >
+              <Star className="h-4 w-4" style={{ color: "var(--home-lavender)" }} />
+              Warm, clarity-first converter workspace
+            </div>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base text-slate-300 md:text-lg leading-relaxed">
-            A premium conversion platform trusted by students, engineers, and teams. Use 500+ tools for length, weight, temperature, speed, data, and more in one unified workspace.
-          </p>
+            <h1 className="mt-8 font-display text-4xl font-semibold leading-tight sm:text-6xl sm:leading-[1.05]"
+              style={{ color: "var(--home-text)" }}
+            >
+              Modern unit conversion,
+              <span className="block" style={{ color: "var(--home-accent)" }}>
+                designed for calm confidence.
+              </span>
+            </h1>
 
-          <div className="mx-auto mt-10 max-w-2xl animate-fade-in">
-            <SearchTool />
-            <div className="mt-6 flex flex-wrap justify-center gap-2 text-sm text-slate-300">
-              <span className="text-slate-400">Popular searches:</span>
-              {CANONICAL_QUICK_LINKS.slice(0, 4).map((link) => (
-                <Link key={link.href} href={link.href} className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-cyan-50 hover:bg-white/20 transition-colors">
-                  {link.label}
-                </Link>
-              ))}
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-8 sm:text-lg" style={{ color: "var(--home-muted)" }}>
+              Search instantly, browse clean category cards, and move into formula-backed converter pages without friction.
+              Convertaro blends warm visual design with practical utility so every measurement task feels easier to trust.
+            </p>
+
+            <div className="mx-auto mt-10 max-w-3xl rounded-[32px] border p-4 sm:p-6 home-card">
+              <div className="rounded-[28px] bg-white/90 p-3 sm:p-4">
+                <SearchTool />
+              </div>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm">
+                <span style={{ color: "var(--home-muted)" }}>Popular starts:</span>
+                {QUICK_LINKS.slice(0, 4).map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="home-soft-button inline-flex items-center gap-2 rounded-full border px-3 py-2 font-medium"
+                    style={{
+                      color: "var(--home-text)",
+                      borderColor: "var(--home-border)",
+                      background: "rgba(255,255,255,0.92)",
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <span className="rounded-full px-2 py-0.5 text-[11px]" style={{ background: "rgba(167,139,250,0.14)", color: "var(--home-accent)" }}>
+                      {link.meta}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href={canonicalizeConverterHref("/length/cm-to-inches")}
+                className="home-soft-button inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+                style={{ background: "linear-gradient(135deg, #A47864 0%, #8F6652 100%)" }}
+              >
+                Start converting
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/popular-conversion-tools"
+                className="home-soft-button inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold"
+                style={{ color: "var(--home-text)", borderColor: "var(--home-border)", background: "rgba(255,255,255,0.82)" }}
+              >
+                Explore the hub
+                <ArrowUpRight className="h-4 w-4" style={{ color: "var(--home-lavender)" }} />
+              </Link>
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-3 rounded-2xl border border-white/15 bg-white/10 p-3 backdrop-blur md:grid-cols-4 md:gap-4 md:p-5">
+          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 reveal-on-scroll">
             {TRUST_METRICS.map((metric) => (
-              <div key={metric.label} className="rounded-xl border border-white/10 bg-white/10 p-3 text-left md:text-center">
-                <p className="text-xl font-display font-semibold text-white md:text-2xl tabular-nums">{metric.value}</p>
-                <p className="mt-0.5 text-xs text-slate-300 md:text-sm">{metric.label}</p>
+              <div key={metric.label} className="home-card rounded-[28px] p-5">
+                <p className="text-2xl font-display font-semibold tabular-nums" style={{ color: "var(--home-text)" }}>{metric.value}</p>
+                <p className="mt-1 text-sm font-semibold" style={{ color: "var(--home-accent)" }}>{metric.label}</p>
+                <p className="mt-2 text-sm leading-6" style={{ color: "var(--home-muted)" }}>{metric.note}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f6fbff_100%)] py-16 md:py-20">
+      <section className="px-4 py-16 sm:py-20">
         <div className="container-pro">
-          <div className="mb-12 flex items-end justify-between gap-4">
-            <div>
-              <h2 className="font-display text-3xl font-semibold text-slate-900 mb-2">Browse by Category</h2>
-              <p className="text-slate-500">10 curated categories with 500+ precision tools.</p>
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between reveal-on-scroll">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--home-lavender)" }}>
+                Browse by category
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-semibold" style={{ color: "var(--home-text)" }}>
+                Clean cards. Simple icons. Fast pathways.
+              </h2>
+              <p className="mt-3 text-base leading-7" style={{ color: "var(--home-muted)" }}>
+                Jump into the exact measurement family you need without scanning a cluttered directory.
+              </p>
             </div>
-            <Link href="/search" className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-slate-900">
-              Explore all
+            <Link href="/search" className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--home-accent)" }}>
+              Search everything
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 reveal-on-scroll">
             {categories.map((category) => {
-              const Icon = CATEGORY_ICONS[category.name] || LayoutGrid;
+              const Icon = CATEGORY_ICONS[category.icon] ?? LayoutGrid;
+
               return (
                 <Link
                   key={category.id}
                   href={`/${category.slug}`}
-                  className="card-pro p-6 group flex flex-col items-center text-center"
+                  className="home-card group rounded-[28px] p-5 text-left transition-all duration-300"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 text-slate-700 transition-all duration-300 group-hover:from-slate-900 group-hover:to-slate-700 group-hover:text-white">
-                    <Icon className="h-6 w-6" />
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                    style={{
+                      background: "linear-gradient(145deg, rgba(167,139,250,0.14), rgba(164,120,100,0.12))",
+                      color: "var(--home-green)",
+                    }}
+                  >
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mb-1 font-display font-semibold text-slate-900">{category.name}</h3>
-                  <p className="text-xs text-slate-500">
-                    {canonicalConverterCountByCategory.get(category.id) ?? 0} Tools
-                  </p>
+                  <h3 className="mt-4 font-display text-lg font-semibold" style={{ color: "var(--home-text)" }}>{category.name}</h3>
+                  <p className="mt-2 text-sm leading-6" style={{ color: "var(--home-muted)" }}>{category.description}</p>
+                  <div className="mt-4 flex items-center justify-between text-sm font-semibold">
+                    <span style={{ color: "var(--home-accent)" }}>{canonicalConverterCountByCategory.get(category.id) ?? 0} tools</span>
+                    <ArrowUpRight className="h-4 w-4" style={{ color: "var(--home-lavender)" }} />
+                  </div>
                 </Link>
               );
             })}
@@ -230,109 +301,118 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(34,211,238,0.12),transparent_25%),linear-gradient(180deg,#f2f9ff_0%,#edf5fd_100%)] py-16 md:py-20">
-        <div className="container-pro">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="font-display text-2xl font-semibold text-slate-900">Most Used Tools</h2>
-            <div className="flex items-center gap-4">
-              <Link href="/popular-conversion-tools" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 flex items-center gap-1">
-                Popular conversions <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/calculators" className="text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1">
-                Calculators <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {popularConverters.map((converter) => (
-              converter && (
+      <section className="px-4 py-16 sm:py-20">
+        <div className="container-pro grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="home-card reveal-on-scroll rounded-[32px] p-6 sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--home-accent)" }}>
+              Most used tools
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold" style={{ color: "var(--home-text)" }}>
+              Popular converters, surfaced early.
+            </h2>
+            <p className="mt-3 max-w-2xl text-base leading-7" style={{ color: "var(--home-muted)" }}>
+              The strongest high-intent tools stay near the top so users and crawlers reach the best pages faster.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {popularConverters.map((converter) => (
                 <Link
                   key={converter.id}
                   href={`/${converter.category}/${converter.metadata.slug}`}
-                  className="surface-glass rounded-2xl p-5 transition-all group hover:-translate-y-1"
+                  className="home-soft-button rounded-[26px] border p-5"
+                  style={{ borderColor: "var(--home-border)", background: "var(--home-panel-strong)" }}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="h-8 w-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 group-hover:bg-cyan-50 group-hover:text-cyan-700 transition-colors">
-                      <Calculator className="h-4 w-4" />
-                    </div>
-                    <ArrowUpRight className="h-4 w-4 text-slate-300 group-hover:text-slate-900 transition-colors" />
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-semibold" style={{ color: "var(--home-text)" }}>{converter.title}</p>
+                    <ArrowUpRight className="h-4 w-4" style={{ color: "var(--home-lavender)" }} />
                   </div>
-                  <h3 className="font-display font-semibold text-slate-900 text-sm mb-1">{converter.title}</h3>
-                  <p className="text-xs text-slate-500 line-clamp-2">{converter.description}</p>
+                  <p className="mt-2 text-sm leading-6" style={{ color: "var(--home-muted)" }}>{converter.description}</p>
                 </Link>
-              )
-            ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-6 reveal-on-scroll">
+            <div className="home-card rounded-[32px] p-6 sm:p-8">
+              <h2 className="font-display text-2xl font-semibold" style={{ color: "var(--home-text)" }}>What makes it feel better</h2>
+              <div className="mt-5 space-y-4">
+                {FEATURES.map((feature) => (
+                  <div key={feature.title} className="rounded-[24px] border p-4" style={{ borderColor: "var(--home-border)", background: "rgba(255,255,255,0.68)" }}>
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl" style={{ background: "rgba(76,175,80,0.12)", color: "var(--home-green)" }}>
+                        <feature.icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold" style={{ color: "var(--home-text)" }}>{feature.title}</h3>
+                        <p className="mt-1 text-sm leading-6" style={{ color: "var(--home-muted)" }}>{feature.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[32px] border p-6 sm:p-8" style={{ borderColor: "rgba(167,139,250,0.2)", background: "linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(167,139,250,0.1) 100%)" }}>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--home-lavender)" }}>
+                Warm trust layer
+              </p>
+              <p className="mt-3 text-base leading-7" style={{ color: "var(--home-text)" }}>
+                Subtle gradients, soft shadows, and generous whitespace create a modern 2026-style interface without sacrificing speed or readability.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-100 bg-white py-20">
-        <div className="container-pro text-center mb-14">
-          <h2 className="font-display text-3xl font-semibold text-slate-900 mb-4">Built for Modern Workflows</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">
-            We obsess over accuracy, speed, and design so you can focus on what matters. Trusted by engineers, students, and professionals in 150+ countries.
-          </p>
-        </div>
-
-        <div className="container-pro">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {FEATURES.map((feature) => (
-              <div key={feature.title} className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/70 p-6 text-left hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-lg transition-all">
-                <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
-                  <feature.icon className="h-6 w-6" />
+      <section className="px-4 py-16 sm:py-20">
+        <div className="container-pro reveal-on-scroll">
+          <div className="rounded-[36px] border px-6 py-8 sm:px-10 sm:py-12" style={{ borderColor: "var(--home-border)", background: "linear-gradient(135deg, rgba(255,255,255,0.88) 0%, rgba(164,120,100,0.08) 54%, rgba(167,139,250,0.12) 100%)" }}>
+            <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--home-green)" }}>
+                  Built for modern workflows
+                </p>
+                <h2 className="mt-3 font-display text-3xl font-semibold" style={{ color: "var(--home-text)" }}>
+                  Trustworthy by default, inviting by design.
+                </h2>
+                <p className="mt-4 text-base leading-7" style={{ color: "var(--home-muted)" }}>
+                  Whether someone needs a quick answer or wants to browse deeper into category hubs, the structure stays clear, warm, and accessible.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    href="/popular-conversion-tools"
+                    className="home-soft-button inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+                    style={{ background: "linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)" }}
+                  >
+                    Open popular tools
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/calculators"
+                    className="home-soft-button inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold"
+                    style={{ borderColor: "var(--home-border)", color: "var(--home-text)", background: "rgba(255,255,255,0.82)" }}
+                  >
+                    Browse calculators
+                  </Link>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-slate-900 mb-2">{feature.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{feature.desc}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-slate-900 py-16 md:py-20">
-        <div className="container-pro">
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-600/80 bg-[radial-gradient(circle_at_8%_0%,rgba(34,211,238,0.26),transparent_28%),radial-gradient(circle_at_100%_100%,rgba(251,191,36,0.14),transparent_24%),linear-gradient(130deg,#0d1f2f_0%,#10293c_42%,#12324a_100%)] p-8 text-center md:p-14">
-            <div className="absolute -top-24 -right-20 h-64 w-64 rounded-full bg-cyan-300/25 blur-3xl" />
-            <div className="absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-amber-300/15 blur-3xl" />
-
-            <h2 className="relative z-10 font-display text-3xl md:text-5xl font-semibold text-white mb-6">
-              Ready to Convert Smarter?
-            </h2>
-
-            <p className="relative z-10 mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-cyan-50/90">
-              Join millions of users who rely on Convertaro for fast, accurate unit conversions every single day. Always free, forever.
-            </p>
-
-            <div className="relative z-10 mb-9 flex flex-wrap justify-center gap-3">
-              <Link href={canonicalizeConverterHref("/length/cm-to-inches")} className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-slate-950/20 hover:bg-slate-100 transition-colors">
-                Start Converting
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/calculators" className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 py-3 text-sm font-semibold text-white hover:bg-white/20 transition-colors">
-                Open Calculators
-              </Link>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-6 text-white/80 text-sm relative z-10">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-cyan-200" />
-                No signup required
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-cyan-200" />
-                Verified formulas
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock className="h-5 w-5 text-cyan-200" />
-                Works offline
+              <div className="grid gap-4 sm:grid-cols-3">
+                {HIGHLIGHTS.map((highlight) => (
+                  <div key={highlight.title} className="home-card rounded-[26px] p-5">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl" style={{ background: "rgba(164,120,100,0.12)", color: "var(--home-accent)" }}>
+                      <highlight.icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 text-base font-semibold" style={{ color: "var(--home-text)" }}>{highlight.title}</h3>
+                    <p className="mt-2 text-sm leading-6" style={{ color: "var(--home-muted)" }}>{highlight.desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-14 md:py-16 bg-white">
+      <section className="bg-white/70 px-4 py-14 sm:py-16">
         <div className="container-pro">
           <CrawlableLinkHub title="Internal Links Hub" limitPerCategory={3} />
         </div>

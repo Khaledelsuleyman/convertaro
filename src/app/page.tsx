@@ -185,20 +185,20 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
       <section className="relative overflow-hidden px-4 pt-16 pb-20 md:pt-24 md:pb-24">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_10%,rgba(254,215,170,0.22),transparent_26%),radial-gradient(circle_at_88%_6%,rgba(191,219,254,0.24),transparent_28%),linear-gradient(180deg,#fffdfa_0%,#f9f6f2_34%,#f7fbff_100%)]" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_10%,rgba(226,232,240,0.45),transparent_26%),radial-gradient(circle_at_88%_6%,rgba(203,213,225,0.32),transparent_28%),linear-gradient(180deg,#ffffff_0%,#f8fafc_34%,#f3f4f6_100%)]" />
         <div className="absolute inset-0 -z-10 opacity-[0.18] bg-[linear-gradient(to_right,rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:40px_40px]" />
-        <div className="absolute -right-20 top-10 -z-10 h-72 w-72 rounded-full bg-sky-100/70 blur-3xl" />
-        <div className="absolute -left-24 bottom-4 -z-10 h-72 w-72 rounded-full bg-orange-100/70 blur-3xl" />
+        <div className="absolute -right-20 top-10 -z-10 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl" />
+        <div className="absolute -left-24 bottom-4 -z-10 h-72 w-72 rounded-full bg-slate-100/90 blur-3xl" />
 
         <div className="container-pro relative z-10 text-center text-slate-900">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/70 px-4 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_18px_35px_-26px_rgba(15,23,42,0.12)] backdrop-blur-xl">
-            <Star className="h-4 w-4 text-amber-500" />
+            <Star className="h-4 w-4 text-slate-700" />
             Trusted by students, teams, and professionals
           </div>
 
           <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl md:leading-[1.1]">
             Convert with confidence.
-            <span className="block bg-gradient-to-r from-slate-900 via-slate-700 to-sky-700 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-slate-950 via-slate-700 to-slate-500 bg-clip-text text-transparent">
               Fast, precise, and effortless.
             </span>
           </h1>
@@ -212,7 +212,7 @@ export default function Home() {
             <div className="mt-6 flex flex-wrap justify-center gap-2 text-sm text-slate-600">
               <span className="text-slate-500">Popular searches:</span>
               {CANONICAL_QUICK_LINKS.slice(0, 4).map((link) => (
-                <Link key={link.href} href={link.href} className="rounded-full border border-slate-200/80 bg-white/90 px-3 py-1 text-slate-700 hover:border-slate-300 hover:bg-white transition-colors">
+                <Link key={link.href} href={link.href} className="rounded-full border border-slate-200/80 bg-white/90 px-3 py-1 text-slate-700 hover:border-slate-400 hover:bg-slate-50 transition-colors">
                   {link.label}
                 </Link>
               ))}
@@ -252,7 +252,7 @@ export default function Home() {
                   href={`/${category.slug}`}
                   className="card-pro rounded-[20px] p-6 group flex flex-col items-center text-center hover:border-slate-300"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-stone-50 via-orange-50 to-sky-50 text-slate-700 transition-all duration-300 group-hover:from-slate-900 group-hover:to-slate-700 group-hover:text-white">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 text-slate-700 transition-all duration-300 group-hover:from-slate-900 group-hover:to-slate-700 group-hover:text-white">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mb-1 font-display font-semibold text-slate-900">{category.name}</h3>
@@ -266,7 +266,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(191,219,254,0.12),transparent_24%),radial-gradient(circle_at_0%_16%,rgba(254,215,170,0.1),transparent_22%),linear-gradient(180deg,#f9fbfc_0%,#f4f8fb_100%)] py-16 md:py-20">
+      <section className="bg-[radial-gradient(circle_at_96%_0%,rgba(226,232,240,0.18),transparent_24%),radial-gradient(circle_at_0%_16%,rgba(229,231,235,0.18),transparent_22%),linear-gradient(180deg,#fbfbfc_0%,#f5f6f7_100%)] py-16 md:py-20">
         <div className="container-pro">
           <div className="flex items-center justify-between mb-10">
             <h2 className="font-display text-2xl font-semibold text-slate-900">Most Used Tools</h2>
@@ -297,7 +297,7 @@ export default function Home() {
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex gap-4">
-                      <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-stone-50 to-sky-50 text-slate-700 group-hover:from-slate-100 group-hover:to-sky-50 transition-colors">
+                      <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 text-slate-700 group-hover:from-slate-100 group-hover:to-slate-50 transition-colors">
                         <Calculator className="h-5 w-5" />
                       </div>
                       <div>
@@ -310,7 +310,7 @@ export default function Home() {
                   </div>
                   <div className="mt-4 flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700">
-                      <CircleDot className="h-3.5 w-3.5 text-sky-600" />
+                      <CircleDot className="h-3.5 w-3.5 text-slate-700" />
                       {details.example}
                     </span>
                     <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700">
@@ -351,9 +351,9 @@ export default function Home() {
 
       <section className="bg-[linear-gradient(180deg,#eef6fb_0%,#e7f1f8_100%)] py-16 md:py-20">
         <div className="container-pro">
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-[radial-gradient(circle_at_8%_0%,rgba(254,215,170,0.2),transparent_28%),radial-gradient(circle_at_100%_100%,rgba(191,219,254,0.2),transparent_24%),linear-gradient(130deg,#fff7ed_0%,#fffaf5_42%,#f3f8fd_100%)] p-8 text-center shadow-[0_28px_55px_-35px_rgba(15,23,42,0.14)] md:p-14">
-            <div className="absolute -top-24 -right-20 h-64 w-64 rounded-full bg-sky-100/40 blur-3xl" />
-            <div className="absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-orange-100/40 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-[radial-gradient(circle_at_8%_0%,rgba(226,232,240,0.28),transparent_28%),radial-gradient(circle_at_100%_100%,rgba(203,213,225,0.24),transparent_24%),linear-gradient(130deg,#ffffff_0%,#f8fafc_42%,#f1f5f9_100%)] p-8 text-center shadow-[0_28px_55px_-35px_rgba(15,23,42,0.14)] md:p-14">
+            <div className="absolute -top-24 -right-20 h-64 w-64 rounded-full bg-slate-100/60 blur-3xl" />
+            <div className="absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-slate-200/40 blur-3xl" />
 
             <h2 className="relative z-10 font-display text-3xl md:text-5xl font-semibold text-slate-900 mb-6">
               Ready to Convert Smarter?

@@ -24,7 +24,7 @@ export function Footer() {
   const featuredCalculators = calculators.slice(0, 4);
 
   return (
-    <footer className="mt-auto border-t border-slate-200/80 bg-[radial-gradient(circle_at_5%_0%,rgba(254,215,170,0.14),transparent_20%),radial-gradient(circle_at_100%_0%,rgba(191,219,254,0.14),transparent_24%),linear-gradient(to_bottom,#fffdfb,#ffffff)]">
+    <footer className="mt-auto border-t border-slate-200/80 bg-[radial-gradient(circle_at_5%_0%,rgba(226,232,240,0.2),transparent_20%),radial-gradient(circle_at_100%_0%,rgba(203,213,225,0.18),transparent_24%),linear-gradient(to_bottom,#fcfcfd,#ffffff)]">
       <div className="container-pro py-14">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
 
@@ -69,7 +69,7 @@ export function Footer() {
             <h3 className="text-sm font-display font-semibold mb-3 text-slate-900">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/popular-conversion-tools" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800 transition-colors">
+                <Link href="/popular-conversion-tools" className="text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors">
                   Popular Conversion Tools Hub
                 </Link>
               </li>

@@ -19,7 +19,7 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-sky-700 flex items-center justify-center shadow-lg shadow-slate-900/15">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-slate-950 via-slate-800 to-slate-600 flex items-center justify-center shadow-lg shadow-slate-900/15">
               <Ruler className="h-4 w-4 text-white" />
             </div>
             <span className="text-lg font-display font-semibold tracking-tight text-slate-900">

@@ -8,21 +8,24 @@ interface ConversionTableProps {
 export function ConversionTable({ converter }: ConversionTableProps) {
   return (
     <div className="overflow-x-auto rounded-3xl border border-border bg-white">
-      <table className="w-full text-left border-collapse">
+      <table className="w-full text-left border-separate border-spacing-0">
+        <caption className="px-4 py-3 text-left text-sm text-text-secondary sm:px-6">
+          Quick reference values for common {converter.fromUnit} to {converter.toUnit} conversions.
+        </caption>
         <thead>
-          <tr className="bg-background/50 border-b border-border">
-            <th className="px-8 py-5 text-sm font-bold text-text-primary uppercase tracking-widest">{converter.fromUnit}</th>
-            <th className="px-8 py-5 text-sm font-bold text-text-primary uppercase tracking-widest">{converter.toUnit}</th>
+          <tr className="bg-background/50">
+            <th className="px-4 py-4 text-sm font-bold text-text-primary uppercase tracking-widest sm:px-6">{converter.fromUnit}</th>
+            <th className="px-4 py-4 text-sm font-bold text-text-primary uppercase tracking-widest sm:px-6">{converter.toUnit}</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-border">
+        <tbody>
           {converter.examples.map((example, i) => (
-            <tr key={i} className="hover:bg-primary/5 transition-colors group">
-              <td className="px-8 py-5 text-base font-bold text-text-primary group-hover:text-primary transition-colors">
-                {formatValue(example.input)} {converter.fromUnit}
+            <tr key={i} className="group transition-colors odd:bg-white even:bg-background/40 hover:bg-primary/5">
+              <td className="border-t border-border px-4 py-4 text-sm font-bold text-text-primary transition-colors group-hover:text-primary sm:px-6 sm:text-base">
+                <span className="inline-flex rounded-full bg-background px-3 py-1">{formatValue(example.input)} {converter.fromUnit}</span>
               </td>
-              <td className="px-8 py-5 text-base font-black text-primary">
-                {formatValue(example.output)} {converter.toUnit}
+              <td className="border-t border-border px-4 py-4 text-sm font-black text-primary sm:px-6 sm:text-base">
+                <span className="inline-flex rounded-full bg-primary/10 px-3 py-1">{formatValue(example.output)} {converter.toUnit}</span>
               </td>
             </tr>
           ))}

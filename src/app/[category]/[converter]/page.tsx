@@ -9,11 +9,6 @@ import { ConverterContentSections } from "@/components/converter/ConverterConten
 import Link from "next/link";
 import { ChevronRight, Home, Calculator, Lightbulb, Table, ArrowLeftRight } from "lucide-react";
 import {
-  INDEXABLE_ROBOTS,
-  getConverterLongTailKeywords,
-  buildAlternates,
-  buildOpenGraph,
-  buildTwitter,
   buildWebPageSchema,
   generateBreadcrumbSchema,
   generateFAQSchema,
@@ -22,10 +17,17 @@ import {
 import {
   buildConverterFaq,
   getContextualRelatedConverters,
+  getConversionSteps,
+  getFormulaContent,
+  getIntroContent,
+  getRelatedConverterRecommendations,
   getReverseConverter,
 } from "@/lib/converter-content";
 import { PopularToolsSidebar, RelatedCalculators, CategoryNavigation, CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { canonicalConverters, dedupeCanonicalConverters, getCanonicalConverterById, resolveConverterRoute } from "@/lib/converter-routing";
+import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
+import { getConverterTrustMetadata } from "@/lib/trust";
+import { buildConverterPageMetadata } from "@/lib/page-metadata";
 
 const converters = canonicalConverters as Converter[];
 
@@ -48,46 +50,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { canonicalConverter: converter } = resolveConverterRoute(category, slug);
   const cat = categories.find((c) => c.slug === category);
 
-  if (!converter) {
+  if (!converter || !cat) {
     return {};
   }
 
-  const longTailKeywords = getConverterLongTailKeywords(
-    converter.fromUnit,
-    converter.toUnit,
-    category
-  );
-
-  const title = `${converter.title} - Free Online Calculator`;
-  const description = `${converter.description} Use our free ${converter.fromUnit} to ${converter.toUnit} converter. Instant results, accurate formula, and conversion table. Formula: ${converter.formula}`;
-
-  return {
-    title,
-    description,
-    robots: INDEXABLE_ROBOTS,
-    keywords: [
-      ...converter.metadata.keywords,
-      `${converter.fromUnit} to ${converter.toUnit}`,
-      `convert ${converter.fromUnit} to ${converter.toUnit}`,
-      `${converter.fromUnit} to ${converter.toUnit} calculator`,
-      `${converter.fromUnit} to ${converter.toUnit} formula`,
-      `free ${converter.fromUnit} converter`,
-      cat ? `${cat.name.toLowerCase()} converter` : "",
-      "unit converter",
-      "free online converter",
-      ...longTailKeywords.slice(0, 10),
-    ].filter(Boolean),
-    alternates: buildAlternates(`/${category}/${slug}`),
-    openGraph: buildOpenGraph({
-      title: `${converter.title} - Free Online Tool`,
-      description: `${converter.description} Instant results with formula and conversion table.`,
-      path: `/${category}/${slug}`,
-    }),
-    twitter: buildTwitter(
-      `${converter.title} - Free Online Calculator`,
-      `${converter.description} Free, instant, and accurate.`
-    ),
-  };
+  return buildConverterPageMetadata(converter, cat, `/${category}/${converter.metadata.slug}`);
 }
 
 export default async function ConverterPage({ params }: PageProps) {
@@ -106,6 +73,10 @@ export default async function ConverterPage({ params }: PageProps) {
   const reverseConverter = getReverseConverter(converter, converters);
   const contextualLinks = getContextualRelatedConverters(converter, converters);
   const pageFaq = buildConverterFaq(converter, category, reverseConverter);
+  const introContent = getIntroContent(converter, category, reverseConverter, contextualLinks);
+  const formulaContent = getFormulaContent(converter);
+  const conversionSteps = getConversionSteps(converter);
+  const trustMetadata = getConverterTrustMetadata(converter, category);
 
   // Schema markup
   const faqSchema = generateFAQSchema(pageFaq.map((item) => ({
@@ -149,8 +120,12 @@ export default async function ConverterPage({ params }: PageProps) {
     .map((id) => getCanonicalConverterById(id))
     .filter((item): item is Converter => Boolean(item));
 
-  const uniqueRelatedConverters = dedupeCanonicalConverters(relatedConverters)
-    .slice(0, 6) as Converter[];
+  const uniqueRelatedConverters = dedupeCanonicalConverters(relatedConverters).slice(0, 6) as Converter[];
+  const relatedRecommendations = getRelatedConverterRecommendations(
+    converter,
+    dedupeCanonicalConverters([...contextualLinks, ...uniqueRelatedConverters]),
+    reverseConverter
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -179,10 +154,23 @@ export default async function ConverterPage({ params }: PageProps) {
             <span className="badge-pro uppercase">{category.name} Converter</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-2">{converter.title}</h1>
-          <p className="text-slate-500 max-w-2xl">
-            {converter.description}{" "}
-            <span className="font-medium text-slate-700">Fast, free, and always accurate.</span>
-          </p>
+          <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500 mb-3">{introContent.eyebrow}</p>
+          <div className="max-w-3xl space-y-2 text-slate-600">
+            <p>{introContent.summary}</p>
+            <p className="text-sm text-slate-500">{introContent.intent}</p>
+            {introContent.links.length > 0 ? (
+              <p className="text-sm text-slate-500">
+                Also useful: {introContent.links.map((item, index) => (
+                  <span key={item.href}>
+                    <Link href={item.href} className="font-medium text-slate-700 hover:text-slate-900 hover:underline">
+                      {item.label}
+                    </Link>
+                    {index < introContent.links.length - 1 ? ", " : "."}
+                  </span>
+                ))}
+              </p>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -210,12 +198,10 @@ export default async function ConverterPage({ params }: PageProps) {
                     <Calculator className="h-4 w-4 text-slate-600" />
                   </div>
                   <h2 className="font-semibold text-slate-900">Conversion Formula</h2>
-                </div>                <div className="formula-box mb-3">{converter.formula}</div>
-                <p className="text-sm text-slate-500">
-                  Multiply your <strong className="text-slate-700">{converter.fromUnit}</strong> value by the
-                  conversion factor to get{" "}
-                  <strong className="text-slate-700">{converter.toUnit}</strong>.
-                </p>
+                </div>
+                <div className="formula-box mb-3">{converter.formula}</div>
+                <p className="text-sm text-slate-600 leading-6">{formulaContent.explanation}</p>
+                <p className="mt-3 text-sm text-slate-500 leading-6">{formulaContent.note}</p>
                 {converter.inverseFormula && (
                   <div className="mt-4 pt-4 border-t border-slate-200">
                     <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2">
@@ -224,6 +210,7 @@ export default async function ConverterPage({ params }: PageProps) {
                     <div className="bg-slate-100 px-3 py-2 rounded-md font-mono text-sm text-slate-700">
                       {converter.inverseFormula}
                     </div>
+                    <p className="mt-2 text-sm text-slate-500">{formulaContent.reverseNote}</p>
                   </div>
                 )}
               </div>
@@ -236,28 +223,17 @@ export default async function ConverterPage({ params }: PageProps) {
                   <h2 className="font-semibold text-slate-900">How to Convert</h2>
                 </div>
                 <ol className="space-y-3">
-                  <li className="flex gap-3 text-sm text-slate-600">
-                    <span className="h-5 w-5 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">
-                      1
-                    </span>
-                    <span>
-                      Enter a value in <strong>{converter.fromUnit}</strong> in the input field.
-                    </span>
-                  </li>
-                  <li className="flex gap-3 text-sm text-slate-600">
-                    <span className="h-5 w-5 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">
-                      2
-                    </span>
-                    <span>
-                      The result in <strong>{converter.toUnit}</strong> appears instantly.
-                    </span>
-                  </li>
-                  <li className="flex gap-3 text-sm text-slate-600">
-                    <span className="h-5 w-5 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">
-                      3
-                    </span>
-                    <span>Use the swap button to reverse the direction.</span>
-                  </li>
+                  {conversionSteps.map((step, index) => (
+                    <li key={step.title} className="flex gap-3 text-sm text-slate-600">
+                      <span className="h-6 w-6 rounded-full bg-slate-900 text-white text-xs font-semibold flex items-center justify-center shrink-0">
+                        {index + 1}
+                      </span>
+                      <span>
+                        <strong className="block text-slate-800 mb-1">{step.title}</strong>
+                        {step.body}
+                      </span>
+                    </li>
+                  ))}
                 </ol>
                 <Link
                   href={`/${categorySlug}`}
@@ -296,22 +272,32 @@ export default async function ConverterPage({ params }: PageProps) {
               contextualLinks={contextualLinks}
             />
 
+            <TrustMetadataBlock metadata={trustMetadata} title="Trust and editorial review" />
+
             {/* Related Converters */}
-            {uniqueRelatedConverters.length > 0 && (
+            {relatedRecommendations.length > 0 && (
               <div className="bg-white border border-slate-200 rounded-lg p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <ArrowLeftRight className="h-5 w-5 text-slate-600" />
-                  <h2 className="font-semibold text-slate-900">More {category.name} Converters</h2>
+                  <h2 className="font-semibold text-slate-900">Related Converters</h2>
                 </div>
+                <p className="mb-4 text-sm text-slate-500">
+                  These suggestions stay close to this conversion so you can compare nearby units without jumping to unrelated tools.
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {uniqueRelatedConverters.map((rel) => (
+                  {relatedRecommendations.map(({ converter: rel, reason }) => (
                     <Link
                       key={rel.id}
-                      href={`/${categorySlug}/${rel.metadata.slug}`}
-                      className="flex items-center justify-between p-3 border border-slate-200 rounded-md hover:border-slate-300 hover:bg-slate-50 transition-colors"
+                      href={`/${rel.category}/${rel.metadata.slug}`}
+                      className="flex h-full flex-col justify-between gap-3 p-4 border border-slate-200 rounded-md hover:border-slate-300 hover:bg-slate-50 transition-colors"
                     >
-                      <span className="text-sm font-medium text-slate-700">{rel.title}</span>
-                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                      <div>
+                        <span className="text-sm font-medium text-slate-700">{rel.title}</span>
+                        <p className="mt-2 text-xs leading-5 text-slate-500">{reason}</p>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-600">
+                        Open converter <ChevronRight className="h-4 w-4 text-slate-400" />
+                      </span>
                     </Link>
                   ))}
                 </div>

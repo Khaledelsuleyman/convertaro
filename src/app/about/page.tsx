@@ -8,6 +8,8 @@ import {
   buildTwitter,
   buildWebPageSchema,
 } from "@/lib/seo";
+import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
+import { getAboutTrustSections, getSiteTrustMetadata } from "@/lib/trust";
 
 export const metadata: Metadata = {
   title: "About Convertaro",
@@ -28,20 +30,34 @@ export default function AboutPage() {
     description: "Learn what Convertaro is, what it does, and who it is for.",
     path: "/about",
   });
+  const aboutTrust = getAboutTrustSections();
+  const siteTrustMetadata = getSiteTrustMetadata();
 
   return (
     <PageShell
       title="About Convertaro"
-      subtitle="Convertaro is a fast, accurate unit conversion platform built for everyday use and professional workflows."
+      subtitle="Convertaro is a converter and calculator platform designed to make standard formulas easier to use, check, and understand."
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
       <div className="space-y-8 text-text-secondary">
         <section className="space-y-3">
           <h2 className="text-xl font-semibold text-text-primary">What Convertaro does</h2>
           <p className="leading-relaxed">
-            Convertaro helps you convert values between common units instantly. Each converter page includes the conversion
-            tool, the formula used, a reference table, FAQs, and related converters for quick navigation.
+            Convertaro helps people convert units and run practical calculations without digging through scattered formulas,
+            tables, or documentation. Converter pages show the formula, examples, reference values, and related tools.
+            Calculator pages focus on common planning tasks like BMI, age, percentages, loans, and mortgages.
           </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-semibold text-text-primary">How formulas and conversions are maintained</h2>
+          <ul className="space-y-3">
+            {aboutTrust.maintenance.map((item) => (
+              <li key={item} className="rounded-xl border border-border/60 bg-white/70 px-4 py-3 shadow-sm leading-relaxed">
+                {item}
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="space-y-3">
@@ -67,10 +83,28 @@ export default function AboutPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-text-primary">Accuracy and performance</h2>
+          <h2 className="text-xl font-semibold text-text-primary">Why users can trust the site</h2>
           <p className="leading-relaxed">
-            The platform is optimized for speed and clean reading experience. Pages are generated from structured data and
-            served efficiently, while the conversion UI updates instantly as you type.
+            We keep trust language specific and restrained. Pages identify when a tool is based on a standard definition,
+            when a formula has been reviewed, and when a calculator is meant for informational planning rather than a
+            professional decision on its own.
+          </p>
+          <ul className="space-y-3">
+            {aboutTrust.trust.map((item) => (
+              <li key={item} className="rounded-xl border border-border/60 bg-white/70 px-4 py-3 shadow-sm leading-relaxed">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <TrustMetadataBlock metadata={siteTrustMetadata} title="Editorial and verification approach" />
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-semibold text-text-primary">Performance and usability</h2>
+          <p className="leading-relaxed">
+            The platform is built to stay fast and readable. Pages are generated from structured content, interactive tools
+            respond immediately, and supporting explanations are kept concise so the page remains useful without feeling crowded.
           </p>
         </section>
 

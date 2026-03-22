@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Category, Converter } from "@/types/converter";
-import { getConverterNarrative } from "@/lib/converter-content";
+import { getConverterNarrative, getExampleContext } from "@/lib/converter-content";
 
 interface ConverterContentSectionsProps {
   converter: Converter;
@@ -35,17 +35,17 @@ export function ConverterContentSections({
 
       <section className="rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
         <h2 className="text-lg font-black text-text-primary tracking-tight">
-          When people use this conversion
+          Where this conversion shows up
         </h2>
         <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-          {converter.title} is commonly used in {content.useCases[0]}, {content.useCases[1]}, and {content.useCases[2]}. It helps teams keep calculations consistent when data comes from different standards.
+          {converter.title} often comes up in {content.useCases[0]}, {content.useCases[1]}, and {content.useCases[2]}. It is most useful when the source value is published in one unit but the person reading it expects another.
         </p>
         <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-          You can also browse the full&nbsp;
+          If you are comparing nearby units, browse the full&nbsp;
           <Link href={`/${category.slug}`} className="font-semibold text-primary hover:underline">
             {category.name.toLowerCase()} converters collection
           </Link>
-          &nbsp;for adjacent unit pairs.
+          &nbsp;for the closest match instead of doing extra manual steps.
         </p>
       </section>
 
@@ -53,13 +53,15 @@ export function ConverterContentSections({
         <h2 className="text-lg font-black text-text-primary tracking-tight">Real-world examples</h2>
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           {converter.examples.slice(0, 3).map((example, index) => (
-            <article key={index} className="rounded-xl border border-border bg-background/60 px-4 py-3">
-              <p className="text-xs uppercase tracking-widest text-text-secondary font-semibold">Example {index + 1}</p>
-              <p className="mt-1.5 text-sm font-bold text-text-primary">
+            <article key={index} className="rounded-xl border border-border bg-background/60 px-4 py-4">
+              <p className="text-xs uppercase tracking-widest text-text-secondary font-semibold">
+                {getExampleContext(converter, category, index).title}
+              </p>
+              <p className="mt-2 text-sm font-bold text-text-primary">
                 {example.input} {converter.fromUnit} {"->"} {example.output.toString()} {converter.toUnit}
               </p>
-              <p className="mt-1.5 text-xs text-text-secondary">
-                Useful for quick validation before using larger values in reports or calculations.
+              <p className="mt-2 text-sm text-text-secondary leading-relaxed">
+                {getExampleContext(converter, category, index).description}
               </p>
             </article>
           ))}
@@ -69,12 +71,13 @@ export function ConverterContentSections({
       <section className="rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
         <h2 className="text-lg font-black text-text-primary tracking-tight">Quick reference and common mistakes</h2>
         <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-          Use the quick table above for rough checks, then use the formula for exact values. Keep more decimals during intermediate steps and round only at the end.
+          Use the quick table for fast lookups and the formula when accuracy matters. Keep more decimals during intermediate steps, then round only for the final number you plan to show or report.
         </p>
         <ul className="mt-4 space-y-2">
           {content.mistakes.map((mistake) => (
-            <li key={mistake} className="text-sm text-text-secondary leading-relaxed">
-              - {mistake}
+            <li key={mistake} className="flex gap-2 text-sm text-text-secondary leading-relaxed">
+              <span aria-hidden="true" className="mt-1 text-primary">•</span>
+              <span>{mistake}</span>
             </li>
           ))}
         </ul>
@@ -101,14 +104,14 @@ export function ConverterContentSections({
         </p>
         {contextualLinks.length > 0 ? (
           <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-            Related paths you may need next:{" "}
+            People often follow this with {" "}
             {contextualLinks.map((item, index) => (
               <span key={item.id}>
                 <Link
                   href={`/${item.category}/${item.metadata.slug}`}
                   className="font-semibold text-primary hover:underline"
                 >
-                  {item.title}
+                  {item.title.replace(/ Converter$/i, "")}
                 </Link>
                 {index < contextualLinks.length - 1 ? ", " : "."}
               </span>

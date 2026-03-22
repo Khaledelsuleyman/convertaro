@@ -5,6 +5,8 @@ import { calculatorCategoryBySlug } from "@/data/calculator-categories";
 import { SITE_URL } from "@/lib/seo";
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { canonicalizeConverterHref } from "@/lib/converter-routing";
+import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
+import { getCalculatorTrustMetadata } from "@/lib/trust";
 
 interface CalculatorShellProps {
   calculator: CalculatorDefinition;
@@ -14,6 +16,7 @@ interface CalculatorShellProps {
 export function CalculatorShell({ calculator, children }: CalculatorShellProps) {
   const category = calculatorCategoryBySlug.get(calculator.category);
   const canonical = `${SITE_URL}/${calculator.slug}`;
+  const trustMetadata = getCalculatorTrustMetadata(calculator);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -156,6 +159,10 @@ export function CalculatorShell({ calculator, children }: CalculatorShellProps) 
           <h2 className="text-xl font-black text-text-primary">Why it matters</h2>
           <p className="mt-3 text-sm leading-relaxed text-text-secondary">{calculator.whyItMatters}</p>
         </section>
+
+        <div className="mt-6">
+          <TrustMetadataBlock metadata={trustMetadata} title="Trust and editorial review" />
+        </div>
 
         <section className="mt-6 rounded-2xl bg-white border border-border shadow-card p-6 sm:p-8">
           <h2 className="text-xl font-black text-text-primary">FAQs</h2>

@@ -47,6 +47,31 @@ interface SocialMetadataInput {
   type?: "website" | "article";
 }
 
+interface PageMetadataInput {
+  title: string;
+  description: string;
+  path: string;
+  keywords?: string[];
+  robots?: NonNullable<Metadata["robots"]>;
+  type?: "website" | "article";
+}
+
+export function withSiteName(title: string): string {
+  return title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+}
+
+export function cleanMetaDescription(description: string, maxLength = 160): string {
+  const normalized = description.replace(/\s+/g, " ").trim();
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  const sliced = normalized.slice(0, maxLength - 1);
+  const lastSpace = sliced.lastIndexOf(" ");
+  return `${sliced.slice(0, lastSpace > 120 ? lastSpace : sliced.length).trimEnd()}...`;
+}
+
 export function buildOpenGraph({
   title,
   description,
@@ -82,6 +107,34 @@ export function buildTwitter(
     site: "@convertaro",
     creator: "@convertaro",
     images: [DEFAULT_SOCIAL_IMAGE],
+  };
+}
+
+export function buildPageMetadata({
+  title,
+  description,
+  path,
+  keywords,
+  robots = INDEXABLE_ROBOTS,
+  type = "website",
+}: PageMetadataInput): Metadata {
+  const cleanTitle = title.trim();
+  const socialTitle = withSiteName(cleanTitle);
+  const cleanDescription = cleanMetaDescription(description);
+
+  return {
+    title: cleanTitle,
+    description: cleanDescription,
+    robots,
+    keywords,
+    alternates: buildAlternates(path),
+    openGraph: buildOpenGraph({
+      title: socialTitle,
+      description: cleanDescription,
+      path,
+      type,
+    }),
+    twitter: buildTwitter(socialTitle, cleanDescription),
   };
 }
 

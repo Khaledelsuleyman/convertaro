@@ -6,20 +6,24 @@ interface FAQSectionProps {
 
 export function FAQSection({ faq }: FAQSectionProps) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {faq.map((item, index) => (
-        <div key={index} className="p-8 bg-background/50 rounded-3xl border border-border hover:border-primary/20 hover:bg-white transition-all duration-300">
-          <h3 className="text-xl font-bold text-text-primary mb-4 flex items-start">
-            <span className="bg-primary/10 text-primary px-3 py-1 rounded-lg text-sm mr-4 mt-0.5">Q</span>
-            {item.question}
-          </h3>
-          <div className="flex items-start">
-            <div className="w-10 mr-4 flex-shrink-0" />
-            <p className="text-text-secondary leading-relaxed font-medium text-lg">
-              {item.answer}
-            </p>
-          </div>
-        </div>
+        <details
+          key={index}
+          className="group rounded-2xl border border-border bg-background/40 px-5 py-4 transition-colors open:bg-white open:shadow-card"
+        >
+          <summary className="flex cursor-pointer list-none items-start gap-3 text-left">
+            <span className="mt-0.5 inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+              Q
+            </span>
+            <span className="pr-6 text-base font-bold leading-relaxed text-text-primary sm:text-lg">
+              {item.question}
+            </span>
+          </summary>
+          <p className="pl-9 pt-3 text-sm leading-relaxed text-text-secondary sm:text-base">
+            {item.answer}
+          </p>
+        </details>
       ))}
     </div>
   );

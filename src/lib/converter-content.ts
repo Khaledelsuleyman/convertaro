@@ -1,6 +1,39 @@
 import { Category, Converter, FAQItem } from "@/types/converter";
 import { dedupeCanonicalConverters, getCanonicalConverter, getCanonicalConverterById } from "@/lib/converter-routing";
 
+type LinkRecommendation = {
+  converter: Converter;
+  reason: string;
+};
+
+type ContentLink = {
+  href: string;
+  label: string;
+};
+
+type IntroContent = {
+  eyebrow: string;
+  summary: string;
+  intent: string;
+  links: ContentLink[];
+};
+
+type FormulaContent = {
+  explanation: string;
+  note: string;
+  reverseNote: string;
+};
+
+type StepContent = {
+  title: string;
+  body: string;
+};
+
+type ExampleContent = {
+  title: string;
+  description: string;
+};
+
 const UNIT_NAMES: Record<string, string> = {
   cm: "centimeters",
   mm: "millimeters",
@@ -101,6 +134,59 @@ const CATEGORY_USE_CASES: Record<string, string[]> = {
   pressure: ["tire and mechanical checks", "industrial process control", "weather and altitude readings"],
 };
 
+const CATEGORY_EXAMPLE_CONTEXTS: Record<string, ExampleContent[]> = {
+  length: [
+    { title: "Clothing and sizing", description: "Useful when a size chart lists centimeters but the label or product spec uses inches." },
+    { title: "Home projects", description: "Helpful for furniture, wall spacing, or renovation measurements that mix metric and imperial dimensions." },
+    { title: "Travel and mapping", description: "Good for comparing route, altitude, or field measurements across different unit systems." },
+  ],
+  weight: [
+    { title: "Fitness tracking", description: "Common when a workout app, scale, or meal plan uses a different weight unit than your usual routine." },
+    { title: "Shipping and packing", description: "Helpful for parcel labels, baggage limits, and product weights across regions." },
+    { title: "Cooking and nutrition", description: "Useful when recipes, serving sizes, or supplement labels mix grams, ounces, and pounds." },
+  ],
+  temperature: [
+    { title: "Cooking and food safety", description: "Useful when an oven, recipe, or thermometer shows a different temperature scale." },
+    { title: "Weather and travel", description: "Helpful for understanding forecasts while traveling between countries that use different scales." },
+    { title: "Science and engineering", description: "Important when lab notes, equipment, or calculations require Celsius, Fahrenheit, or Kelvin." },
+  ],
+  volume: [
+    { title: "Recipe adjustments", description: "Useful when cups, fluid ounces, milliliters, and liters appear in the same recipe." },
+    { title: "Fuel and storage", description: "Helpful for tanks, bottles, and containers with capacities shown in different units." },
+    { title: "Lab measurements", description: "Important when mixing liquids or comparing measurements from different standards." },
+  ],
+  area: [
+    { title: "Property listings", description: "Useful when land or floor plans are shown in square feet, square meters, acres, or hectares." },
+    { title: "Renovation planning", description: "Helpful for flooring, paint, tile, and landscaping estimates." },
+    { title: "Agriculture and mapping", description: "Important for field sizes, survey work, and map overlays." },
+  ],
+  speed: [
+    { title: "Driving abroad", description: "Useful when speed limits, vehicle dashboards, and maps use different speed units." },
+    { title: "Running and cycling", description: "Helpful for pace, treadmill, and fitness-device comparisons." },
+    { title: "Aviation and marine use", description: "Important when technical references switch between knots, mph, and km/h." },
+  ],
+  time: [
+    { title: "Scheduling", description: "Useful when a task, event, or timer needs to be expressed in a more practical unit." },
+    { title: "Work and billing", description: "Helpful for translating logs between minutes, hours, days, and weeks." },
+    { title: "Science and reporting", description: "Important when measurements span from seconds to longer durations." },
+  ],
+  data: [
+    { title: "File sizes", description: "Useful when downloads, uploads, or storage limits are shown in different data units." },
+    { title: "Backups and cloud plans", description: "Helpful for comparing device capacity and online storage quotas." },
+    { title: "Technical planning", description: "Important when specs switch between bytes, kilobytes, megabytes, gigabytes, and beyond." },
+  ],
+  energy: [
+    { title: "Utility tracking", description: "Useful when power bills, appliance labels, or energy dashboards use different units." },
+    { title: "Nutrition and heat", description: "Helpful when calories, joules, or BTU appear in different sources." },
+    { title: "Engineering work", description: "Important for comparing thermal and electrical energy measurements." },
+  ],
+  pressure: [
+    { title: "Tire pressure", description: "Useful when a manual, pump, or gauge uses PSI, bar, or kPa." },
+    { title: "Industrial systems", description: "Helpful for machinery, tanks, and process-control readings." },
+    { title: "Lab and weather use", description: "Important when equipment or reports switch between pressure standards." },
+  ],
+};
+
 const CATEGORY_MISTAKES: Record<string, string[]> = {
   temperature: [
     "Applying a simple multiply-only factor to temperature conversions (offset is also required).",
@@ -125,6 +211,48 @@ function unitExplanation(unit: string, categoryName: string): string {
   );
 }
 
+function toSentenceList(values: string[]): string {
+  if (values.length <= 1) {
+    return values[0] ?? "";
+  }
+
+  if (values.length === 2) {
+    return `${values[0]} and ${values[1]}`;
+  }
+
+  return `${values.slice(0, -1).join(", ")}, and ${values[values.length - 1]}`;
+}
+
+function compactNumber(value: number): string {
+  const abs = Math.abs(value);
+
+  if (abs === 0) {
+    return "0";
+  }
+
+  if (abs >= 1000 || abs < 0.001) {
+    return value.toExponential(4).replace(/\.?0+e/, "e");
+  }
+
+  return Number(value.toFixed(6)).toString();
+}
+
+function parseFormula(converter: Converter): { factor?: number; isDirect: boolean } {
+  const match = converter.formula.match(/=\s*[^=]+\s*[×x*]\s*([-+]?\d*\.?\d+(?:e[-+]?\d+)?)/i);
+
+  return {
+    factor: match ? Number(match[1]) : undefined,
+    isDirect: !/[+-]\s*\d/.test(converter.formula.split("=")[1] ?? ""),
+  };
+}
+
+function selectContextualSentence(category: Category): string {
+  const useCases = CATEGORY_USE_CASES[category.slug] ?? [];
+  return useCases.length > 0
+    ? `People usually search for this when working on ${toSentenceList(useCases.slice(0, 3))}.`
+    : `People usually search for this when values need to move cleanly between two unit systems.`;
+}
+
 export function getReverseConverter(converter: Converter, converters: Converter[]): Converter | undefined {
   const reverseConverter = converters.find(
     (item) =>
@@ -146,6 +274,131 @@ export function getContextualRelatedConverters(converter: Converter, converters:
   ).slice(0, 3);
 }
 
+export function getIntroContent(
+  converter: Converter,
+  category: Category,
+  reverseConverter?: Converter,
+  contextualLinks: Converter[] = []
+): IntroContent {
+  const from = unitName(converter.fromUnit);
+  const to = unitName(converter.toUnit);
+  const links: ContentLink[] = [];
+
+  if (reverseConverter) {
+    links.push({
+      href: `/${reverseConverter.category}/${reverseConverter.metadata.slug}`,
+      label: `convert ${to} to ${from}`,
+    });
+  }
+
+  for (const item of contextualLinks.slice(0, 2)) {
+    links.push({
+      href: `/${item.category}/${item.metadata.slug}`,
+      label: item.title.replace(/ Converter$/i, ""),
+    });
+  }
+
+  return {
+    eyebrow: `${from} to ${to} converter`,
+    summary: `Convert ${from} to ${to} instantly with the formula, clear examples, and a quick reference table for common values.`,
+    intent: selectContextualSentence(category),
+    links,
+  };
+}
+
+export function getFormulaContent(converter: Converter): FormulaContent {
+  const { factor, isDirect } = parseFormula(converter);
+  const from = unitName(converter.fromUnit);
+  const to = unitName(converter.toUnit);
+
+  if (converter.category === "temperature") {
+    return {
+      explanation: `${from} to ${to} is not a simple one-number conversion. The formula changes both the scale and the starting point, so the offset matters as much as the multiplier.`,
+      note: `Use the full formula exactly as written to avoid errors, especially around freezing, boiling, or negative temperatures.`,
+      reverseNote: `For the reverse direction, apply the matching reverse formula instead of trying to divide the original equation.`,
+    };
+  }
+
+  if (factor !== undefined && isDirect) {
+    return {
+      explanation: `Take the value in ${from}, multiply it by ${compactNumber(factor)}, and the result is the same amount in ${to}.`,
+      note: `This works because each ${converter.fromUnit} equals ${compactNumber(factor)} ${converter.toUnit}. Keep extra decimals if you need higher precision.`,
+      reverseNote: `To go the other way, use the reverse formula so the unit relationship stays exact.`,
+    };
+  }
+
+  return {
+    explanation: `Start with the value in ${from} and apply the formula exactly to get the matching value in ${to}.`,
+    note: `If you are converting several numbers, keep the same formula and rounding method across all of them for consistent results.`,
+    reverseNote: `Use the reverse formula for ${to} back to ${from}.`,
+  };
+}
+
+export function getConversionSteps(converter: Converter): StepContent[] {
+  const from = unitName(converter.fromUnit);
+  const to = unitName(converter.toUnit);
+
+  return [
+    {
+      title: `Start with the ${from} value`,
+      body: `Enter the amount you already have in ${converter.fromUnit}. Double-check the source unit first so you are converting the right number.`,
+    },
+    {
+      title: `Apply the ${from} to ${to} formula`,
+      body: `Use ${converter.formula} or let the converter calculate it instantly. This gives you the equivalent value in ${converter.toUnit}.`,
+    },
+    {
+      title: `Round for your use case`,
+      body: `Use more decimals for science, billing, or engineering. For everyday use, round only after the full conversion is done.`,
+    },
+  ];
+}
+
+export function getExampleContext(converter: Converter, category: Category, index: number): ExampleContent {
+  const contexts = CATEGORY_EXAMPLE_CONTEXTS[category.slug] ?? [
+    { title: "Everyday use", description: `A practical reference point for comparing ${converter.fromUnit} and ${converter.toUnit}.` },
+  ];
+
+  return contexts[index % contexts.length];
+}
+
+export function getRelatedConverterRecommendations(
+  converter: Converter,
+  contextualLinks: Converter[],
+  reverseConverter?: Converter
+): LinkRecommendation[] {
+  const recommendations: LinkRecommendation[] = [];
+  const seen = new Set<string>([`${converter.category}/${converter.metadata.slug}`]);
+
+  const pushRecommendation = (item: Converter | undefined, reason: string) => {
+    if (!item) {
+      return;
+    }
+
+    const key = `${item.category}/${item.metadata.slug}`;
+    if (seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    recommendations.push({ converter: item, reason });
+  };
+
+  pushRecommendation(reverseConverter, `Best if you need the reverse direction from ${converter.toUnit} back to ${converter.fromUnit}.`);
+
+  for (const item of contextualLinks) {
+    const reason = item.fromUnit === converter.fromUnit
+      ? `Useful if you are comparing the same ${converter.fromUnit} value in another unit.`
+      : item.toUnit === converter.toUnit
+        ? `Helpful when different source units need to end in ${converter.toUnit}.`
+        : `Relevant follow-up conversion for nearby ${converter.category} tasks.`;
+
+    pushRecommendation(item, reason);
+  }
+
+  return recommendations.slice(0, 6);
+}
+
 export function buildConverterFaq(
   converter: Converter,
   category: Category,
@@ -153,34 +406,39 @@ export function buildConverterFaq(
 ): FAQItem[] {
   const from = unitName(converter.fromUnit);
   const to = unitName(converter.toUnit);
+  const useCases = CATEGORY_USE_CASES[category.slug] ?? [];
   const reverseHint = reverseConverter
     ? `For the reverse direction, use the ${reverseConverter.title} page.`
     : `Use the swap direction for the reverse conversion from ${to} to ${from}.`;
 
   return [
     {
-      question: `How do I convert ${from} to ${to}?`,
-      answer: `Enter your value in ${from}, then apply the formula ${converter.formula}. The result appears instantly in ${to}.`,
+      question: `What is the quickest way to convert ${from} to ${to}?`,
+      answer: `Enter the ${from} value and apply ${converter.formula}. The calculator returns the matching ${to} value instantly.`,
       keywords: [`convert ${converter.fromUnit} to ${converter.toUnit}`],
     },
     {
-      question: `When should I use ${converter.fromUnit} instead of ${converter.toUnit}?`,
-      answer: `${from} is usually preferred in contexts that publish values in that unit, while ${to} is used where local standards or tools expect it. Match the unit to the audience and source system to avoid interpretation errors.`,
+      question: `When would I use ${from} instead of ${to}?`,
+      answer: `${from} is the better choice when your source, audience, or tool already uses that unit. ${to} is better when you need to match local conventions, labels, or reporting formats.`,
       keywords: [`${converter.fromUnit} vs ${converter.toUnit}`],
     },
     {
-      question: `What is the exact formula for ${converter.fromUnit} to ${converter.toUnit}?`,
-      answer: `The formula is ${converter.formula}. If you need to convert back, use ${converter.inverseFormula}.`,
+      question: `What formula should I use for ${converter.fromUnit} to ${converter.toUnit}?`,
+      answer: `Use ${converter.formula}. If you need to go back from ${to} to ${from}, use ${converter.inverseFormula}.`,
       keywords: [`${converter.fromUnit} to ${converter.toUnit} formula`],
     },
     {
-      question: `What mistakes are common in ${category.name.toLowerCase()} conversions?`,
-      answer: `The most common issues are rounding too early, confusing similar symbols, and mixing source units before converting. Always verify the input unit first, then convert once with a trusted formula.`,
+      question: `What mistakes cause wrong ${category.name.toLowerCase()} conversions?`,
+      answer: `The most common problems are using the wrong starting unit, rounding too early, or mixing values from different standards. Convert once with the correct formula, then round at the end.`,
       keywords: [`${category.slug} conversion mistakes`],
     },
     {
-      question: `How can I convert ${converter.toUnit} back to ${converter.fromUnit}?`,
-      answer: `${reverseHint}`,
+      question: useCases[0]
+        ? `Where is this conversion commonly used?`
+        : `How do I convert ${converter.toUnit} back to ${converter.fromUnit}?`,
+      answer: useCases[0]
+        ? `${converter.title} is commonly used in ${toSentenceList(useCases.slice(0, 3))}. ${reverseHint}`
+        : `${reverseHint}`,
       keywords: [`${converter.toUnit} to ${converter.fromUnit}`],
     },
   ];

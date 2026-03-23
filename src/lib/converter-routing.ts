@@ -39,6 +39,30 @@ const canonicalBySlug = new Map<string, Converter>();
 const canonicalById = new Map<string, Converter>();
 const aliasToCanonicalSlug = new Map<string, string>();
 
+function getDisplayConverter(converter: Converter): Converter {
+  const group = groupedConverters.get(groupKey(converter));
+  if (!group || group.length === 0) {
+    return converter;
+  }
+
+  const richestExamples = group.reduce((best, current) =>
+    current.examples.length > best.examples.length ? current : best
+  );
+  const richestFaq = group.reduce((best, current) =>
+    current.faq.length > best.faq.length ? current : best
+  );
+  const richestRelated = group.reduce((best, current) =>
+    current.relatedConverters.length > best.relatedConverters.length ? current : best
+  );
+
+  return {
+    ...converter,
+    examples: richestExamples.examples,
+    faq: richestFaq.faq,
+    relatedConverters: richestRelated.relatedConverters,
+  };
+}
+
 for (const converter of allConverters) {
   convertersByRoute.set(`${converter.category}/${converter.metadata.slug}`, converter);
 }
@@ -107,13 +131,23 @@ export function resolveConverterRoute(category: string, slug: string): RouteReso
     };
   }
 
-  const canonicalConverter = getCanonicalConverter(requestedConverter);
+  const canonicalConverter = getDisplayConverter(getCanonicalConverter(requestedConverter));
 
   return {
     requestedConverter,
     canonicalConverter,
     isAlias: canonicalConverter.metadata.slug !== requestedConverter.metadata.slug,
   };
+}
+
+export function getRouteVariantSlugs(category: string, slug: string): string[] {
+  const requestedConverter = convertersByRoute.get(`${category}/${slug}`);
+  if (!requestedConverter) {
+    return [];
+  }
+
+  const group = groupedConverters.get(groupKey(requestedConverter)) ?? [];
+  return group.map((converter) => converter.metadata.slug);
 }
 
 export function getCanonicalConverterPath(category: string, slug: string): string | null {

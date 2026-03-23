@@ -1,3 +1,5 @@
+import { getRouteVariantSlugs } from "@/lib/converter-routing";
+
 export type StaticValuePageParam = {
   category: string;
   converter: string;
@@ -43,7 +45,17 @@ export const STATIC_VALUE_PAGE_PARAMS: StaticValuePageParam[] = [
 ];
 
 export function getStaticValuePagesForConverter(category: string, converter: string): StaticValuePageParam[] {
-  return STATIC_VALUE_PAGE_PARAMS.filter((entry) => entry.category === category && entry.converter === converter);
+  const directMatches = STATIC_VALUE_PAGE_PARAMS.filter(
+    (entry) => entry.category === category && entry.converter === converter
+  );
+  if (directMatches.length > 0) {
+    return directMatches;
+  }
+
+  const variants = new Set(getRouteVariantSlugs(category, converter));
+  return STATIC_VALUE_PAGE_PARAMS.filter(
+    (entry) => entry.category === category && variants.has(entry.converter)
+  );
 }
 
 export function getStaticValuePageHref(category: string, converter: string, value: number): string | null {
@@ -52,5 +64,21 @@ export function getStaticValuePageHref(category: string, converter: string, valu
     (entry) => entry.category === category && entry.converter === converter && entry.value === valueSlug
   );
 
-  return exists ? `/${category}/${converter}/${valueSlug}` : null;
+  if (exists) {
+    return `/${category}/${converter}/${valueSlug}`;
+  }
+
+  const variants = getRouteVariantSlugs(category, converter);
+  const fallback = variants
+    .map((variant) => ({
+      converter: variant,
+      value: `${formatStaticValue(value)}-${variant}`,
+    }))
+    .find((entry) =>
+      STATIC_VALUE_PAGE_PARAMS.some(
+        (param) => param.category === category && param.converter === entry.converter && param.value === entry.value
+      )
+    );
+
+  return fallback ? `/${category}/${fallback.converter}/${fallback.value}` : null;
 }

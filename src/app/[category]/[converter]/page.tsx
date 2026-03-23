@@ -10,6 +10,7 @@ import Link from "next/link";
 import { ChevronRight, Calculator, Lightbulb, Table, ArrowLeftRight } from "lucide-react";
 import {
   buildWebPageSchema,
+  converterCanonical,
   generateBreadcrumbSchemaFromPaths,
   generateFAQSchema,
   generateHowToSchema,
@@ -29,6 +30,7 @@ import { getConverterTrustMetadata } from "@/lib/trust";
 import { buildConverterPageMetadata } from "@/lib/page-metadata";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { getRelatedConverterCards } from "@/lib/internal-linking";
+import { getStaticValuePagesForConverter } from "@/lib/value-pages";
 
 const converters = canonicalConverters as Converter[];
 
@@ -55,7 +57,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {};
   }
 
-  return buildConverterPageMetadata(converter, cat, `/${category}/${converter.metadata.slug}`);
+  const canonicalPath = `/${category}/${converter.metadata.slug}`;
+  const metadata = buildConverterPageMetadata(converter, cat, canonicalPath);
+
+  return {
+    ...metadata,
+    alternates: {
+      ...metadata.alternates,
+      canonical: converterCanonical(category, converter.metadata.slug),
+    },
+  };
 }
 
 export default async function ConverterPage({ params }: PageProps) {
@@ -78,9 +89,14 @@ export default async function ConverterPage({ params }: PageProps) {
   const formulaContent = getFormulaContent(converter);
   const conversionSteps = getConversionSteps(converter);
   const trustMetadata = getConverterTrustMetadata(converter, category);
+  const staticValuePages = getStaticValuePagesForConverter(categorySlug, converter.metadata.slug);
 
   // Schema markup
-  const faqSchema = generateFAQSchema(pageFaq.map((item) => ({
+  const pageFaqSchema = generateFAQSchema(pageFaq.map((item) => ({
+    question: item.question,
+    answer: item.answer,
+  })));
+  const converterFaqSchema = generateFAQSchema(converter.faq.map((item) => ({
     question: item.question,
     answer: item.answer,
   })));
@@ -115,6 +131,20 @@ export default async function ConverterPage({ params }: PageProps) {
     description: converter.description,
     path: `/${categorySlug}/${converter.metadata.slug}`,
   });
+  const webApplicationSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: converter.title,
+    url: `https://convertaro.com/${categorySlug}/${converter.metadata.slug}`,
+    description: converter.description,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "All",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
 
   // Get related converters
   const relatedConverters = converter.relatedConverters
@@ -129,10 +159,12 @@ export default async function ConverterPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageFaqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(converterFaqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }} />
 
       <div className="border-b border-slate-200 bg-slate-50">
         <div className="container-pro py-8">
@@ -253,6 +285,30 @@ export default async function ConverterPage({ params }: PageProps) {
               </div>
               <ConversionTable converter={converter} />
             </div>
+
+            {staticValuePages.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-lg p-5">
+                <div className="mb-4">
+                  <h2 className="font-semibold text-slate-900">Popular {converter.fromUnit} values</h2>
+                  <p className="text-sm text-slate-500">Open exact-value pages for common lookups on this converter.</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {staticValuePages.map((entry) => {
+                    const valueLabel = entry.value.replace(`-${converter.metadata.slug}`, "");
+
+                    return (
+                      <Link
+                        key={entry.value}
+                        href={`/${entry.category}/${entry.converter}/${entry.value}`}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-sky-200 hover:bg-sky-50 hover:text-sky-800"
+                      >
+                        {valueLabel} {converter.fromUnit} -&gt; {converter.toUnit}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* FAQ */}
             <div className="bg-white border border-slate-200 rounded-lg p-5">

@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
 import { CalculatorDefinition } from "@/data/calculators";
 import { Category, Converter } from "@/types/converter";
-import { buildPageMetadata, getConverterLongTailKeywords } from "@/lib/seo";
-
-const CONVERTER_USE_CASES: Record<string, string> = {
-  length: "Useful for measurements and sizing.",
-  weight: "Useful for fitness, shipping, and cooking.",
-  temperature: "Includes the exact formula and reference values.",
-  volume: "Helpful for recipes and liquid measurements.",
-  area: "Helpful for floor plans and property sizes.",
-  speed: "Useful for driving, fitness, and travel.",
-  time: "Helpful for schedules and planning.",
-  data: "Useful for file sizes and storage planning.",
-  energy: "Helpful for utility and engineering comparisons.",
-  pressure: "Useful for tire, lab, and equipment checks.",
-};
+import {
+  buildConverterMetaDescription,
+  buildConverterMetaTitle,
+  buildPageMetadata,
+  getConverterLongTailKeywords,
+} from "@/lib/seo";
 
 const CALCULATOR_ENDINGS: Partial<Record<CalculatorDefinition["category"], string>> = {
   finance: "Useful for planning and comparison.",
@@ -24,20 +16,11 @@ const CALCULATOR_ENDINGS: Partial<Record<CalculatorDefinition["category"], strin
 };
 
 function buildConverterTitle(converter: Converter): string {
-  return converter.title;
+  return buildConverterMetaTitle(converter.fromUnit, converter.toUnit);
 }
 
-function buildConverterDescription(converter: Converter, category: Category): string {
-  if (converter.id === "cups-to-grams") {
-    return "Cups to Grams Converter. Convert US cups to grams for water with the formula, examples, and a quick cooking reference table.";
-  }
-
-  if (converter.id === "grams-to-cups") {
-    return "Grams to Cups Converter. Convert grams to US cups for water with the formula, examples, and a quick cooking reference table.";
-  }
-
-  const useCase = CONVERTER_USE_CASES[category.slug] ?? "Includes the exact formula, examples, and a quick reference table.";
-  return `${converter.title}. Convert ${converter.fromUnit} to ${converter.toUnit} with the exact formula, examples, and a quick reference table. ${useCase}`;
+function buildConverterDescription(converter: Converter, _category: Category): string {
+  return buildConverterMetaDescription(converter.fromUnit, converter.toUnit, converter.formula);
 }
 
 function buildCalculatorTitle(calculator: CalculatorDefinition): string {

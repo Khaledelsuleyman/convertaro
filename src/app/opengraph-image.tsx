@@ -1,6 +1,4 @@
 import { ImageResponse } from "next/og";
-
-export const runtime = "edge";
 export const alt = "Convertaro - Free Online Unit Converter";
 export const size = {
   width: 1200,

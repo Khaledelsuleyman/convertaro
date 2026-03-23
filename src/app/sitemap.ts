@@ -4,6 +4,8 @@ import { calculators } from "@/data/calculators";
 import { calculatorCategories } from "@/data/calculator-categories";
 import { SITE_URL } from "@/lib/seo";
 import { canonicalConverters, getCanonicalConverterById } from "@/lib/converter-routing";
+import { generateStaticParams as generateValuePageStaticParams } from "@/app/[category]/[converter]/[value]/page";
+import { STATIC_VALUE_PAGE_PARAMS } from "@/lib/value-pages";
 
 const converters = canonicalConverters;
 const BASE_URL = SITE_URL;
@@ -28,8 +30,9 @@ const HIGH_PRIORITY_SLUGS = new Set(
     .filter((slug): slug is string => Boolean(slug))
 );
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const valuePageParams = await generateValuePageStaticParams();
 
   const routes: MetadataRoute.Sitemap = [
     {
@@ -100,6 +103,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
+  valuePageParams.forEach((entry) => {
+    routes.push({
+      url: `${BASE_URL}/${entry.category}/${entry.converter}/${entry.value}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    });
+  });
+
   return routes;
 }
 
@@ -137,6 +149,10 @@ export function getAllPageUrls(): string[] {
     urls.push(`${BASE_URL}/${conv.category}/${conv.metadata.slug}`);
   });
 
+  STATIC_VALUE_PAGE_PARAMS.forEach((entry) => {
+    urls.push(`${BASE_URL}/${entry.category}/${entry.converter}/${entry.value}`);
+  });
+
   return urls;
 }
 
@@ -172,7 +188,7 @@ export function getSiteStats() {
     staticPages: 6,
     categoryPages: categories.length,
     calculatorPages: calculators.length + calculatorCategories.length,
-    converterPages: converters.length,
+    converterPages: converters.length + STATIC_VALUE_PAGE_PARAMS.length,
     highPriorityPages: getHighPriorityUrls().length,
   };
 }

@@ -56,6 +56,31 @@ interface PageMetadataInput {
   type?: "website" | "article";
 }
 
+function capitalizeUnitLabel(unit: string): string {
+  return /^[A-Z0-9]+$/.test(unit) ? unit : `${unit.charAt(0).toUpperCase()}${unit.slice(1)}`;
+}
+
+function compactFormula(formula: string): string {
+  return formula.replace(/(\d+\.\d{4})\d+/g, "$1");
+}
+
+export function buildConverterMetaTitle(fromUnit: string, toUnit: string): string {
+  const candidates = [
+    `${fromUnit} to ${capitalizeUnitLabel(toUnit)} – Free Online Converter`,
+    `${fromUnit} to ${capitalizeUnitLabel(toUnit)} – Free Converter`,
+    `${fromUnit} to ${capitalizeUnitLabel(toUnit)} Converter`,
+  ];
+
+  return candidates.find((candidate) => withSiteName(candidate).length <= 60) ?? candidates[candidates.length - 1];
+}
+
+export function buildConverterMetaDescription(fromUnit: string, toUnit: string, formula: string): string {
+  return cleanMetaDescription(
+    `Convert ${fromUnit} to ${toUnit} instantly. Formula: ${compactFormula(formula)}. Free, accurate, no sign-up needed. Try Convertaro now for fast results.`,
+    155
+  );
+}
+
 export function withSiteName(title: string): string {
   return title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 }

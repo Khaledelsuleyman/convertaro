@@ -1,36 +1,117 @@
+"use client";
+
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { Converter } from "@/types/converter";
 import { formatValue } from "@/lib/converter";
+import { getStaticValuePageHref } from "@/lib/value-pages";
 
 interface ConversionTableProps {
   converter: Converter;
 }
 
+const DEFAULT_VISIBLE_ROWS = 10;
+
+function formatFeetAndInches(cm: number): string {
+  const totalInches = cm / 2.54;
+  let feet = Math.floor(totalInches / 12);
+  let inches = Math.round(totalInches - feet * 12);
+
+  if (inches === 12) {
+    feet += 1;
+    inches = 0;
+  }
+
+  return `${feet}'${inches}"`;
+}
+
 export function ConversionTable({ converter }: ConversionTableProps) {
+  const [expanded, setExpanded] = useState(false);
+  const isCmToInches = converter.fromUnit === "cm" && converter.toUnit === "inches";
+  const visibleExamples = useMemo(
+    () => (expanded ? converter.examples : converter.examples.slice(0, DEFAULT_VISIBLE_ROWS)),
+    [converter.examples, expanded]
+  );
+  const hasMoreRows = converter.examples.length > DEFAULT_VISIBLE_ROWS;
+
   return (
-    <div className="overflow-x-auto rounded-3xl border border-border bg-white">
-      <table className="w-full text-left border-separate border-spacing-0">
-        <caption className="px-4 py-3 text-left text-sm text-text-secondary sm:px-6">
-          Quick reference values for common {converter.fromUnit} to {converter.toUnit} conversions.
-        </caption>
-        <thead>
-          <tr className="bg-background/50">
-            <th className="px-4 py-4 text-sm font-bold text-text-primary uppercase tracking-widest sm:px-6">{converter.fromUnit}</th>
-            <th className="px-4 py-4 text-sm font-bold text-text-primary uppercase tracking-widest sm:px-6">{converter.toUnit}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {converter.examples.map((example, i) => (
-            <tr key={i} className="group transition-colors odd:bg-white even:bg-background/40 hover:bg-primary/5">
-              <td className="border-t border-border px-4 py-4 text-sm font-bold text-text-primary transition-colors group-hover:text-primary sm:px-6 sm:text-base">
-                <span className="inline-flex rounded-full bg-background px-3 py-1">{formatValue(example.input)} {converter.fromUnit}</span>
-              </td>
-              <td className="border-t border-border px-4 py-4 text-sm font-black text-primary sm:px-6 sm:text-base">
-                <span className="inline-flex rounded-full bg-primary/10 px-3 py-1">{formatValue(example.output)} {converter.toUnit}</span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="space-y-4">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-separate border-spacing-0 text-left">
+            <caption className="border-b border-slate-200 bg-slate-50/80 px-4 py-3 text-left text-sm text-slate-500 sm:px-6">
+              Quick reference values for common {converter.fromUnit} to {converter.toUnit} conversions.
+              {hasMoreRows ? ` Showing ${visibleExamples.length} of ${converter.examples.length} values.` : ""}
+            </caption>
+            <thead>
+              <tr className="bg-slate-900 text-white">
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] sm:px-6">{converter.fromUnit}</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] sm:px-6">{converter.toUnit}</th>
+                {isCmToInches ? (
+                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] sm:px-6">Feet & inches</th>
+                ) : null}
+              </tr>
+            </thead>
+            <tbody>
+              {visibleExamples.map((example, index) => {
+                const valuePageHref = getStaticValuePageHref(converter.category, converter.metadata.slug, example.input);
+
+                return (
+                  <tr key={`${example.input}-${example.output}-${index}`} className="border-t border-slate-200 odd:bg-white even:bg-slate-50/70 hover:bg-sky-50/60">
+                    <td className="border-t border-slate-200 px-4 py-3 align-top sm:px-6">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400 sm:hidden">{converter.fromUnit}</span>
+                        {valuePageHref ? (
+                          <Link
+                            href={valuePageHref}
+                            className="group inline-flex w-fit items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-sky-700 transition-colors hover:text-sky-800 hover:underline"
+                          >
+                            <span>{formatValue(example.input)} {converter.fromUnit}</span>
+                            <ArrowRight className="h-3.5 w-3.5 text-sky-500 transition-transform group-hover:translate-x-0.5" />
+                          </Link>
+                        ) : (
+                          <span className="inline-flex w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-900">
+                            {formatValue(example.input)} {converter.fromUnit}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="border-t border-slate-200 px-4 py-3 align-top sm:px-6">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400 sm:hidden">{converter.toUnit}</span>
+                        <span className="inline-flex w-fit rounded-full bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-900">
+                          {formatValue(example.output)} {converter.toUnit}
+                        </span>
+                      </div>
+                    </td>
+                    {isCmToInches ? (
+                      <td className="border-t border-slate-200 px-4 py-3 align-top sm:px-6">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400 sm:hidden">Feet & inches</span>
+                          <span className="inline-flex w-fit rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-800">
+                            {formatFeetAndInches(example.input)}
+                          </span>
+                        </div>
+                      </td>
+                    ) : null}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {hasMoreRows ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
+        >
+          {expanded ? "Show fewer values" : `Show all ${converter.examples.length} values`}
+        </button>
+      ) : null}
     </div>
   );
 }

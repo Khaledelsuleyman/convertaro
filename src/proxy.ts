@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCanonicalConverterPath } from "@/lib/converter-routing";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const segments = pathname.split("/").filter(Boolean);
 

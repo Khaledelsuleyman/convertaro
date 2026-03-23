@@ -11,18 +11,253 @@
     "examples": [
       {
         "input": 1,
-        "output": 0.393700787402,
+        "output": 0.39370078740157477,
         "description": "1 cm to inches"
       },
       {
+        "input": 5,
+        "output": 1.968503937007874,
+        "description": "5 cm to inches"
+      },
+      {
         "input": 10,
-        "output": 3.937007874016,
+        "output": 3.937007874015748,
         "description": "10 cm to inches"
       },
       {
+        "input": 15,
+        "output": 5.905511811023622,
+        "description": "15 cm to inches"
+      },
+      {
+        "input": 20,
+        "output": 7.874015748031496,
+        "description": "20 cm to inches"
+      },
+      {
+        "input": 25,
+        "output": 9.84251968503937,
+        "description": "25 cm to inches"
+      },
+      {
+        "input": 30,
+        "output": 11.811023622047244,
+        "description": "30 cm to inches"
+      },
+      {
+        "input": 35,
+        "output": 13.779527559055119,
+        "description": "35 cm to inches"
+      },
+      {
+        "input": 40,
+        "output": 15.748031496062993,
+        "description": "40 cm to inches"
+      },
+      {
+        "input": 45,
+        "output": 17.716535433070867,
+        "description": "45 cm to inches"
+      },
+      {
+        "input": 50,
+        "output": 19.68503937007874,
+        "description": "50 cm to inches"
+      },
+      {
+        "input": 55,
+        "output": 21.653543307086615,
+        "description": "55 cm to inches"
+      },
+      {
+        "input": 60,
+        "output": 23.62204724409449,
+        "description": "60 cm to inches"
+      },
+      {
+        "input": 65,
+        "output": 25.590551181102363,
+        "description": "65 cm to inches"
+      },
+      {
+        "input": 70,
+        "output": 27.559055118110237,
+        "description": "70 cm to inches"
+      },
+      {
+        "input": 75,
+        "output": 29.52755905511811,
+        "description": "75 cm to inches"
+      },
+      {
+        "input": 80,
+        "output": 31.496062992125985,
+        "description": "80 cm to inches"
+      },
+      {
+        "input": 85,
+        "output": 33.46456692913386,
+        "description": "85 cm to inches"
+      },
+      {
+        "input": 90,
+        "output": 35.43307086614173,
+        "description": "90 cm to inches"
+      },
+      {
+        "input": 95,
+        "output": 37.40157480314961,
+        "description": "95 cm to inches"
+      },
+      {
         "input": 100,
-        "output": 39.370078740157,
+        "output": 39.37007874015748,
         "description": "100 cm to inches"
+      },
+      {
+        "input": 110,
+        "output": 43.30708661417323,
+        "description": "110 cm to inches"
+      },
+      {
+        "input": 120,
+        "output": 47.24409448818898,
+        "description": "120 cm to inches"
+      },
+      {
+        "input": 130,
+        "output": 51.181102362204726,
+        "description": "130 cm to inches"
+      },
+      {
+        "input": 140,
+        "output": 55.118110236220474,
+        "description": "140 cm to inches"
+      },
+      {
+        "input": 145,
+        "output": 57.08661417322835,
+        "description": "145 cm to inches"
+      },
+      {
+        "input": 150,
+        "output": 59.05511811023622,
+        "description": "150 cm to inches"
+      },
+      {
+        "input": 155,
+        "output": 61.023622047244096,
+        "description": "155 cm to inches"
+      },
+      {
+        "input": 158,
+        "output": 62.204724409448815,
+        "description": "158 cm to inches"
+      },
+      {
+        "input": 160,
+        "output": 62.99212598425197,
+        "description": "160 cm to inches"
+      },
+      {
+        "input": 161,
+        "output": 63.38582677165354,
+        "description": "161 cm to inches"
+      },
+      {
+        "input": 163,
+        "output": 64.1732283464567,
+        "description": "163 cm to inches"
+      },
+      {
+        "input": 165,
+        "output": 64.96062992125984,
+        "description": "165 cm to inches"
+      },
+      {
+        "input": 166,
+        "output": 65.35433070866142,
+        "description": "166 cm to inches"
+      },
+      {
+        "input": 167,
+        "output": 65.74803149606299,
+        "description": "167 cm to inches"
+      },
+      {
+        "input": 168,
+        "output": 66.14173228346456,
+        "description": "168 cm to inches"
+      },
+      {
+        "input": 170,
+        "output": 66.92913385826772,
+        "description": "170 cm to inches"
+      },
+      {
+        "input": 171,
+        "output": 67.32283464566929,
+        "description": "171 cm to inches"
+      },
+      {
+        "input": 172,
+        "output": 67.71653543307086,
+        "description": "172 cm to inches"
+      },
+      {
+        "input": 173,
+        "output": 68.11023622047244,
+        "description": "173 cm to inches"
+      },
+      {
+        "input": 175,
+        "output": 68.89763779527559,
+        "description": "175 cm to inches"
+      },
+      {
+        "input": 177,
+        "output": 69.68503937007874,
+        "description": "177 cm to inches"
+      },
+      {
+        "input": 178,
+        "output": 70.07874015748031,
+        "description": "178 cm to inches"
+      },
+      {
+        "input": 180,
+        "output": 70.86614173228347,
+        "description": "180 cm to inches"
+      },
+      {
+        "input": 183,
+        "output": 72.04724409448819,
+        "description": "183 cm to inches"
+      },
+      {
+        "input": 185,
+        "output": 72.83464566929133,
+        "description": "185 cm to inches"
+      },
+      {
+        "input": 188,
+        "output": 74.01574803149606,
+        "description": "188 cm to inches"
+      },
+      {
+        "input": 190,
+        "output": 74.80314960629921,
+        "description": "190 cm to inches"
+      },
+      {
+        "input": 195,
+        "output": 76.77165354330708,
+        "description": "195 cm to inches"
+      },
+      {
+        "input": 200,
+        "output": 78.74015748031496,
+        "description": "200 cm to inches"
       }
     ],
     "faq": [
@@ -5123,18 +5358,253 @@
     "examples": [
       {
         "input": 1,
-        "output": 2.204624420184,
+        "output": 2.2046244201837775,
         "description": "1 kg to lbs"
       },
       {
+        "input": 2,
+        "output": 4.409248840367555,
+        "description": "2 kg to lbs"
+      },
+      {
+        "input": 3,
+        "output": 6.613873260551332,
+        "description": "3 kg to lbs"
+      },
+      {
+        "input": 4,
+        "output": 8.81849768073511,
+        "description": "4 kg to lbs"
+      },
+      {
+        "input": 5,
+        "output": 11.023122100918888,
+        "description": "5 kg to lbs"
+      },
+      {
         "input": 10,
-        "output": 22.046244201838,
+        "output": 22.046244201837776,
         "description": "10 kg to lbs"
       },
       {
+        "input": 15,
+        "output": 33.06936630275666,
+        "description": "15 kg to lbs"
+      },
+      {
+        "input": 20,
+        "output": 44.09248840367555,
+        "description": "20 kg to lbs"
+      },
+      {
+        "input": 25,
+        "output": 55.115610504594436,
+        "description": "25 kg to lbs"
+      },
+      {
+        "input": 30,
+        "output": 66.13873260551333,
+        "description": "30 kg to lbs"
+      },
+      {
+        "input": 35,
+        "output": 77.16185470643221,
+        "description": "35 kg to lbs"
+      },
+      {
+        "input": 40,
+        "output": 88.1849768073511,
+        "description": "40 kg to lbs"
+      },
+      {
+        "input": 45,
+        "output": 99.20809890826999,
+        "description": "45 kg to lbs"
+      },
+      {
+        "input": 50,
+        "output": 110.23122100918887,
+        "description": "50 kg to lbs"
+      },
+      {
+        "input": 55,
+        "output": 121.25434311010777,
+        "description": "55 kg to lbs"
+      },
+      {
+        "input": 60,
+        "output": 132.27746521102665,
+        "description": "60 kg to lbs"
+      },
+      {
+        "input": 65,
+        "output": 143.30058731194555,
+        "description": "65 kg to lbs"
+      },
+      {
+        "input": 70,
+        "output": 154.32370941286442,
+        "description": "70 kg to lbs"
+      },
+      {
+        "input": 75,
+        "output": 165.34683151378331,
+        "description": "75 kg to lbs"
+      },
+      {
+        "input": 80,
+        "output": 176.3699536147022,
+        "description": "80 kg to lbs"
+      },
+      {
+        "input": 85,
+        "output": 187.39307571562108,
+        "description": "85 kg to lbs"
+      },
+      {
+        "input": 90,
+        "output": 198.41619781653998,
+        "description": "90 kg to lbs"
+      },
+      {
+        "input": 95,
+        "output": 209.43931991745887,
+        "description": "95 kg to lbs"
+      },
+      {
         "input": 100,
-        "output": 220.462442018378,
+        "output": 220.46244201837774,
         "description": "100 kg to lbs"
+      },
+      {
+        "input": 110,
+        "output": 242.50868622021554,
+        "description": "110 kg to lbs"
+      },
+      {
+        "input": 120,
+        "output": 264.5549304220533,
+        "description": "120 kg to lbs"
+      },
+      {
+        "input": 125,
+        "output": 275.5780525229722,
+        "description": "125 kg to lbs"
+      },
+      {
+        "input": 130,
+        "output": 286.6011746238911,
+        "description": "130 kg to lbs"
+      },
+      {
+        "input": 135,
+        "output": 297.62429672480994,
+        "description": "135 kg to lbs"
+      },
+      {
+        "input": 140,
+        "output": 308.64741882572883,
+        "description": "140 kg to lbs"
+      },
+      {
+        "input": 145,
+        "output": 319.67054092664773,
+        "description": "145 kg to lbs"
+      },
+      {
+        "input": 150,
+        "output": 330.69366302756663,
+        "description": "150 kg to lbs"
+      },
+      {
+        "input": 155,
+        "output": 341.7167851284855,
+        "description": "155 kg to lbs"
+      },
+      {
+        "input": 160,
+        "output": 352.7399072294044,
+        "description": "160 kg to lbs"
+      },
+      {
+        "input": 165,
+        "output": 363.76302933032326,
+        "description": "165 kg to lbs"
+      },
+      {
+        "input": 170,
+        "output": 374.78615143124216,
+        "description": "170 kg to lbs"
+      },
+      {
+        "input": 175,
+        "output": 385.80927353216106,
+        "description": "175 kg to lbs"
+      },
+      {
+        "input": 180,
+        "output": 396.83239563307995,
+        "description": "180 kg to lbs"
+      },
+      {
+        "input": 185,
+        "output": 407.85551773399885,
+        "description": "185 kg to lbs"
+      },
+      {
+        "input": 190,
+        "output": 418.87863983491775,
+        "description": "190 kg to lbs"
+      },
+      {
+        "input": 195,
+        "output": 429.9017619358366,
+        "description": "195 kg to lbs"
+      },
+      {
+        "input": 200,
+        "output": 440.9248840367555,
+        "description": "200 kg to lbs"
+      },
+      {
+        "input": 225,
+        "output": 496.0404945413499,
+        "description": "225 kg to lbs"
+      },
+      {
+        "input": 250,
+        "output": 551.1561050459444,
+        "description": "250 kg to lbs"
+      },
+      {
+        "input": 275,
+        "output": 606.2717155505388,
+        "description": "275 kg to lbs"
+      },
+      {
+        "input": 300,
+        "output": 661.3873260551333,
+        "description": "300 kg to lbs"
+      },
+      {
+        "input": 350,
+        "output": 771.6185470643221,
+        "description": "350 kg to lbs"
+      },
+      {
+        "input": 400,
+        "output": 881.849768073511,
+        "description": "400 kg to lbs"
+      },
+      {
+        "input": 450,
+        "output": 992.0809890826998,
+        "description": "450 kg to lbs"
+      },
+      {
+        "input": 500,
+        "output": 1102.3122100918888,
+        "description": "500 kg to lbs"
       }
     ],
     "faq": [
@@ -35005,9 +35475,59 @@
     "inverseFormula": "C = (F - 32) × 5/9",
     "examples": [
       {
+        "input": -40,
+        "output": -40,
+        "description": "-40 C to F"
+      },
+      {
+        "input": -30,
+        "output": -22,
+        "description": "-30 C to F"
+      },
+      {
+        "input": -20,
+        "output": -4,
+        "description": "-20 C to F"
+      },
+      {
+        "input": -10,
+        "output": 14,
+        "description": "-10 C to F"
+      },
+      {
+        "input": -5,
+        "output": 23,
+        "description": "-5 C to F"
+      },
+      {
         "input": 0,
         "output": 32,
         "description": "0 C to F"
+      },
+      {
+        "input": 1,
+        "output": 33.8,
+        "description": "1 C to F"
+      },
+      {
+        "input": 2,
+        "output": 35.6,
+        "description": "2 C to F"
+      },
+      {
+        "input": 3,
+        "output": 37.4,
+        "description": "3 C to F"
+      },
+      {
+        "input": 4,
+        "output": 39.2,
+        "description": "4 C to F"
+      },
+      {
+        "input": 5,
+        "output": 41,
+        "description": "5 C to F"
       },
       {
         "input": 10,
@@ -35015,9 +35535,194 @@
         "description": "10 C to F"
       },
       {
+        "input": 15,
+        "output": 59,
+        "description": "15 C to F"
+      },
+      {
+        "input": 20,
+        "output": 68,
+        "description": "20 C to F"
+      },
+      {
+        "input": 21,
+        "output": 69.8,
+        "description": "21 C to F"
+      },
+      {
+        "input": 22,
+        "output": 71.6,
+        "description": "22 C to F"
+      },
+      {
+        "input": 23,
+        "output": 73.4,
+        "description": "23 C to F"
+      },
+      {
+        "input": 24,
+        "output": 75.2,
+        "description": "24 C to F"
+      },
+      {
+        "input": 25,
+        "output": 77,
+        "description": "25 C to F"
+      },
+      {
+        "input": 26,
+        "output": 78.8,
+        "description": "26 C to F"
+      },
+      {
+        "input": 27,
+        "output": 80.6,
+        "description": "27 C to F"
+      },
+      {
+        "input": 28,
+        "output": 82.4,
+        "description": "28 C to F"
+      },
+      {
+        "input": 29,
+        "output": 84.2,
+        "description": "29 C to F"
+      },
+      {
+        "input": 30,
+        "output": 86,
+        "description": "30 C to F"
+      },
+      {
+        "input": 32,
+        "output": 89.6,
+        "description": "32 C to F"
+      },
+      {
+        "input": 35,
+        "output": 95,
+        "description": "35 C to F"
+      },
+      {
+        "input": 37,
+        "output": 98.6,
+        "description": "37 C to F"
+      },
+      {
+        "input": 40,
+        "output": 104,
+        "description": "40 C to F"
+      },
+      {
+        "input": 45,
+        "output": 113,
+        "description": "45 C to F"
+      },
+      {
+        "input": 50,
+        "output": 122,
+        "description": "50 C to F"
+      },
+      {
+        "input": 55,
+        "output": 131,
+        "description": "55 C to F"
+      },
+      {
+        "input": 60,
+        "output": 140,
+        "description": "60 C to F"
+      },
+      {
+        "input": 65,
+        "output": 149,
+        "description": "65 C to F"
+      },
+      {
+        "input": 70,
+        "output": 158,
+        "description": "70 C to F"
+      },
+      {
+        "input": 75,
+        "output": 167,
+        "description": "75 C to F"
+      },
+      {
+        "input": 80,
+        "output": 176,
+        "description": "80 C to F"
+      },
+      {
+        "input": 85,
+        "output": 185,
+        "description": "85 C to F"
+      },
+      {
+        "input": 90,
+        "output": 194,
+        "description": "90 C to F"
+      },
+      {
+        "input": 95,
+        "output": 203,
+        "description": "95 C to F"
+      },
+      {
         "input": 100,
         "output": 212,
         "description": "100 C to F"
+      },
+      {
+        "input": 120,
+        "output": 248,
+        "description": "120 C to F"
+      },
+      {
+        "input": 150,
+        "output": 302,
+        "description": "150 C to F"
+      },
+      {
+        "input": 180,
+        "output": 356,
+        "description": "180 C to F"
+      },
+      {
+        "input": 200,
+        "output": 392,
+        "description": "200 C to F"
+      },
+      {
+        "input": 220,
+        "output": 428,
+        "description": "220 C to F"
+      },
+      {
+        "input": 250,
+        "output": 482,
+        "description": "250 C to F"
+      },
+      {
+        "input": 300,
+        "output": 572,
+        "description": "300 C to F"
+      },
+      {
+        "input": 400,
+        "output": 752,
+        "description": "400 C to F"
+      },
+      {
+        "input": 500,
+        "output": 932,
+        "description": "500 C to F"
+      },
+      {
+        "input": 1000,
+        "output": 1832,
+        "description": "1000 C to F"
       }
     ],
     "faq": [

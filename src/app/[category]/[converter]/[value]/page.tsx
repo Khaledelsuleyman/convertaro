@@ -99,6 +99,61 @@ function getHeightContext(value: number, converter: Converter): string | null {
   return `${formatSlugValue(value)} cm is a common height reference for teens and shorter adults, especially when comparing clothing sizes or height charts.`;
 }
 
+function getDidYouKnowFact(value: number, result: number, converter: Converter): { title: string; body: string } | null {
+  const pair = `${converter.fromUnit}->${converter.toUnit}`;
+
+  if (converter.fromUnit === "cm" && (converter.toUnit === "inches" || converter.toUnit === "feet")) {
+    if (value >= 175) {
+      return {
+        title: "Did you know?",
+        body: `${formatSlugValue(value)} cm is taller than the average adult male height in countries like India and Indonesia, but close to average in parts of Northern Europe.`,
+      };
+    }
+
+    return {
+      title: "Did you know?",
+      body: `${formatSlugValue(value)} cm is close to the average adult female height in countries like Germany and the UK, which is why this range appears often in clothing and health searches.`,
+    };
+  }
+
+  if (pair === "kg->lbs" || pair === "lbs->kg") {
+    if ((converter.fromUnit === "kg" && value >= 80) || (converter.fromUnit === "lbs" && value >= 175)) {
+      return {
+        title: "Did you know?",
+        body: `This weight range is often used in strength training benchmarks, especially for squat, deadlift, and bodyweight class comparisons.`,
+      };
+    }
+
+    return {
+      title: "Did you know?",
+      body: `Fitness apps often switch between kilograms and pounds, so this conversion is common when logging bodyweight, nutrition goals, or dumbbell loads.`,
+    };
+  }
+
+  if (converter.category === "temperature") {
+    if (converter.fromUnit === "C" && value === 37) {
+      return {
+        title: "Did you know?",
+        body: `37°C equals 98.6°F, which is widely used as a normal human body temperature reference.`,
+      };
+    }
+
+    if ((converter.fromUnit === "C" && value === 100) || (converter.fromUnit === "F" && value === 212)) {
+      return {
+        title: "Did you know?",
+        body: `This is the boiling point of water at standard sea-level pressure, making it one of the most searched temperature conversions.`,
+      };
+    }
+
+    return {
+      title: "Did you know?",
+      body: `${formatSlugValue(value)} ${converter.fromUnit} converts to ${result.toFixed(2)} ${converter.toUnit}, which is useful for weather, cooking, and body-temperature checks.`,
+    };
+  }
+
+  return null;
+}
+
 function createExactFaq(value: number, result: number, converter: Converter, converterSlug: string) {
   const { fromText, toText } = getHeadingParts(converterSlug);
   const valueLabel = formatSlugValue(value);
@@ -201,6 +256,7 @@ export default async function ConverterValuePage({ params }: PageProps) {
   const heading = `${formatSlugValue(value)} ${fromHeading} to ${toHeading}`;
   const pagePath = buildValuePagePath(categorySlug, converterSlug, value);
   const heightContext = getHeightContext(value, converter);
+  const factBox = getDidYouKnowFact(value, result, converter);
   const nearbyValues = buildNearbyValues(value).map((entry) => ({
     input: entry,
     output: calculateValue(entry, converter),
@@ -255,6 +311,13 @@ export default async function ConverterValuePage({ params }: PageProps) {
                 {heightContext ? <p className="mt-3 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900">{heightContext}</p> : null}
               </div>
             </section>
+
+            {factBox ? (
+              <section className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-white to-orange-50 p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">{factBox.title}</p>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{factBox.body}</p>
+              </section>
+            ) : null}
 
             <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="mb-4 flex items-center justify-between gap-3">

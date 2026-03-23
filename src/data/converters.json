@@ -262,26 +262,27 @@
     ],
     "faq": [
       {
-        "question": "How many inches are in a centimeters?",
-        "answer": "There are 0.393701 inches in one centimeters.",
+        "question": "How tall is 170 cm in feet and inches?",
+        "answer": "170 cm is about 5 feet 7 inches, a common height reference in Europe and Latin America.",
         "keywords": [
-          "cm-to-inches",
-          "cm to inches"
+          "170 cm in feet and inches",
+          "height conversion cm to inches"
         ]
       },
       {
-        "question": "How do I convert cm to inches?",
-        "answer": "To convert centimeters to inches, multiply the centimeters value by 0.393701.",
+        "question": "Is 180 cm a good height in inches?",
+        "answer": "180 cm is 70.87 inches, or just under 5 feet 11 inches, which is considered tall in many countries.",
         "keywords": [
-          "convert cm to inches"
+          "180 cm in inches",
+          "180 cm height"
         ]
       },
       {
-        "question": "What is centimeters?",
-        "answer": "Centimeters is a common unit used in measurements and conversions. Convertaro provides instant conversion to inches and more.",
+        "question": "Why do people convert cm to inches for clothing?",
+        "answer": "Brand size charts often mix metric and imperial units, so cm to inches helps compare height, waist, and inseam quickly.",
         "keywords": [
-          "centimeters",
-          "what is centimeters"
+          "cm to inches for clothing",
+          "size chart cm inches"
         ]
       }
     ],
@@ -830,26 +831,27 @@
     ],
     "faq": [
       {
-        "question": "How many centimeters are in a inches?",
-        "answer": "There are 2.54 centimeters in one inches.",
+        "question": "How many cm is 72 inches?",
+        "answer": "72 inches equals 182.88 cm, which is exactly 6 feet tall.",
         "keywords": [
-          "inches-to-cm",
-          "inches to cm"
+          "72 inches in cm",
+          "6 feet in cm"
         ]
       },
       {
-        "question": "How do I convert inches to cm?",
-        "answer": "To convert inches to centimeters, multiply the inches value by 2.54.",
+        "question": "Why convert inches to cm for height?",
+        "answer": "International forms and sizing guides often use centimeters, while many US height references use inches.",
         "keywords": [
-          "convert inches to cm"
+          "inches to cm for height",
+          "height conversion inches cm"
         ]
       },
       {
-        "question": "What is inches?",
-        "answer": "Inches is a common unit used in measurements and conversions. Convertaro provides instant conversion to centimeters and more.",
+        "question": "How many cm is 65 inches?",
+        "answer": "65 inches is 165.1 cm, a common conversion used for height and size charts.",
         "keywords": [
-          "inches",
-          "what is inches"
+          "65 inches in cm",
+          "height inches to cm"
         ]
       }
     ],
@@ -1966,26 +1968,27 @@
     ],
     "faq": [
       {
-        "question": "How many centimeters are in a feet?",
-        "answer": "There are 30.48 centimeters in one feet.",
+        "question": "How tall is 5.9 feet in cm?",
+        "answer": "5.9 feet is about 179.83 cm, close to 180 cm on most height charts.",
         "keywords": [
-          "feet-to-cm",
-          "feet to cm"
+          "5.9 feet in cm",
+          "height feet to cm"
         ]
       },
       {
-        "question": "How do I convert feet to cm?",
-        "answer": "To convert feet to centimeters, multiply the feet value by 30.48.",
+        "question": "Why convert feet to cm for medical forms?",
+        "answer": "Many clinics and visa forms ask for height in centimeters, even if you measure yourself in feet.",
         "keywords": [
-          "convert feet to cm"
+          "feet to cm medical form",
+          "height in centimeters"
         ]
       },
       {
-        "question": "What is feet?",
-        "answer": "Feet is a common unit used in measurements and conversions. Convertaro provides instant conversion to centimeters and more.",
+        "question": "Is 6 feet considered tall in cm?",
+        "answer": "6 feet is 182.88 cm, which is generally considered tall in many countries.",
         "keywords": [
-          "feet",
-          "what is feet"
+          "6 feet in cm",
+          "is 6 feet tall"
         ]
       }
     ],
@@ -3386,26 +3389,27 @@
     ],
     "faq": [
       {
-        "question": "How many kilometers are in a miles?",
-        "answer": "There are 1.60934 kilometers in one miles.",
+        "question": "How many miles is a 5K run?",
+        "answer": "A 5K race is about 3.11 miles, which makes miles to km conversion useful for runners and race plans.",
         "keywords": [
-          "miles-to-km",
-          "miles to km"
+          "5k in miles",
+          "miles to km running"
         ]
       },
       {
-        "question": "How do I convert miles to km?",
-        "answer": "To convert miles to kilometers, multiply the miles value by 1.60934.",
+        "question": "How many kilometers are in a marathon?",
+        "answer": "A marathon is 26.2 miles, which equals about 42.16 kilometers.",
         "keywords": [
-          "convert miles to km"
+          "marathon miles to km",
+          "26.2 miles in km"
         ]
       },
       {
-        "question": "What is miles?",
-        "answer": "Miles is a common unit used in measurements and conversions. Convertaro provides instant conversion to kilometers and more.",
+        "question": "Why convert miles to km for driving?",
+        "answer": "Road signs, car dashboards, and running watches often switch units, so miles to km helps avoid mistakes.",
         "keywords": [
-          "miles",
-          "what is miles"
+          "miles to km driving",
+          "road distance conversion"
         ]
       }
     ],
@@ -5609,26 +5613,27 @@
     ],
     "faq": [
       {
-        "question": "How many pounds are in a kilograms?",
-        "answer": "There are 2.204624 pounds in one kilograms.",
+        "question": "What is 70 kg in pounds for a gym tracker?",
+        "answer": "70 kg is about 154.32 pounds, which is a common reference weight in fitness apps and lifting logs.",
         "keywords": [
-          "kg-to-lbs",
-          "kg to lbs"
+          "70 kg in pounds",
+          "gym tracker kg to lbs"
         ]
       },
       {
-        "question": "How do I convert kg to lbs?",
-        "answer": "To convert kilograms to pounds, multiply the kilograms value by 2.204624.",
+        "question": "Why convert kg to lbs for workouts?",
+        "answer": "Many gym plates, bodyweight apps, and US programs use pounds, so converting kg to lbs makes tracking easier.",
         "keywords": [
-          "convert kg to lbs"
+          "kg to lbs workouts",
+          "fitness kg to pounds"
         ]
       },
       {
-        "question": "What is kilograms?",
-        "answer": "Kilograms is a common unit used in measurements and conversions. Convertaro provides instant conversion to pounds and more.",
+        "question": "What is 80 kg in pounds?",
+        "answer": "80 kg equals about 176.37 pounds, a useful benchmark for bodyweight, cutting phases, and strength goals.",
         "keywords": [
-          "kilograms",
-          "what is kilograms"
+          "80 kg in pounds",
+          "80 kg lbs"
         ]
       }
     ],
@@ -6035,26 +6040,27 @@
     ],
     "faq": [
       {
-        "question": "How many kilograms are in a pounds?",
-        "answer": "There are 0.453592 kilograms in one pounds.",
+        "question": "What is 150 lbs in kg?",
+        "answer": "150 pounds is about 68.04 kg, a common reference for bodyweight and gym targets.",
         "keywords": [
-          "lbs-to-kg",
-          "lbs to kg"
+          "150 lbs in kg",
+          "bodyweight lbs to kg"
         ]
       },
       {
-        "question": "How do I convert lbs to kg?",
-        "answer": "To convert pounds to kilograms, multiply the pounds value by 0.453592.",
+        "question": "Why convert lbs to kg for nutrition plans?",
+        "answer": "Many calorie apps, medical charts, and international meal plans track weight in kilograms.",
         "keywords": [
-          "convert lbs to kg"
+          "lbs to kg nutrition",
+          "weight conversion diet"
         ]
       },
       {
-        "question": "What is pounds?",
-        "answer": "Pounds is a common unit used in measurements and conversions. Convertaro provides instant conversion to kilograms and more.",
+        "question": "Is 200 lbs heavy in kg?",
+        "answer": "200 pounds equals about 90.72 kg, which is often used as a benchmark in lifting and bodyweight tracking.",
         "keywords": [
-          "pounds",
-          "what is pounds"
+          "200 lbs in kg",
+          "200 pounds kg"
         ]
       }
     ],
@@ -19098,26 +19104,27 @@
     ],
     "faq": [
       {
-        "question": "How many km/h are in a mph?",
-        "answer": "There are 1.60934 km/h in one mph.",
+        "question": "How fast is 60 mph in km/h?",
+        "answer": "60 mph is about 96.56 km/h, which is useful when driving in countries using metric speed signs.",
         "keywords": [
-          "mph-to-kmh",
-          "mph to kmh"
+          "60 mph in kmh",
+          "mph to kmh driving"
         ]
       },
       {
-        "question": "How do I convert mph to kmh?",
-        "answer": "To convert mph to km/h, multiply the mph value by 1.60934.",
+        "question": "Why convert mph to km/h for travel?",
+        "answer": "Rental cars, speed limits, and navigation apps may switch units, so mph to km/h prevents confusion abroad.",
         "keywords": [
-          "convert mph to kmh"
+          "mph to kmh travel",
+          "speed conversion road trip"
         ]
       },
       {
-        "question": "What is mph?",
-        "answer": "Mph is a common unit used in measurements and conversions. Convertaro provides instant conversion to km/h and more.",
+        "question": "Is 100 mph over 160 km/h?",
+        "answer": "Yes. 100 mph equals 160.93 km/h, so it is slightly above 160 km/h.",
         "keywords": [
-          "mph",
-          "what is mph"
+          "100 mph in kmh",
+          "speed comparison mph kmh"
         ]
       }
     ],
@@ -24098,26 +24105,27 @@
     ],
     "faq": [
       {
-        "question": "How many feet are in a meters?",
-        "answer": "There are 3.28084 feet in one meters.",
+        "question": "How tall is 1.8 meters in feet?",
+        "answer": "1.8 meters is about 5.91 feet, or roughly 5 feet 11 inches.",
         "keywords": [
-          "meters-to-feet",
-          "m to feet"
+          "1.8 meters in feet",
+          "meters to feet height"
         ]
       },
       {
-        "question": "How do I convert m to feet?",
-        "answer": "To convert meters to feet, multiply the meters value by 3.28084.",
+        "question": "Why convert meters to feet for height?",
+        "answer": "Many global records, sports profiles, and property listings use feet even when the original data is metric.",
         "keywords": [
-          "convert m to feet"
+          "meters to feet for height",
+          "metric to imperial height"
         ]
       },
       {
-        "question": "What is meters?",
-        "answer": "meters is a common unit used in measurements and conversions. Convertaro provides instant conversion to feet and more.",
+        "question": "How many feet is 100 meters?",
+        "answer": "100 meters is about 328.08 feet, a common athletics and field-measurement conversion.",
         "keywords": [
-          "meters",
-          "what is meters"
+          "100 meters in feet",
+          "meters feet conversion"
         ]
       }
     ],
@@ -28331,26 +28339,27 @@
     ],
     "faq": [
       {
-        "question": "How many gallons are in a liters?",
-        "answer": "There are 0.264172 gallons in one liters.",
+        "question": "How many gallons is 2 liters of soda?",
+        "answer": "2 liters is about 0.53 US gallons, a handy conversion for drinks and party planning.",
         "keywords": [
-          "liters-to-gallons",
-          "L to gal"
+          "2 liters in gallons",
+          "soda liters to gallons"
         ]
       },
       {
-        "question": "How do I convert L to gal?",
-        "answer": "To convert liters to gallons, multiply the liters value by 0.264172.",
+        "question": "Why convert liters to gallons for fuel?",
+        "answer": "Fuel economy and gas prices are often compared across countries using different volume units.",
         "keywords": [
-          "convert L to gal"
+          "liters to gallons fuel",
+          "gas volume conversion"
         ]
       },
       {
-        "question": "What is liters?",
-        "answer": "liters is a common unit used in measurements and conversions. Convertaro provides instant conversion to gallons and more.",
+        "question": "How many gallons is 20 liters?",
+        "answer": "20 liters equals about 5.28 US gallons, useful for water storage, fuel, and home brewing.",
         "keywords": [
-          "liters",
-          "what is liters"
+          "20 liters in gallons",
+          "liters gallons conversion"
         ]
       }
     ],
@@ -35727,26 +35736,27 @@
     ],
     "faq": [
       {
-        "question": "How many fahrenheit are in a celsius?",
-        "answer": "Use the conversion formula to convert celsius to fahrenheit.",
+        "question": "Is 37°C a fever?",
+        "answer": "No. 37°C is 98.6°F, which is considered normal body temperature for many adults.",
         "keywords": [
-          "celsius-to-fahrenheit",
-          "C to F"
+          "is 37 c a fever",
+          "37 c to f"
         ]
       },
       {
-        "question": "How do I convert C to F?",
-        "answer": "To convert celsius to fahrenheit, use: F = (C × 9/5) + 32.",
+        "question": "What is 100°C in Fahrenheit?",
+        "answer": "100°C equals 212°F, the boiling point of water at standard sea-level pressure.",
         "keywords": [
-          "convert C to F"
+          "100 c in fahrenheit",
+          "boiling point c to f"
         ]
       },
       {
-        "question": "What is celsius?",
-        "answer": "celsius is a common unit used in measurements and conversions. Convertaro provides instant conversion to fahrenheit and more.",
+        "question": "Why convert Celsius to Fahrenheit for weather?",
+        "answer": "Travelers often convert Celsius to Fahrenheit to understand forecasts, heat alerts, and indoor thermostat settings abroad.",
         "keywords": [
-          "celsius",
-          "what is celsius"
+          "celsius to fahrenheit weather",
+          "convert temperature travel"
         ]
       }
     ],

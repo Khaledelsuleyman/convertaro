@@ -67,12 +67,12 @@ export function ConversionTable({ converter }: ConversionTableProps) {
                             href={valuePageHref}
                             className="group inline-flex w-fit items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-sky-700 transition-colors hover:text-sky-800 hover:underline"
                           >
-                            <span>{formatValue(example.input)} {converter.fromUnit}</span>
+                            <span>{formatValue(example.input)}</span>
                             <ArrowRight className="h-3.5 w-3.5 text-sky-500 transition-transform group-hover:translate-x-0.5" />
                           </Link>
                         ) : (
                           <span className="inline-flex w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-900">
-                            {formatValue(example.input)} {converter.fromUnit}
+                            {formatValue(example.input)}
                           </span>
                         )}
                       </div>

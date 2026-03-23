@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import convertersData from "@/data/converters.json";
 import { Converter } from "@/types/converter";
 import { categories } from "@/data/categories";
 import { ConverterTool } from "@/components/converter/ConverterTool";
@@ -44,11 +43,6 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const cmToInches = (convertersData as Converter[]).find((converter) => converter.metadata.slug === "cm-to-inches");
-  if (cmToInches) {
-    console.log("[build-check]", cmToInches.metadata.slug, "examples=", cmToInches.examples.length);
-  }
-
   return converters.map((c) => ({
     category: c.category,
     converter: c.metadata.slug,
@@ -301,7 +295,7 @@ export default async function ConverterPage({ params }: PageProps) {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {staticValuePages.map((entry) => {
-                    const valueLabel = entry.value.replace(`-${converter.metadata.slug}`, "");
+                    const valueLabel = entry.value.replace(`-${entry.converter}`, "");
 
                     return (
                       <Link
@@ -309,7 +303,7 @@ export default async function ConverterPage({ params }: PageProps) {
                         href={`/${entry.category}/${entry.converter}/${entry.value}`}
                         className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-sky-200 hover:bg-sky-50 hover:text-sky-800"
                       >
-                        {valueLabel} {converter.fromUnit} -&gt; {converter.toUnit}
+                        {valueLabel} {converter.fromUnit} &rarr; {converter.toUnit}
                       </Link>
                     );
                   })}

@@ -15,6 +15,10 @@ const KG_TO_LBS_VALUES = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
 const CELSIUS_TO_FAHRENHEIT_VALUES = [-40, -20, -10, 0, 10, 20, 25, 30, 37, 40, 50, 100, 150, 200];
 const MILES_TO_KM_VALUES = [1, 5, 10, 13.1, 20, 26.2, 50, 100];
 const METERS_TO_FEET_VALUES = [1, 2, 3, 5, 10, 20, 50, 100, 1000];
+const FEET_TO_CM_VALUES = [4.5, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5];
+const INCHES_TO_CM_VALUES = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75];
+const LBS_TO_KG_VALUES = [100, 110, 120, 125, 130, 140, 150, 160, 170, 175, 180, 190, 200];
+const FAHRENHEIT_TO_CELSIUS_VALUES = [32, 68, 77, 86, 98.6, 100, 212, 350, 400];
 
 export const STATIC_VALUE_PAGE_PARAMS: StaticValuePageParam[] = [
   ...CM_TO_INCHES_VALUES.map((value) => ({
@@ -41,6 +45,26 @@ export const STATIC_VALUE_PAGE_PARAMS: StaticValuePageParam[] = [
     category: "length",
     converter: "meters-to-feet",
     value: `${value}-meters-to-feet`,
+  })),
+  ...FEET_TO_CM_VALUES.map((value) => ({
+    category: "length",
+    converter: "feet-to-cm",
+    value: `${formatStaticValue(value)}-feet-to-cm`,
+  })),
+  ...INCHES_TO_CM_VALUES.map((value) => ({
+    category: "length",
+    converter: "inches-to-cm",
+    value: `${formatStaticValue(value)}-inches-to-cm`,
+  })),
+  ...LBS_TO_KG_VALUES.map((value) => ({
+    category: "weight",
+    converter: "lbs-to-kg",
+    value: `${formatStaticValue(value)}-lbs-to-kg`,
+  })),
+  ...FAHRENHEIT_TO_CELSIUS_VALUES.map((value) => ({
+    category: "temperature",
+    converter: "fahrenheit-to-celsius",
+    value: `${formatStaticValue(value)}-fahrenheit-to-celsius`,
   })),
 ];
 

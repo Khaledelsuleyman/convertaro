@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
+import convertersData from "@/data/converters.json";
 import { Converter } from "@/types/converter";
 import { categories } from "@/data/categories";
 import { ConverterTool } from "@/components/converter/ConverterTool";
@@ -33,6 +34,7 @@ import { getRelatedConverterCards } from "@/lib/internal-linking";
 import { getStaticValuePagesForConverter } from "@/lib/value-pages";
 
 const converters = canonicalConverters as Converter[];
+export const revalidate = 86400;
 
 interface PageProps {
   params: Promise<{
@@ -42,6 +44,11 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  const cmToInches = (convertersData as Converter[]).find((converter) => converter.metadata.slug === "cm-to-inches");
+  if (cmToInches) {
+    console.log("[build-check]", cmToInches.metadata.slug, "examples=", cmToInches.examples.length);
+  }
+
   return converters.map((c) => ({
     category: c.category,
     converter: c.metadata.slug,

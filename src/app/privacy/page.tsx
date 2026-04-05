@@ -9,6 +9,8 @@ import {
   buildWebPageSchema,
 } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Read Convertaro’s privacy policy covering analytics, cookies, ads, and user data.",

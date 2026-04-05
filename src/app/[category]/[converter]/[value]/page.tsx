@@ -17,6 +17,8 @@ import {
 import type { Converter } from "@/types/converter";
 
 const converters = convertersData as Converter[];
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 interface PageProps {
   params: Promise<{

@@ -4,6 +4,8 @@ import { buildCalculatorMetadata } from "@/lib/calculator-seo";
 import { CalculatorShell } from "@/components/calculators/CalculatorShell";
 import { BmiCalculatorCard } from "@/components/calculators/BmiCalculatorCard";
 
+export const dynamic = "force-static";
+
 const calculator = calculatorsBySlug.get("bmi-calculator")!;
 
 export const metadata: Metadata = buildCalculatorMetadata(calculator);

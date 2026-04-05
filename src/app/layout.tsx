@@ -14,6 +14,8 @@ import {
   WEBSITE_SCHEMA,
 } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],

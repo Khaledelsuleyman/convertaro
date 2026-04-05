@@ -3,11 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { searchConverters } from "@/lib/search";
-
-interface SearchResultsClientProps {
-  initialQuery: string;
-}
 
 function highlightText(text: string, query: string) {
   const safeQuery = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -29,7 +26,11 @@ function highlightText(text: string, query: string) {
   });
 }
 
-export function SearchResultsClient({ initialQuery }: SearchResultsClientProps) {
+export function SearchResultsClient() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("q")?.trim() ?? "";
+  const currentQuery = searchParams.get("q")?.trim() ?? "";
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
 
@@ -42,6 +43,24 @@ export function SearchResultsClient({ initialQuery }: SearchResultsClientProps) 
     const timer = window.setTimeout(() => setDebouncedQuery(query), 120);
     return () => window.clearTimeout(timer);
   }, [query]);
+
+  useEffect(() => {
+    if (debouncedQuery.trim() === currentQuery) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+
+    if (debouncedQuery.trim()) {
+      nextParams.set("q", debouncedQuery.trim());
+    } else {
+      nextParams.delete("q");
+    }
+
+    const nextQueryString = nextParams.toString();
+    const nextUrl = nextQueryString ? `/search?${nextQueryString}` : "/search";
+    router.replace(nextUrl, { scroll: false });
+  }, [currentQuery, debouncedQuery, router, searchParams]);
 
   const results = useMemo(() => searchConverters(debouncedQuery, 120), [debouncedQuery]);
 

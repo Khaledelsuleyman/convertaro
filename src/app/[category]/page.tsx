@@ -24,6 +24,9 @@ import {
   getCategorySupportLinks,
 } from "@/lib/internal-linking";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 const converters = canonicalConverters as Converter[];
 
 interface PageProps {

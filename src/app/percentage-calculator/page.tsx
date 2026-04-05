@@ -4,6 +4,8 @@ import { buildCalculatorMetadata } from "@/lib/calculator-seo";
 import { CalculatorShell } from "@/components/calculators/CalculatorShell";
 import { PercentageCalculatorCard } from "@/components/calculators/PercentageCalculatorCard";
 
+export const dynamic = "force-static";
+
 const calculator = calculatorsBySlug.get("percentage-calculator")!;
 
 export const metadata: Metadata = buildCalculatorMetadata(calculator);

@@ -4,9 +4,10 @@ import { calculators } from "@/data/calculators";
 import { calculatorCategories } from "@/data/calculator-categories";
 import { SITE_URL } from "@/lib/seo";
 import { canonicalConverters, getCanonicalConverterById } from "@/lib/converter-routing";
-import { generateStaticParams as generateValuePageStaticParams } from "@/app/[category]/[converter]/[value]/page";
 import { STATIC_VALUE_PAGE_PARAMS } from "@/lib/value-pages";
 import { guides } from "@/lib/guides";
+
+export const dynamic = "force-static";
 
 const converters = canonicalConverters;
 const BASE_URL = SITE_URL;
@@ -31,9 +32,8 @@ const HIGH_PRIORITY_SLUGS = new Set(
     .filter((slug): slug is string => Boolean(slug))
 );
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const valuePageParams = await generateValuePageStaticParams();
 
   const routes: MetadataRoute.Sitemap = [
     {
@@ -114,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  valuePageParams.forEach((entry) => {
+  STATIC_VALUE_PAGE_PARAMS.forEach((entry) => {
     routes.push({
       url: `${BASE_URL}/${entry.category}/${entry.converter}/${entry.value}`,
       lastModified: now,

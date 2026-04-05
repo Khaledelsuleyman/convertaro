@@ -34,7 +34,8 @@ import { getRelatedConverterCards } from "@/lib/internal-linking";
 import { getStaticValuePagesForConverter } from "@/lib/value-pages";
 
 const converters = canonicalConverters as Converter[];
-export const revalidate = 86400;
+export const dynamic = "force-static";
+export const dynamicParams = false;
 
 interface PageProps {
   params: Promise<{

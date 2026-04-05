@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { buildGuideMetadata, renderGuidePage } from "@/app/guides/guide-page";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = buildGuideMetadata("kg-to-lbs-weight-chart");
 
 export default function KgToLbsWeightChartPage() {

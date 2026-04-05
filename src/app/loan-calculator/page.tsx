@@ -4,6 +4,8 @@ import { buildCalculatorMetadata } from "@/lib/calculator-seo";
 import { CalculatorShell } from "@/components/calculators/CalculatorShell";
 import { LoanCalculatorCard } from "@/components/calculators/LoanCalculatorCard";
 
+export const dynamic = "force-static";
+
 const calculator = calculatorsBySlug.get("loan-calculator")!;
 
 export const metadata: Metadata = buildCalculatorMetadata(calculator);

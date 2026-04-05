@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { buildGuideMetadata, getGuideStaticParams, renderGuidePage } from "@/app/guides/guide-page";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

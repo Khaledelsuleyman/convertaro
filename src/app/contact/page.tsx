@@ -9,6 +9,8 @@ import {
   buildWebPageSchema,
 } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Contact",
   description: "Contact Convertaro support for questions, feedback, or partnership inquiries.",

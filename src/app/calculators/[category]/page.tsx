@@ -14,6 +14,9 @@ import {
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 interface CategoryPageProps {
   params: Promise<{
     category: string;

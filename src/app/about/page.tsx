@@ -11,6 +11,8 @@ import {
 import { TrustMetadataBlock } from "@/components/trust/TrustMetadataBlock";
 import { getAboutTrustSections, getSiteTrustMetadata } from "@/lib/trust";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "About",
   description: "Learn what Convertaro is, what it does, and who it is for.",

@@ -9,6 +9,8 @@ import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { buildPageMetadata, buildWebPageSchema, generateBreadcrumbSchemaFromPaths } from "@/lib/seo";
 import { getPopularHubSections } from "@/lib/internal-linking";
 
+export const dynamic = "force-static";
+
 const converters = canonicalConverters as Converter[];
 
 export const metadata: Metadata = buildPageMetadata({

@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SearchResultsClient } from "@/components/search/SearchResultsClient";
 import { buildAlternates } from "@/lib/seo";
 
-interface SearchPageProps {
-  searchParams: Promise<{
-    q?: string;
-  }>;
-}
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Search converters",
@@ -24,9 +21,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const params = await searchParams;
-  const initialQuery = params.q?.trim() ?? "";
-
-  return <SearchResultsClient initialQuery={initialQuery} />;
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<section className="py-10 sm:py-14" />}>
+      <SearchResultsClient />
+    </Suspense>
+  );
 }

@@ -15,6 +15,8 @@ import { CalculatorDefinition } from "@/data/calculators";
 import { CrawlableLinkHub } from "@/components/layout/InternalLinks";
 import { canonicalizeConverterHref } from "@/lib/converter-routing";
 
+export const dynamic = "force-static";
+
 const FEATURED_CALCULATORS = ["mortgage-calculator", "loan-calculator", "bmi-calculator", "percentage-calculator"];
 
 export const metadata: Metadata = {

@@ -4,6 +4,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { guides } from "@/lib/guides";
 import { buildPageMetadata, buildWebPageSchema, generateBreadcrumbSchemaFromPaths } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = buildPageMetadata({
   title: "Conversion Guides and Charts",
   description: "Browse practical conversion guides for height, weight, and temperature charts with FAQs and direct links to related converters.",
